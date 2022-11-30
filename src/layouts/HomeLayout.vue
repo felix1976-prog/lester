@@ -4,7 +4,8 @@
       <q-toolbar>
         <q-toolbar-title class="item-center">
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+            <img src="~/assets/images/University.jpg" />
+            <!-- <q-icon name="la las-eye" /> -->
           </q-avatar>
           APMO
         </q-toolbar-title>
@@ -46,20 +47,31 @@
               <p class="text-h4">Calle mil enter alkjoj aokjkj</p>
             </div>
           </div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-        </div>
-
-        <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-        <div class="row">
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-          <div class="col-6 col-md-4">.col-6 .col-md-4</div>
         </div>
 
         <!-- Columns are always 50% wide, on mobile and desktop -->
-        <div class="row">
-          <div class="col-6">.col-6</div>
-          <div class="col-6">.col-6</div>
+        <div class="flex items-center justify-center">
+          <div m2 flex justify-center text-2xl op30 hover="op80">
+            <a
+              i-carbon-logo-linkedin
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+            ></a>
+          </div>
+          <div m2 flex justify-center text-2xl op30 hover="op80">
+            <a
+              i-carbon-logo-facebook
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+            ></a>
+          </div>
+          <div m2 flex justify-center text-2xl op30 hover="op80">
+            <a
+              i-carbon-logo-twitter
+              href="https://github.com/unocss/unocss"
+              target="_blank"
+            ></a>
+          </div>
         </div>
       </div>
     </q-footer>
