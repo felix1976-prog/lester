@@ -44,25 +44,14 @@ export default function ({ store }: { store: Pinia }) {
     {
       path: '/',
       component: () => import('layouts/HomeLayout.vue'),
-      children: [
-        { path: '', component: () => import('pages/IndexPage.vue') },
-        // { path: 'login', component: () => import('pages/IndxPage.vue') },
-      ],
+      children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
     },
     {
       path: '/home',
       component: () => import('layouts/MainLayout.vue'),
       children: [
-        { path: '', component: () => import('pages/DashboardPage.vue') },
-        // { path: 'login', component: () => import('pages/IndxPage.vue') },
-      ],
-    },
-    {
-      path: '/users',
-      component: () => import('layouts/MainLayout.vue'),
-      children: [
-        { path: '', component: () => import('pages/UsuariosPage.vue') },
-        // { path: 'login', component: () => import('pages/IndxPage.vue') },
+        { path: '/home', component: () => import('pages/DashboardPage.vue') },
+        { path: '/users', component: () => import('pages/UsuariosPage.vue') },
       ],
     },
 
