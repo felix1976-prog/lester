@@ -11,12 +11,8 @@
           @click="toggleSideMenu"
         />
 
-        <q-toolbar-title v-if="me?.rol.toUpperCase() !== 'ADMINISTRADOR'">
-          {{
-            me?.rol.toUpperCase() === 'FACULTAD'
-              ? me?.facultad
-              : me?.departamento
-          }}
+        <q-toolbar-title v-if="me?.rol.toUpperCase() === 'ADMINISTRADOR'">
+          {{ me?.rol.toUpperCase() === 'ADMINISTRADOR' ? me?.nombre : me?.rol }}
         </q-toolbar-title>
 
         <q-toolbar-title v-else>
@@ -103,7 +99,7 @@
               >
             </q-item-section>
           </q-item>
-          <template>
+          <template v-if="me.rol.toUpperCase() === 'ADMIN'">
             <EssentialLink
               v-for="link in essentialLinks"
               :key="link.title"

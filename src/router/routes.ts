@@ -11,6 +11,22 @@ import { discard } from 'src/utils';
 //       // { path: 'login', component: () => import('pages/IndxPage.vue') },
 //     ],
 //   },
+//   {
+//     path: '/home',
+//     component: () => import('layouts/MainLayout.vue'),
+//     children: [
+//       { path: '', component: () => import('pages/DashboardPage.vue') },
+//       // { path: 'login', component: () => import('pages/IndxPage.vue') },
+//     ],
+//   },
+//   {
+//     path: '/users',
+//     component: () => import('layouts/MainLayout.vue'),
+//     children: [
+//       { path: '', component: () => import('pages/UsuariosPage.vue') },
+//       // { path: 'login', component: () => import('pages/IndxPage.vue') },
+//     ],
+//   },
 
 //   // Always leave this as last one,
 //   // but you can also remove it
@@ -38,6 +54,14 @@ export default function ({ store }: { store: Pinia }) {
       component: () => import('layouts/MainLayout.vue'),
       children: [
         { path: '', component: () => import('pages/DashboardPage.vue') },
+        // { path: 'login', component: () => import('pages/IndxPage.vue') },
+      ],
+    },
+    {
+      path: '/users',
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+        { path: '', component: () => import('pages/UsuariosPage.vue') },
         // { path: 'login', component: () => import('pages/IndxPage.vue') },
       ],
     },
