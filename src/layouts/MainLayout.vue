@@ -77,7 +77,7 @@
           >
             MENÚ
           </q-item-label>
-          <q-item clickable tag="a" to="/home">
+          <q-item clickable tag="a" to="/">
             <q-item-section avatar>
               <q-icon name="las la-house-damage" color="secondary" />
             </q-item-section>
