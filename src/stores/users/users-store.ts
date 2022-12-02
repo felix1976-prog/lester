@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { Notify } from 'quasar';
 import { api } from 'src/boot/axios';
+import { UserAdd, usuariosProps } from 'src/interfaces/user.interfaces';
 
 export const useUsersStore = defineStore('users', {
   state: () => ({
@@ -125,9 +126,10 @@ export const useUsersStore = defineStore('users', {
         const { data } = await api.patch('/usuarios/' + item.id, {
           username: item.username,
           nombre: item.nombre,
+          apellidos: item.apellidos,
+          cargo: item.cargo,
           isActive: item.isActive,
           rol_id: item.rol_id,
-          departamento_id: item.departamento_id,
         });
         if (data.statusCode !== 400) {
           Notify.create({

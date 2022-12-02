@@ -165,6 +165,40 @@
                 </template>
               </q-input>
             </div>
+            <!-- CARGO -->
+
+            <div>
+              <q-input
+                v-if="!isEditando"
+                filled
+                type="text"
+                v-model="datos.cargo"
+                label="Cargo"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba los cargo',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.cargo"
+                label="Cargo"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba los cargo',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
 
             <div>
               <q-select
@@ -313,6 +347,7 @@ const datos = ref({
   password: '',
   nombre: '',
   apellidos: '',
+  cargo: '',
   isActive: null,
   rol_id: '',
 });
@@ -323,18 +358,20 @@ const add = async () => {
     password: datos.value.password,
     nombre: datos.value.nombre,
     apellidos: datos.value.apellidos,
+    cargo: datos.value.cargo,
     isActive: true,
     rol_id: datos.value.rol_id,
   };
   await insertar(dto);
+
   await allUsers();
 
-  datos.value.username = '';
-  datos.value.password = '';
-  datos.value.nombre = '';
-  datos.value.apellidos = '';
-  datos.value.isActive = null;
-  datos.value.rol_id = '';
+  // datos.value.username = '';
+  // datos.value.password = '';
+  // datos.value.nombre = '';
+  // datos.value.apellidos = '';
+  // datos.value.isActive = null;
+  // datos.value.rol_id = '';
 };
 
 const repeatPassword = ref('');
@@ -362,6 +399,7 @@ const props = withDefaults(defineProps<Props>(), {
       password: '',
       nombre: '',
       apellidos: '',
+      cargo: '',
       isActive: true,
       rol_id: '',
       rolname: '',
@@ -371,6 +409,8 @@ const props = withDefaults(defineProps<Props>(), {
 const todo = computed(() => props.userUpd);
 
 const actualizar = async () => {
+  console.log('res: ', todo.value);
+
   await actualizarUsuario(todo.value);
   await allUsers();
   cerrar();
