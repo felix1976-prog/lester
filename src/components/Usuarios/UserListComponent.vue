@@ -278,6 +278,7 @@ const userProps = ref<usuariosProps>({
   password: '',
   nombre: '',
   apellidos: '',
+  cargo: '',
   isActive: true,
   rol_id: '',
   rolname: '',
@@ -363,6 +364,8 @@ const editTable = async (item: UserList) => {
   userProps.value.username = item.username;
   userProps.value.password = item.password;
   userProps.value.nombre = item.nombre;
+  userProps.value.apellidos = item.apellidos;
+  userProps.value.cargo = item.cargo;
   userProps.value.isActive = item.isActive;
   userProps.value.rol_id = item.rol_id;
   userProps.value.rolname = item.roles.rolname;

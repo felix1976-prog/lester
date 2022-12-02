@@ -22,7 +22,9 @@ export interface UserList {
   id: string;
   username: string;
   nombre: string;
+  apellidos: string;
   password: string;
+  cargo: string;
   isActive: boolean;
   roles: Roles;
   // departamento: Departamento;
@@ -50,6 +52,7 @@ export interface usuariosProps {
   password: string;
   nombre: string;
   apellidos: string;
+  cargo: string;
   isActive: boolean;
   rol_id: string;
   rolname: string;
