@@ -48,18 +48,18 @@ const todo = computed(() => props.deleteUpd);
 
 const eliminar = async () => {
   await deleteComponent(todo.value.titulo, todo.value.url);
-  if (todo.value.titulo === 'el usuario') await getAllUsers();
-  if (todo.value.titulo === 'el rol') await getAllRoles();
-  if (todo.value.titulo === 'la facultad') await getAllFacultades();
-  if (todo.value.titulo === 'el indicador') await getAllIndicadores();
-  if (todo.value.titulo === 'el tipo') await getAllTipos();
-  if (todo.value.titulo === 'la evaluación') await getAllEvaluaciones();
-  if (todo.value.titulo === 'el proceso') await getAllProcesos();
-  if (todo.value.titulo === 'el departamento') await getAllDepartamentos();
-  if (todo.value.titulo === 'la evaluación del objetivo') await getAllEoes();
-  if (todo.value.titulo === 'la evaluación del proceso')
-    await getEvaluacionesProcesos();
-  if (todo.value.titulo === 'el objetivo') await getAllOes();
-  if (todo.value.titulo === 'los valores del indicador') await getImoes();
+  // if (todo.value.titulo === 'el usuario') await getAllUsers();
+  // if (todo.value.titulo === 'el rol') await getAllRoles();
+  // if (todo.value.titulo === 'la facultad') await getAllFacultades();
+  // if (todo.value.titulo === 'el indicador') await getAllIndicadores();
+  // if (todo.value.titulo === 'el tipo') await getAllTipos();
+  // if (todo.value.titulo === 'la evaluación') await getAllEvaluaciones();
+  // if (todo.value.titulo === 'el proceso') await getAllProcesos();
+  // if (todo.value.titulo === 'el departamento') await getAllDepartamentos();
+  // if (todo.value.titulo === 'la evaluación del objetivo') await getAllEoes();
+  // if (todo.value.titulo === 'la evaluación del proceso')
+  //   await getEvaluacionesProcesos();
+  // if (todo.value.titulo === 'el objetivo') await getAllOes();
+  // if (todo.value.titulo === 'los valores del indicador') await getImoes();
 };
 </script>
