@@ -102,7 +102,7 @@
         <q-separator class="q-my-md" />
 
         <q-card-section class="q-pt-none text-justify q-ma-xs text-body1">
-          {{ escuela?.descripcion ? escuela?.descripcion : 'Cargando...' }}
+          {{ escuela.descripcion ? escuela?.descripcion : 'Cargando...' }}
         </q-card-section>
       </q-card>
     </div>
@@ -120,6 +120,8 @@ const { escuela } = storeToRefs(useEscuelaStore());
 onMounted(() => {
   getActiveEscuela();
 });
+
+console.log('escuela', escuela);
 
 // const premat =
 //   'Realice su prematrícula para la carrera de su preferencia. Usted puede optar por 3 carreras y se le será asignada una según sus losgros en las pruebas de ingreso, definiendo su posición en el escalafón de postulantes, su nota alcanzada en dichos exámenes.';

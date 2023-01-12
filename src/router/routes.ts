@@ -52,6 +52,7 @@ export default function ({ store }: { store: Pinia }) {
       children: [
         { path: '/home', component: () => import('pages/DashboardPage.vue') },
         { path: '/users', component: () => import('pages/UsuariosPage.vue') },
+        { path: '/escuela', component: () => import('pages/EscuelaPage.vue') },
       ],
     },
     {

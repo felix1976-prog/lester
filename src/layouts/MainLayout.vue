@@ -151,12 +151,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-users',
     link: '/users',
   },
-  // {
-  //   title: 'Roles',
-  //   caption: 'Gestión de Roles de Usuarios',
-  //   icon: 'las la-user-shield',
-  //   link: '/roles',
-  // },
+  {
+    title: 'Universidad',
+    caption: 'Gestinar datos de la Universidad',
+    icon: 'las la-user-shield',
+    link: '/escuela',
+  },
   // {
   //   title: 'Facultades',
   //   caption: 'Gestión de Facultades',
