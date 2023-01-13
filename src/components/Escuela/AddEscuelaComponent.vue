@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="isAddUserOpen" position="top" persistent>
+    <q-dialog v-model="isAddEscuelaOpen" position="top" persistent>
       <q-card
         v-bind:style="$q.screen.lt.sm ? { width: '90%' } : { width: '100%' }"
       >
@@ -20,10 +20,10 @@
                 filled
                 type="text"
                 v-model="datos.nombre"
-                label="Usuario"
+                label="Nombre"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el usuario',
+                  (val) => (val && val.length > 0) || 'Escriba el nombre',
                 ]"
               >
                 <template v-slot:append>
@@ -36,10 +36,10 @@
                 filled
                 type="text"
                 v-model="todo.nombre"
-                label="Usuario"
+                label="Nombre"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el usuario',
+                  (val) => (val && val.length > 0) || 'Escriba el nombre',
                 ]"
               >
                 <template v-slot:append>
@@ -53,7 +53,7 @@
                 filled
                 type="text"
                 v-model="datos.descripcion"
-                label="Nombre"
+                label="Descripción"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba su nombre',
@@ -68,7 +68,7 @@
                 filled
                 type="text"
                 v-model="todo.nombre"
-                label="Nombre"
+                label="Descripción"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba su nombre',
@@ -146,11 +146,77 @@
                 </template>
               </q-input>
             </div>
+
+            <div>
+              <q-input
+                v-if="!escuelaEdit"
+                filled
+                type="text"
+                v-model="datos.pre_desc"
+                label="Pre Descripción"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el teléfono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.pre_desc"
+                label="Pre Description"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el teléfono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
+
+            <div>
+              <q-input
+                v-if="!escuelaEdit"
+                filled
+                type="text"
+                v-model="datos.mat_desc"
+                label="Matricula Descripción"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el teléfono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.mat_desc"
+                label="Matricula Descripción"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el teléfono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
           </q-form>
         </q-card-section>
         <q-card-actions class="row flex-center">
           <q-btn icon="las la-times" @click="cerrar" />
-          <q-btn v-if="!editandoForm" icon="las la-check" @click="add" />
+          <q-btn v-if="!escuelaEdit" icon="las la-check" @click="add" />
           <q-btn v-else icon="las la-check" @click="actualizar" />
         </q-card-actions>
       </q-card>
@@ -167,12 +233,11 @@ import {
   addEscuelaInterface,
   escuelaInterface,
 } from '../../interfaces/escuela.interface';
-import { useUtilsComposables } from '../../composables/utilsComposables';
 
 const $q = useQuasar();
-const { addEscuela, editandoForm, getActiveEscuela } = useEscuelaStore();
-const { addUserToggle, isAddUserOpen } = useUtilsComposables();
-const { escuelaEdit } = storeToRefs(useEscuelaStore());
+const { addEscuela, editandoForm, getActiveEscuela, addEscuelaToggle } =
+  useEscuelaStore();
+const { escuelaEdit, isAddEscuelaOpen } = storeToRefs(useEscuelaStore());
 
 //Activar el valor del titulo del form
 const formTitle = computed(() => {
@@ -181,7 +246,7 @@ const formTitle = computed(() => {
 
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
-  addUserToggle();
+  addEscuelaToggle();
   editandoForm(false);
 };
 

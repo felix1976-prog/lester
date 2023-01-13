@@ -30,7 +30,7 @@
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="addUserToggle"
+              @click="addEscuelaToggle"
             />
           </template>
         </q-input>
@@ -152,7 +152,7 @@
             dense
             @click="deleteUser(props.row)"
           />
-          <q-btn
+          <!-- <q-btn
             dense
             round
             size="sm"
@@ -163,7 +163,7 @@
             :icon="`${
               props.row.activo ? 'las la-check-circle' : 'las la-times'
             }`"
-          />
+          /> -->
         </q-td>
       </template>
     </q-table>
@@ -175,23 +175,22 @@
 <script setup lang="ts">
 import { QTableProps, useQuasar } from 'quasar';
 import { computed, onMounted, ref, watch } from 'vue';
-import { storeToRefs } from 'pinia';
 import { useUtilsComposables } from 'src/composables/utilsComposables';
 import AddEscuelaComponent from './AddEscuelaComponent.vue';
 import { escuelaInterface } from 'src/interfaces/escuela.interface';
 import { DeleteInterface } from 'src/interfaces/delete.interfaces';
 import DeleteComponent from '../DeleteComponent.vue';
+import { useEscuelaComposable } from 'src/composables/useEscuelaComposable';
 import { useEscuelaStore } from 'src/stores/escuela/escuela';
-
 const $q = useQuasar();
-const { addUserToggle, eliminarToggle } = useUtilsComposables();
+const { eliminarToggle } = useUtilsComposables();
 
-const { getActiveEscuela, editandoForm, escuela } = useEscuelaStore();
-// const { escuela } = storeToRefs(useEscuelaStore());
-
+const { list, getAllEsculActivas, editandoForm, addEscuelaToggle } =
+  useEscuelaComposable();
+const { activeTogle, isActive } = useEscuelaStore();
 // let myList = null;
 onMounted(async () => {
-  await getActiveEscuela();
+  await getAllEsculActivas();
   // console.log('first', escuela.value);
 });
 
@@ -238,10 +237,10 @@ watch(
 );
 
 // fin pagination
-const myEscuela = computed(() => {
-  return escuela;
-});
-const rows: QTableProps['rows'] = [myEscuela.value];
+// const list = computed(() => {
+//   return escuela.value;
+// });
+const rows: QTableProps['rows'] = [list.value];
 const columns: QTableProps['columns'] = [
   {
     name: 'avatar',
@@ -280,7 +279,7 @@ const columns: QTableProps['columns'] = [
 const editTable = async (item: escuelaInterface) => {
   // console.log('rol', item);
   editandoForm(true);
-  addUserToggle();
+  addEscuelaToggle();
   userProps.value.id = item.id;
   userProps.value.nombre = item.nombre;
   userProps.value.descripcion = item.descripcion;
@@ -306,8 +305,8 @@ const deleteUser = async (item: escuelaInterface) => {
   eliminarToggle();
 };
 
-const activar = async (item: { id: string; isActive: boolean }) => {
-  // await isActiveUser(item);
-  // await allUsers();
-};
+// const activar = async () => {
+//   await activeTogle(item);
+//   await getAllEsculActivas();
+// };
 </script>

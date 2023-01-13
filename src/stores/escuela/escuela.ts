@@ -8,6 +8,7 @@ export const useEscuelaStore = defineStore('escuela', {
     escuela: [],
     escuelaEdit: false,
     isActive: true,
+    isAddEscuelaOpen: false,
   }),
 
   getters: {
@@ -23,6 +24,9 @@ export const useEscuelaStore = defineStore('escuela', {
     //Para editar el usuario activar el form y pasarle la data
     editandoForm(item: boolean) {
       this.escuelaEdit = item;
+    },
+    addEscuelaToggle() {
+      this.isAddEscuelaOpen = !this.isAddEscuelaOpen;
     },
     //FIN
 
@@ -44,6 +48,8 @@ export const useEscuelaStore = defineStore('escuela', {
     async addEscuela(dto: addEscuelaInterface) {
       try {
         const { data } = await api.post('/escuela/', dto);
+        console.log('POST -dto', dto);
+        console.log('POST', data);
         return data;
       } catch (e) {
         Notify.create({
