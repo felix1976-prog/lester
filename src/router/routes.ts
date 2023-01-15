@@ -53,16 +53,20 @@ export default function ({ store }: { store: Pinia }) {
         { path: '/home', component: () => import('pages/DashboardPage.vue') },
         { path: '/users', component: () => import('pages/UsuariosPage.vue') },
         { path: '/escuela', component: () => import('pages/EscuelaPage.vue') },
+        {
+          path: '/facultad',
+          component: () => import('pages/FacultadPage.vue'),
+        },
       ],
     },
-    {
-      path: '/users',
-      component: () => import('layouts/MainLayout.vue'),
-      children: [
-        { path: '', component: () => import('pages/UsuariosPage.vue') },
-        // { path: 'login', component: () => import('pages/IndxPage.vue') },
-      ],
-    },
+    // {
+    //   path: '/users',
+    //   component: () => import('layouts/MainLayout.vue'),
+    //   children: [
+    //     { path: '', component: () => import('pages/UsuariosPage.vue') },
+    //     // { path: 'login', component: () => import('pages/IndxPage.vue') },
+    //   ],
+    // },
 
     // Always leave this as last one,
     // but you can also remove it

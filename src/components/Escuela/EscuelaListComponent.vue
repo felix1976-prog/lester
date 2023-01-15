@@ -174,6 +174,7 @@
 
 <script setup lang="ts">
 import { QTableProps, useQuasar } from 'quasar';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useUtilsComposables } from 'src/composables/utilsComposables';
 import AddEscuelaComponent from './AddEscuelaComponent.vue';
@@ -187,11 +188,13 @@ const { eliminarToggle } = useUtilsComposables();
 
 const { list, getAllEsculActivas, editandoForm, addEscuelaToggle } =
   useEscuelaComposable();
-const { activeTogle, isActive } = useEscuelaStore();
+const { usersAllEscuelas } = useEscuelaStore();
+const { escuela } = storeToRefs(useEscuelaStore());
 // let myList = null;
 onMounted(async () => {
   await getAllEsculActivas();
   // console.log('first', escuela.value);
+  // usersAllEscuelas;
 });
 
 const userProps = ref<escuelaInterface>({
@@ -237,9 +240,10 @@ watch(
 );
 
 // fin pagination
-// const list = computed(() => {
-//   return escuela.value;
+// const listar = computed(() => {
+//   return usersAllEscuelas;
 // });
+console.log('first', list.value);
 const rows: QTableProps['rows'] = [list.value];
 const columns: QTableProps['columns'] = [
   {

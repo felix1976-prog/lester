@@ -12,9 +12,9 @@ export const useEscuelaStore = defineStore('escuela', {
   }),
 
   getters: {
-    // doubleCount(state) {
-    //   return state.counter * 2;
-    // },
+    usersAllEscuelas(state) {
+      return state.escuela;
+    },
   },
 
   actions: {

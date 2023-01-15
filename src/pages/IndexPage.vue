@@ -122,15 +122,6 @@ onMounted(() => {
 });
 
 console.log('escuela', escuela);
-
-// const premat =
-//   'Realice su prematrícula para la carrera de su preferencia. Usted puede optar por 3 carreras y se le será asignada una según sus losgros en las pruebas de ingreso, definiendo su posición en el escalafón de postulantes, su nota alcanzada en dichos exámenes.';
-// const matric =
-//   'Una vez alcanzado una carrera, ya sea por el Preuniversitario o por curso por encuentro, deberá realizar su matrícula oficial en la carrera de su facultad. No podrá iniciar el curso sin antes haber realizado dicha matrícula en la fecha designada.';
-// const posmat =
-//   'Matricular en los cursos de postgrado disponibles para graduados universitarios. Solicite las planillas relacionadas y asegure los documentos e información que se necesitan para realizar la matrícula. Debe realizar estas operaciones antes de la fecha límite.';
-// const descrip =
-//   'La Educación Superior en la Isla de la Juventud es hija de la Revolución Cubana. Sus primeros pasos datan de 1972, con la creación del destacamento pedagógico “Manuel Ascunce Domenech”, como una unidad docente asistida metodológicamente por el Instituto Superior Pedagógico “Enrique José Varona”, perteneciente a la Universidad de La Habana. Unidad docente que tuvo como objeto social atender la formación de docentes de nivel universitario, tanto en el Plan de Formación de Profesores para la Enseñanza General Media como en el curso regular para trabajadores. Desde su inicio se formaron estudiantes en el Curso Regular Diurno en las carreras de Física, Matemática, Biología, Geografía, Química, Historia, Español, Inglés y Educación Laboral.';
 </script>
 
 <style lang="sass" scoped>

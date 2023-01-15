@@ -157,6 +157,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-user-shield',
     link: '/escuela',
   },
+  {
+    title: 'Facultad',
+    caption: 'Gestinar datos de la Facultad',
+    icon: 'las la-user-shield',
+    link: '/facultad',
+  },
   // {
   //   title: 'Facultades',
   //   caption: 'Gestión de Facultades',
