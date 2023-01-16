@@ -102,7 +102,7 @@
         <q-separator class="q-my-md" />
 
         <q-card-section class="q-pt-none text-justify q-ma-xs text-body1">
-          {{ escuela.descripcion ? escuela?.descripcion : 'Cargando...' }}
+          {{ escuela.descripcion ? escuela.descripcion : 'Cargando...' }}
         </q-card-section>
       </q-card>
     </div>
@@ -121,7 +121,7 @@ onMounted(() => {
   getActiveEscuela();
 });
 
-console.log('escuela', escuela);
+// console.log('escuela', escuela);
 </script>
 
 <style lang="sass" scoped>

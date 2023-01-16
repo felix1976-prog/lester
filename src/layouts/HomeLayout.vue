@@ -44,7 +44,7 @@
               </p>
             </div>
             <div class="col-9">
-              <p class="text-h4">Calle mil enter alkjoj aokjkj</p>
+              <p class="text-h4">{{ escuela.direccion }}</p>
             </div>
           </div>
         </div>
@@ -80,6 +80,14 @@
 <script setup lang="ts">
 import DialogComponent from 'src/components/auth/DialogLoginComponent.vue';
 import { useUtilsComposables } from 'src/composables/utilsComposables';
+import { useEscuelaStore } from 'src/stores/escuela/escuela';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+const { getActiveEscuela } = useEscuelaStore();
+const { escuela } = storeToRefs(useEscuelaStore());
 
+onMounted(() => {
+  getActiveEscuela();
+});
 const { setToggleLogin } = useUtilsComposables();
 </script>

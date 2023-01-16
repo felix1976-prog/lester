@@ -139,10 +139,10 @@ const add = async () => {
 //  ACTUALIZAR
 
 interface Props {
-  escuelaUpd?: faculProps;
+  facultadUpd?: faculProps;
 }
 const props = withDefaults(defineProps<Props>(), {
-  escuelaUpd: () => {
+  facultadUpd: () => {
     return {
       id: '',
       facultad: '',
@@ -150,7 +150,7 @@ const props = withDefaults(defineProps<Props>(), {
     };
   },
 });
-const todo = computed(() => props.escuelaUpd);
+const todo = computed(() => props.facultadUpd);
 
 const actualizar = async () => {
   console.log('res: ', todo.value);

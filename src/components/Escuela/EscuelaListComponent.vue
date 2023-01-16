@@ -3,7 +3,7 @@
     <q-table
       :grid="$q.screen.lt.md"
       title="Listado de Universidades"
-      :rows="rows"
+      :rows="[escuela]"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -91,18 +91,6 @@
                   flat
                   dense
                   @click="deleteUser(props.row)"
-                />
-                <q-btn
-                  dense
-                  round
-                  size="sm"
-                  class="q-ml-sm"
-                  flat
-                  @click="activar(props.row)"
-                  :color="`${props.row.activo ? 'positive' : 'negative'}`"
-                  :icon="`${
-                    props.row.activo ? 'las la-check-circle' : 'las la-times'
-                  }`"
                 />
               </div>
             </q-card-actions>
@@ -243,8 +231,8 @@ watch(
 // const listar = computed(() => {
 //   return usersAllEscuelas;
 // });
-console.log('first', list.value);
-const rows: QTableProps['rows'] = [list.value];
+// console.log('first', list.value);
+// const rows: QTableProps['rows'] = [list.value];
 const columns: QTableProps['columns'] = [
   {
     name: 'avatar',

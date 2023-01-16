@@ -4,11 +4,13 @@ import { useFacultadStore } from 'src/stores/facultad/facultad-store';
 import { ref, watch, computed, onMounted } from 'vue';
 import { useQuasar, QTableProps } from 'quasar';
 import AddFacultadComponent from './AddFacultadComponent.vue';
+import { faculProps } from '../../interfaces/facultad.interfaces';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthFacultades, allFacultad, isFacultadToggle } = useFacultadStore();
+const { fecthFacultades, allFacultad, isFacultadToggle, editandoForm } =
+  useFacultadStore();
 const { facultad } = storeToRefs(useFacultadStore());
 
 onMounted(() => {
@@ -44,7 +46,7 @@ watch(
 // fin pagination
 
 // TABLE
-const rows: QTableProps['rows'] = facultad.value;
+// const rows: QTableProps['rows'] = facultad.value;
 const columns: QTableProps['columns'] = [
   {
     name: 'avatar',
@@ -72,8 +74,17 @@ const columns: QTableProps['columns'] = [
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
+const facultadProps = ref<faculProps>({
+  id: '',
+  facultad: '',
+  codigo: '',
+});
 const editTable = (item: { id: string; facultad: string; codigo: string }) => {
-  return item;
+  isFacultadToggle();
+  editandoForm(true);
+  facultadProps.value.id = item.id;
+  facultadProps.value.facultad = item.facultad;
+  facultadProps.value.codigo = item.codigo;
 };
 const deleteFacultad = (item: { id: string }) => {
   return item;
@@ -88,7 +99,7 @@ const deleteFacultad = (item: { id: string }) => {
     <q-table
       :grid="$q.screen.lt.md"
       title="Listado de Facultades"
-      :rows="rows"
+      :rows="facultad"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -211,6 +222,6 @@ const deleteFacultad = (item: { id: string }) => {
         </q-td>
       </template>
     </q-table>
-    <AddFacultadComponent />
+    <AddFacultadComponent :facultadUpd="facultadProps" />
   </div>
 </template>

@@ -53,9 +53,26 @@ export default function ({ store }: { store: Pinia }) {
         { path: '/home', component: () => import('pages/DashboardPage.vue') },
         { path: '/users', component: () => import('pages/UsuariosPage.vue') },
         { path: '/escuela', component: () => import('pages/EscuelaPage.vue') },
+        { path: '/carrera', component: () => import('pages/CarrerasPage.vue') },
         {
           path: '/facultad',
           component: () => import('pages/FacultadPage.vue'),
+        },
+        {
+          path: '/organismo',
+          component: () => import('pages/OrganismoPage.vue'),
+        },
+        {
+          path: '/empresa',
+          component: () => import('pages/EmpresaPage.vue'),
+        },
+        {
+          path: '/paises',
+          component: () => import('pages/PaisesPage.vue'),
+        },
+        {
+          path: '/centro',
+          component: () => import('pages/CentroPage.vue'),
         },
       ],
     },
