@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import { PaisAdd } from '../../interfaces/pais.interfaces';
 import { countries } from '../../stores/countries/countries';
-import paisesJson from '../../stores/countries/countries.json';
+// import paisesJson from '../../stores/countries/countries.json';
 import { Notify } from 'quasar';
 export const usePaisesStore = defineStore('paises', {
   state: () => ({
@@ -42,7 +42,7 @@ export const usePaisesStore = defineStore('paises', {
     },
     async llenarPaises() {
       try {
-        console.log(paisesJson);
+        // console.log(paisesJson);
         const { data } = await api.get('/paises');
         // const data: string | any[] = [];
         if (data.length) {

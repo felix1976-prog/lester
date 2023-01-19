@@ -26,11 +26,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.pre_inicio ? escuela?.pre_inicio : 'Cargando...'
+                      escuela?.pre_inicio
+                        ? escuela?.pre_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.pre_fin ? escuela?.pre_fin : 'Cargando...' }}
+                    {{
+                      escuela?.pre_fin
+                        ? escuela?.pre_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>
@@ -56,11 +62,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.mat_inicio ? escuela?.mat_inicio : 'Cargando...'
+                      escuela?.mat_inicio
+                        ? escuela?.mat_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.mat_fin ? escuela?.mat_fin : 'Cargando...' }}
+                    {{
+                      escuela?.mat_fin
+                        ? escuela?.mat_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>
@@ -86,11 +98,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.pos_inicio ? escuela?.pos_inicio : 'Cargando...'
+                      escuela?.pos_inicio
+                        ? escuela?.pos_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.pos_fin ? escuela?.pos_fin : 'Cargando...' }}
+                    {{
+                      escuela?.pos_fin
+                        ? escuela?.pos_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>

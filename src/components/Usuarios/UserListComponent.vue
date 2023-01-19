@@ -62,6 +62,21 @@
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.email }}
+              </div>
+            </q-card-section>
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.telefono }}
+              </div>
+            </q-card-section>
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.movil }}
+              </div>
+            </q-card-section>
+            <q-card-section style="fontsize: 12px">
               <div
                 class="flex flex-center"
                 :props="props"
@@ -138,6 +153,21 @@
       <template #body-cell-nombre="props">
         <q-td :props="props">
           {{ props.row.nombre + ' ' + props.row.apellidos }}
+        </q-td>
+      </template>
+      <template #body-cell-email="props">
+        <q-td :props="props">
+          {{ props.row.email }}
+        </q-td>
+      </template>
+      <template #body-cell-telefono="props">
+        <q-td :props="props">
+          {{ props.row.telefono }}
+        </q-td>
+      </template>
+      <template #body-cell-movil="props">
+        <q-td :props="props">
+          {{ props.row.movil }}
         </q-td>
       </template>
 
@@ -279,6 +309,9 @@ const userProps = ref<usuariosProps>({
   nombre: '',
   apellidos: '',
   cargo: '',
+  email: '',
+  telefono: '',
+  movil: '',
   isActive: true,
   rol_id: '',
   rolname: '',
@@ -339,6 +372,29 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
+    name: 'email',
+    align: 'center',
+    label: 'Correo',
+    field: 'email',
+    sortable: true,
+  },
+
+  {
+    name: 'telefono',
+    align: 'center',
+    label: 'Teléfono',
+    field: 'telefono',
+    sortable: true,
+  },
+  {
+    name: 'movil',
+    align: 'center',
+    label: 'Móvil',
+    field: 'movil',
+    sortable: true,
+  },
+
+  {
     name: 'rol',
     align: 'center',
     label: 'Rol',
@@ -366,6 +422,9 @@ const editTable = async (item: UserList) => {
   userProps.value.nombre = item.nombre;
   userProps.value.apellidos = item.apellidos;
   userProps.value.cargo = item.cargo;
+  userProps.value.email = item.email;
+  userProps.value.telefono = item.telefono;
+  userProps.value.movil = item.movil;
   userProps.value.isActive = item.isActive;
   userProps.value.rol_id = item.rol_id;
   userProps.value.rolname = item.roles.rolname;

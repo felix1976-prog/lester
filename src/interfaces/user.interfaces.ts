@@ -14,6 +14,10 @@ export interface UserAdd {
   password: string;
   nombre: string;
   isActive: boolean | null;
+  cargo: string;
+  email: string;
+  telefono: string;
+  movil: string;
   // departamento_id: string;
   rol_id: string;
   // rol: Rol | null;
@@ -25,6 +29,9 @@ export interface UserList {
   apellidos: string;
   password: string;
   cargo: string;
+  email: string;
+  telefono: string;
+  movil: string;
   isActive: boolean;
   roles: Roles;
   // departamento: Departamento;
@@ -53,6 +60,9 @@ export interface usuariosProps {
   nombre: string;
   apellidos: string;
   cargo: string;
+  email: string;
+  telefono: string;
+  movil: string;
   isActive: boolean;
   rol_id: string;
   rolname: string;

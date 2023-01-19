@@ -34,7 +34,7 @@ export const useEscuelaStore = defineStore('escuela', {
       try {
         const { data } = await api.get('/escuela/activo');
         this.escuela = data;
-        console.log('data', this.escuela);
+        console.log('datalol', this.escuela);
         return this.escuela;
       } catch (e) {
         Notify.create({

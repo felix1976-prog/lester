@@ -7,7 +7,8 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
+const UnoCSS = require('unocss/vite').default;
+const { presetAttributify, presetUno } = require('unocss');
 const { configure } = require('quasar/wrappers');
 const path = require('path');
 
@@ -28,7 +29,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios', 'unocss'],
+    boot: ['i18n', 'axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -71,7 +72,28 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(config) {
+        config.plugins.push(
+          ...UnoCSS({
+            presets: [presetUno(), presetAttributify()],
+            theme: {
+              colors: {},
+              size: {
+                xs: '4px',
+                sm: '8px',
+                md: '16px',
+                lg: '24px',
+                xl: '48px',
+              },
+            },
+            rules: [
+              ['no-shadow', { 'box-shadow': 'none' }],
+              ['q-ma-auto', { margin: 'auto' }],
+              ['q-pa-auto', { padding: 'auto' }],
+            ],
+          })
+        );
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
@@ -85,7 +107,7 @@ module.exports = configure(function (/* ctx */) {
             include: path.resolve(__dirname, './src/i18n/**'),
           },
         ],
-        ['unocss/vite', {}],
+        // ['unocss/vite', {}],
       ],
     },
 
