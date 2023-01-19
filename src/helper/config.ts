@@ -1,4 +1,4 @@
-const SERVER_HOSTNAME = process.env.API_URL || 'http://localhost:3000/api';
+const SERVER_HOSTNAME = process.env.API_URL || 'http://localhost:3005/api';
 const SERVER_PORT = process.env.SERVER_PORT || 1337;
 
 const SERVER = {

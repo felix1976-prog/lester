@@ -55,9 +55,7 @@ module.exports = configure(function (/* ctx */) {
       },
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
-      env: {
-        API_URL: process.env.API_URL || 'http://localhost:3000/api',
-      },
+      env: require('dotenv').config().parsed,
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,

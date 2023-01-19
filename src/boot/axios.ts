@@ -12,6 +12,7 @@ const api = axios.create({
   // baseURL: 'https://api.example.com'
   baseURL: config.server.hostname,
 });
+console.log('first', config.server.hostname);
 api.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 api.defaults.headers.get['Accepts'] = 'application/json';
 
