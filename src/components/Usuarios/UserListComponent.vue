@@ -58,7 +58,7 @@
             </q-card-section>
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.rol.rol }}
+                {{ props.row.roles.rolname }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
