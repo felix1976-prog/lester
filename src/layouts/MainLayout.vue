@@ -193,6 +193,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-globe',
     link: '/paises',
   },
+  {
+    title: 'Provincias',
+    caption: 'Gestionar datos de la provincia',
+    icon: 'las la-globe',
+    link: '/provincia',
+  },
 ];
 
 const $q = useQuasar();

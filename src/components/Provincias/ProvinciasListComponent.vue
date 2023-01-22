@@ -5,25 +5,31 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { usePaisesStore } from '../../stores/paises/paises-store';
-import { paisProps, PaisList } from '../../interfaces/pais.interfaces';
-import AddPaisesComponent from './AddPaisesComponent.vue';
+import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
+import {
+  ProvinciaProps,
+  ProvinciaList,
+} from '../../interfaces/provincias.interfaces';
+import AddProvinciasComponent from './AddProvinciasComponent.vue';
+import { usePaisesStore } from 'src/stores/paises/paises-store';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthPaises, isPaisesToggle, editandoForm, llenarPaises } =
-  usePaisesStore();
-const { paises } = storeToRefs(usePaisesStore());
+const { fecthProvincias, isProvinciasToggle, editandoForm, llenarProvincias } =
+  useProvinciasStore();
+const { provincias } = storeToRefs(useProvinciasStore());
 const { eliminarToggle } = useUtilsComposables();
+const { fecthPaises } = usePaisesStore();
 
 onMounted(() => {
+  fecthProvincias();
   fecthPaises();
 });
 
-const llenarAllPaises = async () => {
-  await llenarPaises();
-  await fecthPaises();
+const llenarAllProvincias = async () => {
+  await llenarProvincias();
+  await fecthProvincias();
 };
 // pagination
 function getItemsPerPage() {
@@ -65,11 +71,11 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'pais',
+    name: 'provincia',
     required: true,
     label: 'País',
     align: 'center',
-    field: 'pais',
+    field: 'provincia',
     sortable: true,
   },
   {
@@ -82,25 +88,27 @@ const columns: QTableProps['columns'] = [
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const paisProp = ref<paisProps>({
+const provinciaProp = ref<ProvinciaProps>({
   id: '',
-  pais: '',
+  provincia: '',
   codigo: '',
+  pais_id: '',
 });
-const editTable = (item: paisProps) => {
-  isPaisesToggle();
+const editTable = (item: ProvinciaProps) => {
+  isProvinciasToggle();
   editandoForm(true);
-  paisProp.value.pais = item.pais;
-  paisProp.value.codigo = item.codigo;
+  provinciaProp.value.provincia = item.provincia;
+  provinciaProp.value.codigo = item.codigo;
+  provinciaProp.value.pais_id = item.pais_id;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
   url: ',',
 });
 
-const deletePais = async (item: PaisList) => {
-  deleteProps.value.url = `/carrera/${item.id}`;
-  deleteProps.value.titulo = 'la carrera';
+const deleteProvincia = async (item: ProvinciaList) => {
+  deleteProps.value.url = `/provincias/${item.id}`;
+  deleteProps.value.titulo = 'la provincia';
   eliminarToggle();
 };
 </script>
@@ -109,12 +117,12 @@ const deletePais = async (item: PaisList) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de Paises"
-      :rows="paises"
+      title="Listado de Provincias"
+      :rows="provincias"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay paises para mostrar"
+      no-data-label="No hay provincias para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -132,13 +140,13 @@ const deletePais = async (item: PaisList) => {
           </template>
           <template v-slot:prepend>
             <q-btn
-              v-if="!paises"
+              v-if="!provincias"
               class="q-mx-xs"
               round
               color="green"
               icon="las la-cloud-upload-alt"
               type="button"
-              @click="llenarAllPaises"
+              @click="llenarAllProvincias"
             />
             <q-btn
               v-else
@@ -147,7 +155,7 @@ const deletePais = async (item: PaisList) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isPaisesToggle"
+              @click="isProvinciasToggle"
             />
           </template>
         </q-input>
@@ -165,7 +173,7 @@ const deletePais = async (item: PaisList) => {
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.pais }}
+                {{ props.row.provincia }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
@@ -193,7 +201,7 @@ const deletePais = async (item: PaisList) => {
                   class="q-ml-sm"
                   flat
                   dense
-                  @click="deletePais(props.row)"
+                  @click="deleteProvincia(props.row)"
                 />
               </div>
             </q-card-actions>
@@ -208,9 +216,9 @@ const deletePais = async (item: PaisList) => {
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-pais="props">
+      <template #body-cell-provincia="props">
         <q-td :props="props">
-          {{ props.row.pais }}
+          {{ props.row.provincia }}
         </q-td>
       </template>
       <template #body-cell-codigo="props">
@@ -237,12 +245,12 @@ const deletePais = async (item: PaisList) => {
             class="q-ml-sm"
             flat
             dense
-            @click="deletePais(props.row)"
+            @click="deleteProvincia(props.row)"
           />
         </q-td>
       </template>
     </q-table>
-    <AddPaisesComponent :paisUpd="paisProp" />
+    <AddProvinciasComponent :provinciaUpd="provinciaProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
   </div>
 </template>

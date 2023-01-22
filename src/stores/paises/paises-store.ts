@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import { PaisAdd } from '../../interfaces/pais.interfaces';
 import { countries } from '../../stores/countries/countries';
-// import paisesJson from '../../stores/countries/countries.json';
 import { Notify } from 'quasar';
 export const usePaisesStore = defineStore('paises', {
   state: () => ({
@@ -45,13 +44,14 @@ export const usePaisesStore = defineStore('paises', {
         // console.log(paisesJson);
         const { data } = await api.get('/paises');
         // const data: string | any[] = [];
-        if (data.length) {
+        if (data) {
           Notify.create({
             icon: 'las la-exclamation-triangle',
             position: 'bottom',
             message: 'Ya están creados los países',
             color: 'negative',
           });
+          return data;
         } else {
           let allPaises: Array<[]> = [];
           for (const x of countries) {
@@ -61,8 +61,14 @@ export const usePaisesStore = defineStore('paises', {
             };
             allPaises = await api.post('/paises', dto);
           }
+          Notify.create({
+            icon: 'las la-done',
+            position: 'bottom',
+            message: 'Paises insertados correctamente',
+            color: 'success',
+          });
           console.log('lol', allPaises);
-          // return getPaises;
+          return allPaises;
         }
       } catch (error) {
         console.log('error', error);

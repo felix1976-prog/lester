@@ -1,7 +1,6 @@
 <template>
   <q-page padding>
     <div>
-      <h1 class="font-italic">Usuarios</h1>
       <EscuelaListComponent />
     </div>
   </q-page>
