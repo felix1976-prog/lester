@@ -199,7 +199,108 @@
                 </template>
               </q-input>
             </div>
-
+            <div>
+              <q-input
+                v-if="!isEditando"
+                filled
+                type="email"
+                v-model="datos.email"
+                label="Correo"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el correo',
+                  (val) =>
+                    (val && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) ||
+                    'Escriba el correo correctamente',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="email"
+                v-model="todo.email"
+                label="Correo"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el correo',
+                  (val) =>
+                    (val && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) ||
+                    'Escriba el correo correctamente',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
+            <div>
+              <q-input
+                v-if="!isEditando"
+                filled
+                type="text"
+                v-model.trim="datos.telefono"
+                label="Teléfono"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el telefono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.telefono"
+                label="Teléfono"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el telefono',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
+            <div>
+              <q-input
+                v-if="!isEditando"
+                filled
+                type="text"
+                v-model="datos.movil"
+                label="Mócil"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el movil',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.movil"
+                label="Móvil"
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Escriba el movil',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user" />
+                </template>
+              </q-input>
+            </div>
             <div>
               <q-select
                 v-if="!isEditando"
@@ -348,6 +449,9 @@ const datos = ref({
   nombre: '',
   apellidos: '',
   cargo: '',
+  email: '',
+  telefono: '',
+  movil: '',
   isActive: null,
   rol_id: '',
 });
@@ -359,6 +463,9 @@ const add = async () => {
     nombre: datos.value.nombre,
     apellidos: datos.value.apellidos,
     cargo: datos.value.cargo,
+    email: datos.value.email,
+    telefono: datos.value.telefono,
+    movil: datos.value.movil,
     isActive: true,
     rol_id: datos.value.rol_id,
   };
@@ -400,6 +507,9 @@ const props = withDefaults(defineProps<Props>(), {
       nombre: '',
       apellidos: '',
       cargo: '',
+      email: '',
+      telefono: '',
+      movil: '',
       isActive: true,
       rol_id: '',
       rolname: '',

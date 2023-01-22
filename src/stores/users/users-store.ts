@@ -128,6 +128,9 @@ export const useUsersStore = defineStore('users', {
           nombre: item.nombre,
           apellidos: item.apellidos,
           cargo: item.cargo,
+          email: item.email,
+          telefono: item.telefono,
+          movil: item.movil,
           isActive: item.isActive,
           rol_id: item.rol_id,
         });

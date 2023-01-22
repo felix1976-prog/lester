@@ -52,16 +52,38 @@ export default function ({ store }: { store: Pinia }) {
       children: [
         { path: '/home', component: () => import('pages/DashboardPage.vue') },
         { path: '/users', component: () => import('pages/UsuariosPage.vue') },
+        { path: '/escuela', component: () => import('pages/EscuelaPage.vue') },
+        { path: '/carrera', component: () => import('pages/CarrerasPage.vue') },
+        {
+          path: '/facultad',
+          component: () => import('pages/FacultadPage.vue'),
+        },
+        {
+          path: '/organismo',
+          component: () => import('pages/OrganismoPage.vue'),
+        },
+        {
+          path: '/empresa',
+          component: () => import('pages/EmpresaPage.vue'),
+        },
+        {
+          path: '/paises',
+          component: () => import('pages/PaisesPage.vue'),
+        },
+        {
+          path: '/centro',
+          component: () => import('pages/CentroPage.vue'),
+        },
       ],
     },
-    {
-      path: '/users',
-      component: () => import('layouts/MainLayout.vue'),
-      children: [
-        { path: '', component: () => import('pages/UsuariosPage.vue') },
-        // { path: 'login', component: () => import('pages/IndxPage.vue') },
-      ],
-    },
+    // {
+    //   path: '/users',
+    //   component: () => import('layouts/MainLayout.vue'),
+    //   children: [
+    //     { path: '', component: () => import('pages/UsuariosPage.vue') },
+    //     // { path: 'login', component: () => import('pages/IndxPage.vue') },
+    //   ],
+    // },
 
     // Always leave this as last one,
     // but you can also remove it

@@ -151,66 +151,48 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-users',
     link: '/users',
   },
-  // {
-  //   title: 'Roles',
-  //   caption: 'Gestión de Roles de Usuarios',
-  //   icon: 'las la-user-shield',
-  //   link: '/roles',
-  // },
-  // {
-  //   title: 'Facultades',
-  //   caption: 'Gestión de Facultades',
-  //   icon: 'las la-graduation-cap',
-  //   link: '/facultades',
-  // },
-  // {
-  //   title: 'Departamentos',
-  //   caption: 'Gestión de Departamentos',
-  //   icon: 'las la-school',
-  //   link: '/departamentos',
-  // },
-  // {
-  //   title: 'Tipos de Indicadores',
-  //   caption: 'Gestión de Tipos de Indicadores',
-  //   icon: 'las la-stream',
-  //   link: '/tipos',
-  // },
-  // {
-  //   title: 'Indicadores',
-  //   caption: 'Gestión de Indicadores',
-  //   icon: 'las la-info',
-  //   link: '/indicadores',
-  // },
-  // {
-  //   title: 'Evaluaciones',
-  //   caption: 'Gestión de Evaluaciones',
-  //   icon: 'las la-check-circle',
-  //   link: '/evaluaciones',
-  // },
-  // {
-  //   title: 'Evaluaciones de Procesos',
-  //   caption: 'Gestión de Evaluaciones de Procesos',
-  //   icon: 'las la-clipboard',
-  //   link: '/evaluaciones-procesos',
-  // },
-  // {
-  //   title: 'Procesos',
-  //   caption: 'Gestión de Procesos',
-  //   icon: 'las la-cogs',
-  //   link: '/procesos',
-  // },
-  // {
-  //   title: 'Objetivos',
-  //   caption: 'Gestión de Objetivos Estratégicos',
-  //   icon: 'las la-tasks',
-  //   link: '/objetivos',
-  // },
-  // {
-  //   title: 'IMOE',
-  //   caption: 'Indicadores y Metas de los Objetivos Específicos',
-  //   icon: 'las la-star-half-alt',
-  //   link: '/imoe',
-  // },
+  {
+    title: 'Universidad',
+    caption: 'Gestinar datos de la Universidad',
+    icon: 'las la-user-shield',
+    link: '/escuela',
+  },
+  {
+    title: 'Carreas',
+    caption: 'Gestinar datos de la Carrera',
+    icon: 'las la-user-shield',
+    link: '/carrera',
+  },
+  {
+    title: 'Facultad',
+    caption: 'Gestinar datos de la Facultad',
+    icon: 'las la-user-shield',
+    link: '/facultad',
+  },
+  {
+    title: 'Organismo',
+    caption: 'Gestinar datos del organismo',
+    icon: 'las la-user-shield',
+    link: '/organismo',
+  },
+  {
+    title: 'Empresas',
+    caption: 'Gestinar datos de la empresa',
+    icon: 'las la-user-shield',
+    link: '/empresa',
+  },
+  {
+    title: 'Centros',
+    caption: 'Gestinar datos del centro',
+    icon: 'las la-user-shield',
+    link: '/centro',
+  },
+  {
+    title: 'Paises',
+    caption: 'Gestionar datos del país',
+    icon: 'las la-globe',
+    link: '/paises',
+  },
 ];
 
 const $q = useQuasar();

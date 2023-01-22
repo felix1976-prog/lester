@@ -26,11 +26,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.pre_inicio ? escuela?.pre_inicio : 'Cargando...'
+                      escuela?.pre_inicio
+                        ? escuela?.pre_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.pre_fin ? escuela?.pre_fin : 'Cargando...' }}
+                    {{
+                      escuela?.pre_fin
+                        ? escuela?.pre_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>
@@ -56,11 +62,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.mat_inicio ? escuela?.mat_inicio : 'Cargando...'
+                      escuela?.mat_inicio
+                        ? escuela?.mat_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.mat_fin ? escuela?.mat_fin : 'Cargando...' }}
+                    {{
+                      escuela?.mat_fin
+                        ? escuela?.mat_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>
@@ -86,11 +98,17 @@
                   <q-btn flat round icon="event" />
                   <q-btn flat>
                     {{
-                      escuela?.pos_inicio ? escuela?.pos_inicio : 'Cargando...'
+                      escuela?.pos_inicio
+                        ? escuela?.pos_inicio.substr(0, 10)
+                        : 'Cargando...'
                     }}</q-btn
                   >
                   <q-btn flat>
-                    {{ escuela?.pos_fin ? escuela?.pos_fin : 'Cargando...' }}
+                    {{
+                      escuela?.pos_fin
+                        ? escuela?.pos_fin.substr(0, 10)
+                        : 'Cargando...'
+                    }}
                   </q-btn>
                   <q-btn flat color="primary"> Matricular </q-btn>
                 </q-card-actions>
@@ -102,7 +120,7 @@
         <q-separator class="q-my-md" />
 
         <q-card-section class="q-pt-none text-justify q-ma-xs text-body1">
-          {{ escuela?.descripcion ? escuela?.descripcion : 'Cargando...' }}
+          {{ escuela.descripcion ? escuela.descripcion : 'Cargando...' }}
         </q-card-section>
       </q-card>
     </div>
@@ -121,14 +139,7 @@ onMounted(() => {
   getActiveEscuela();
 });
 
-// const premat =
-//   'Realice su prematrícula para la carrera de su preferencia. Usted puede optar por 3 carreras y se le será asignada una según sus losgros en las pruebas de ingreso, definiendo su posición en el escalafón de postulantes, su nota alcanzada en dichos exámenes.';
-// const matric =
-//   'Una vez alcanzado una carrera, ya sea por el Preuniversitario o por curso por encuentro, deberá realizar su matrícula oficial en la carrera de su facultad. No podrá iniciar el curso sin antes haber realizado dicha matrícula en la fecha designada.';
-// const posmat =
-//   'Matricular en los cursos de postgrado disponibles para graduados universitarios. Solicite las planillas relacionadas y asegure los documentos e información que se necesitan para realizar la matrícula. Debe realizar estas operaciones antes de la fecha límite.';
-// const descrip =
-//   'La Educación Superior en la Isla de la Juventud es hija de la Revolución Cubana. Sus primeros pasos datan de 1972, con la creación del destacamento pedagógico “Manuel Ascunce Domenech”, como una unidad docente asistida metodológicamente por el Instituto Superior Pedagógico “Enrique José Varona”, perteneciente a la Universidad de La Habana. Unidad docente que tuvo como objeto social atender la formación de docentes de nivel universitario, tanto en el Plan de Formación de Profesores para la Enseñanza General Media como en el curso regular para trabajadores. Desde su inicio se formaron estudiantes en el Curso Regular Diurno en las carreras de Física, Matemática, Biología, Geografía, Química, Historia, Español, Inglés y Educación Laboral.';
+// console.log('escuela', escuela);
 </script>
 
 <style lang="sass" scoped>

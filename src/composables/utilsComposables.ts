@@ -1,7 +1,6 @@
 import { storeToRefs } from 'pinia';
 import { useUsersStore } from 'src/stores/users/users-store';
 import { useUtilsStore } from 'src/stores/utils/utils-store';
-
 export const useUtilsComposables = () => {
   const {
     setToggleLogin,
