@@ -130,10 +130,10 @@
                 </template>
               </q-select>
             </div>
-            <div>
+            <div class="flex justify-center">
               <q-checkbox
                 v-model="datos.disponible"
-                label="Disponible"
+                :label="datos.disponible ? 'Disponible' : 'No Disponible'"
                 checked-icon="swipe_left"
                 unchecked-icon="swipe_right"
                 :color="datos.disponible ? 'green' : 'red'"
