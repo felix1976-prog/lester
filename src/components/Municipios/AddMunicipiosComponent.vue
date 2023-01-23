@@ -1,13 +1,13 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-dialog v-model="isProvinciasOpen" position="top" persistent>
+    <q-dialog v-model="isMunicipiosOpen" position="top" persistent>
       <q-card
         v-bind:style="$q.screen.lt.sm ? { width: '90%' } : { width: '100%' }"
       >
         <q-card-section>
           <div class="flex column items-center">
             <div class="text-weight-bold">{{ formTitle }}</div>
-            <div class="text-grey">{{ formTitle }} sus Provincia</div>
+            <div class="text-grey">{{ formTitle }} sus Municipio</div>
           </div>
         </q-card-section>
 
@@ -16,14 +16,14 @@
           <q-form class="q-gutter-md validate">
             <div>
               <q-input
-                v-if="!provinciaEdit"
+                v-if="!municipioEdit"
                 filled
                 type="text"
-                v-model="datos.provincia"
-                label="Provincia"
+                v-model="datos.municipio"
+                label="Municipio"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el provincia',
+                  (val) => (val && val.length > 0) || 'Escriba el municipio',
                 ]"
               >
                 <template v-slot:append>
@@ -35,11 +35,11 @@
                 v-else
                 filled
                 type="text"
-                v-model="todo.provincia"
-                label="Provincia"
+                v-model="todo.municipio"
+                label="Municipio"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el provincia',
+                  (val) => (val && val.length > 0) || 'Escriba el municipio',
                 ]"
               >
                 <template v-slot:append>
@@ -49,7 +49,7 @@
             </div>
             <div>
               <q-input
-                v-if="!provinciaEdit"
+                v-if="!municipioEdit"
                 filled
                 type="text"
                 v-model="datos.codigo"
@@ -81,15 +81,15 @@
             </div>
             <div>
               <q-select
-                v-if="!provinciaEdit"
+                v-if="!municipioEdit"
                 filled
-                v-model="datos.pais_id"
+                v-model="datos.provincia_id"
                 use-input
                 input-debounce="0"
-                label="Pais"
-                :options="paises"
+                label="Provincias"
+                :options="provincias"
                 option-value="id"
-                option-label="pais"
+                option-label="provincia"
                 emit-value
                 map-options
                 @filter="filterFnPais"
@@ -108,13 +108,13 @@
               <q-select
                 v-else
                 filled
-                v-model="todo.pais_id"
+                v-model="todo.provincia_id"
                 use-input
                 input-debounce="0"
-                label="Pais"
-                :options="paises"
+                label="Provincias"
+                :options="provincias"
                 option-value="id"
-                option-label="pais"
+                option-label="provincia"
                 emit-value
                 map-options
                 @filter="filterFnPais"
@@ -134,7 +134,7 @@
         </q-card-section>
         <q-card-actions class="row flex-center">
           <q-btn icon="las la-times" @click="cerrar" />
-          <q-btn v-if="!provinciaEdit" icon="las la-check" @click="add" />
+          <q-btn v-if="!municipioEdit" icon="las la-check" @click="add" />
           <q-btn v-else icon="las la-check" @click="actualizar" />
         </q-card-actions>
       </q-card>
@@ -146,76 +146,76 @@
 import { computed, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
-import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
-import { ProvinciaProps } from '../../interfaces/provincias.interfaces';
-import { usePaisesStore } from 'src/stores/paises/paises-store';
-import { PaisList } from 'src/interfaces/pais.interfaces';
+import { useMunicipiosStore } from '../../stores/municipios/municipios-store';
+import { MunicipioProps } from '../../interfaces/municipios.interfaces';
+import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { ProvinciaList } from 'src/interfaces/provincias.interfaces';
 
 const $q = useQuasar();
-const { addProvincias, isProvinciasToggle, editandoForm, fecthProvincias } =
-  useProvinciasStore();
-const { isProvinciasOpen, provinciaEdit } = storeToRefs(useProvinciasStore());
-const { paises } = storeToRefs(usePaisesStore());
+const { addMunicipios, isMunicipiosToggle, editandoForm, fecthMunicipios } =
+  useMunicipiosStore();
+const { isMunicipiosOpen, municipioEdit } = storeToRefs(useMunicipiosStore());
+const { provincias } = storeToRefs(useProvinciasStore());
 //Activar el valor del titulo del form
 const formTitle = computed(() => {
-  return !provinciaEdit.value ? 'Insertar' : 'Editar';
+  return !municipioEdit.value ? 'Insertar' : 'Editar';
 });
 
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
-  isProvinciasToggle();
+  isMunicipiosToggle();
   editandoForm(false);
 };
 
 //Insertar usuario
 const datos = ref({
-  provincia: '',
+  municipio: '',
   codigo: '',
-  pais_id: '',
+  provincia_id: '',
 });
 
-let optionsRol = ref(paises);
+let optionsRol = ref(provincias);
 let filterFnPais = (
   val: string,
   update: (arg0: { (): void; (): void }) => void
 ) => {
   if (val === '') {
     update(() => {
-      optionsRol.value = paises.value
-        ?.map((value: PaisList) => {
+      optionsRol.value = provincias.value
+        ?.map((value: ProvinciaList) => {
           return {
             id: value.id,
-            pais: value.pais,
+            provincia: value.provincia,
             codigo: value.codigo,
           };
         })
-        .filter((v) => v.pais);
+        .filter((v) => v.provincia);
     });
     return;
   }
 
   update(() => {
     const needle = val.toLowerCase();
-    optionsRol.value = paises.value
-      ?.map((value: PaisList) => {
+    optionsRol.value = provincias.value
+      ?.map((value: ProvinciaList) => {
         return {
           id: value.id,
-          pais: value.pais,
+          provincia: value.provincia,
           codigo: value.codigo,
         };
       })
-      .filter((v) => v.pais.toLowerCase().indexOf(needle) > -1);
+      .filter((v) => v.provincia.toLowerCase().indexOf(needle) > -1);
   });
 };
 
 const add = async () => {
   let dto = {
-    provincia: datos.value.provincia,
+    municipio: datos.value.municipio,
     codigo: datos.value.codigo,
-    pais_id: datos.value.pais_id,
+    provincia_id: datos.value.provincia_id,
   };
-  await addProvincias(dto);
-  await fecthProvincias();
+  await addMunicipios(dto);
+  await fecthMunicipios();
 };
 
 //Fin Insertar Usuario
@@ -223,20 +223,20 @@ const add = async () => {
 //  ACTUALIZAR
 
 interface Props {
-  provinciaUpd?: ProvinciaProps;
+  municipioUpd?: MunicipioProps;
 }
 const props = withDefaults(defineProps<Props>(), {
-  provinciaUpd: () => {
+  municipioUpd: () => {
     return {
       id: '',
-      provincia: '',
+      municipio: '',
       codigo: '',
-      pais_id: '',
-      paisName: '',
+      provincia_id: '',
+      proviciaName: '',
     };
   },
 });
-const todo = computed(() => props.provinciaUpd);
+const todo = computed(() => props.municipioUpd);
 
 const actualizar = async () => {
   console.log('res: ', todo.value);

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import {
   ProvinciaAdd,
-  ProvinciaProps,
+  ProvinciaList,
 } from '../../interfaces/provincias.interfaces';
 import { PaisList } from '../../interfaces/pais.interfaces';
 import { states } from '../countries/states';
@@ -13,6 +13,7 @@ export const useProvinciasStore = defineStore('provincias', {
     provincias: [],
     isProvinciasOpen: false,
     provinciaEdit: false,
+    allPaises: <PaisList[]>[],
   }),
 
   getters: {
@@ -59,45 +60,50 @@ export const useProvinciasStore = defineStore('provincias', {
           return data;
         } else {
           const allProvincias: Array<ProvinciaAdd> = [];
-          const allPaises: Array<PaisList> = [];
-          const { data } = await api.get<PaisList>('/paises');
-          allPaises.push(data);
-          const convertidos = states.map((x) => {
-            return {
-              id: x.id,
-              country: x.id_country.toString(),
-              name: x.name,
-            };
-          });
-          for (const x of convertidos) {
-            for (const p of allPaises) {
-              //   if (p.codigo === x.id_country.toString()) {
-              //     const dto = {
-              //       provincia: x.name,
-              //       codigo: x.id.toString(),
-              //       pais_id: p.id,
-              //     };
-              //     allProvincias.push(dto);
-              //     return dto;
-              //   }
-              if ('144' === x.country) {
-                console.log('DTO', p);
-              }
+          const listProvincias: Array<ProvinciaList> = [];
+          const { data } = await api.get('/paises');
+          this.allPaises = data;
+
+          for (const pais of this.allPaises) {
+            console.log(pais);
+            const myStates = states.filter(
+              (it) => it.id_country + '' == pais.codigo
+            );
+            console.log(myStates);
+
+            for (const st of myStates) {
+              allProvincias.push({
+                provincia: st.name,
+                codigo: st.id + '',
+                pais_id: pais.id,
+              });
+              const dto = {
+                provincia: st.name,
+                codigo: st.id + '',
+                pais_id: pais.id,
+              };
+              const { data } = await api.post('/provincias', dto);
+              listProvincias.push(data);
             }
-            // console.log('DTO', getCodigoPais);
-            // allProvincias = await api.post('/provincias', getCodigoPais);
+
+            // console.log(
+            //   'Final=>',
+            //   allProvincias.filter(
+            //     (it) => it.pais_id == '6acead8f-9009-4925-9e0b-111dadab97d6'
+            //   )
+            // );
           }
-          // console.log('DTO', allPaises);
-          // if(){
-          Notify.create({
-            icon: 'las la-done',
-            position: 'bottom',
-            message: 'Provincias insertadas correctamente',
-            color: 'success',
-          });
+          // Notify.create({
+          //   icon: 'las la-done',
+          //   position: 'bottom',
+          //   message: 'Provincias insertadas correctamente',
+          //   color: 'success',
+          // });
           // }
-          console.log('lol', allProvincias);
-          return allProvincias;
+          // console.log('lol', allProvincias);
+          console.log('FinalLenght=>', states.length);
+          console.log('Final=>', listProvincias);
+          // return allProvincias;
         }
       } catch (error) {
         console.log('error', error);

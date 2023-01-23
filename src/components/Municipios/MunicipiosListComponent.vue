@@ -5,32 +5,32 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
+import { useMunicipiosStore } from '../../stores/municipios/municipios-store';
 import {
-  ProvinciaProps,
-  ProvinciaList,
+  MunicipioProps,
+  MunicipioList,
   mainProps,
-} from '../../interfaces/provincias.interfaces';
-import AddProvinciasComponent from './AddProvinciasComponent.vue';
-import { usePaisesStore } from 'src/stores/paises/paises-store';
+} from '../../interfaces/municipios.interfaces';
+import AddMunicipiosComponent from './AddMunicipiosComponent.vue';
+import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthProvincias, isProvinciasToggle, editandoForm, llenarProvincias } =
-  useProvinciasStore();
-const { provincias } = storeToRefs(useProvinciasStore());
+const { fecthMunicipios, isMunicipiosToggle, editandoForm, llenarMunicipios } =
+  useMunicipiosStore();
+const { municipios } = storeToRefs(useMunicipiosStore());
 const { eliminarToggle } = useUtilsComposables();
-const { fecthPaises } = usePaisesStore();
+const { fecthProvincias } = useProvinciasStore();
 
 onMounted(() => {
+  fecthMunicipios();
   fecthProvincias();
-  fecthPaises();
 });
 
-const llenarAllProvincias = async () => {
-  await llenarProvincias();
-  await fecthProvincias();
+const llenarAllMunicipios = async () => {
+  await llenarMunicipios();
+  await fecthMunicipios();
 };
 // pagination
 function getItemsPerPage() {
@@ -72,11 +72,11 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'provincia',
+    name: 'municipio',
     required: true,
-    label: 'País',
+    label: 'Municipio',
     align: 'center',
-    field: 'provincia',
+    field: 'municipio',
     sortable: true,
   },
   {
@@ -86,31 +86,39 @@ const columns: QTableProps['columns'] = [
     field: 'codigo',
     sortable: true,
   },
+  {
+    name: 'provincia_id',
+    align: 'center',
+    label: 'Provincia',
+    field: (row: { provincias: { provincia: string } }) =>
+      row.provincias.provincia,
+    sortable: true,
+  },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const provinciaProp = ref<ProvinciaProps>({
+const municipioProp = ref<MunicipioProps>({
   id: '',
-  provincia: '',
+  municipio: '',
   codigo: '',
-  pais_id: '',
-  paisName: '',
+  provincia_id: '',
+  proviciaName: '',
 });
 const editTable = (item: mainProps) => {
-  isProvinciasToggle();
+  isMunicipiosToggle();
   editandoForm(true);
-  provinciaProp.value.provincia = item.provincia;
-  provinciaProp.value.codigo = item.codigo;
-  provinciaProp.value.pais_id = item.pais_id;
-  provinciaProp.value.paisName = item.paises.pais;
+  municipioProp.value.municipio = item.municipio;
+  municipioProp.value.codigo = item.codigo;
+  municipioProp.value.provincia_id = item.provincia_id;
+  municipioProp.value.proviciaName = item.provincias.provincia;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
   url: ',',
 });
 
-const deleteProvincia = async (item: ProvinciaList) => {
-  deleteProps.value.url = `/provincias/${item.id}`;
+const deleteProvincia = async (item: MunicipioList) => {
+  deleteProps.value.url = `/municipios/${item.id}`;
   deleteProps.value.titulo = 'la provincia';
   eliminarToggle();
 };
@@ -120,12 +128,12 @@ const deleteProvincia = async (item: ProvinciaList) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de Provincias"
-      :rows="provincias"
+      title="Listado de Municipios"
+      :rows="municipios"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay provincias para mostrar"
+      no-data-label="No hay municipios para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -143,13 +151,13 @@ const deleteProvincia = async (item: ProvinciaList) => {
           </template>
           <template v-slot:prepend>
             <q-btn
-              v-if="!provincias"
+              v-if="!municipios"
               class="q-mx-xs"
               round
               color="green"
               icon="las la-cloud-upload-alt"
               type="button"
-              @click="llenarAllProvincias"
+              @click="llenarAllMunicipios"
             />
             <q-btn
               v-else
@@ -158,7 +166,7 @@ const deleteProvincia = async (item: ProvinciaList) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isProvinciasToggle"
+              @click="isMunicipiosToggle"
             />
           </template>
         </q-input>
@@ -176,12 +184,17 @@ const deleteProvincia = async (item: ProvinciaList) => {
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.provincia }}
+                {{ props.row.municipio }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
                 {{ props.row.codigo }}
+              </div>
+            </q-card-section>
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.provincias.provincia }}
               </div>
             </q-card-section>
             <q-separator />
@@ -221,12 +234,17 @@ const deleteProvincia = async (item: ProvinciaList) => {
       </template>
       <template #body-cell-provincia="props">
         <q-td :props="props">
-          {{ props.row.provincia }}
+          {{ props.row.municipio }}
         </q-td>
       </template>
       <template #body-cell-codigo="props">
         <q-td :props="props">
           {{ props.row.codigo }}
+        </q-td>
+      </template>
+      <template #body-cell-provincia_id="props">
+        <q-td :props="props">
+          {{ props.row.provincias.provincia }}
         </q-td>
       </template>
       <template v-slot:body-cell-Action="props">
@@ -253,7 +271,7 @@ const deleteProvincia = async (item: ProvinciaList) => {
         </q-td>
       </template>
     </q-table>
-    <AddProvinciasComponent :provinciaUpd="provinciaProp" />
+    <AddMunicipiosComponent :municipioUpd="municipioProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
   </div>
 </template>

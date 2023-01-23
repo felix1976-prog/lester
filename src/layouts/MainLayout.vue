@@ -199,6 +199,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-globe',
     link: '/provincia',
   },
+  {
+    title: 'Municipios',
+    caption: 'Gestionar datos del Municipio',
+    icon: 'las la-globe',
+    link: '/municipio',
+  },
 ];
 
 const $q = useQuasar();

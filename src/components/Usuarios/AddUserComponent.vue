@@ -472,13 +472,6 @@ const add = async () => {
   await insertar(dto);
 
   await allUsers();
-
-  // datos.value.username = '';
-  // datos.value.password = '';
-  // datos.value.nombre = '';
-  // datos.value.apellidos = '';
-  // datos.value.isActive = null;
-  // datos.value.rol_id = '';
 };
 
 const repeatPassword = ref('');
