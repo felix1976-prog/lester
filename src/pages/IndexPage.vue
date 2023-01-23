@@ -8,7 +8,9 @@
           <div class="text-h6 text-center">
             {{ escuela?.nombre ? escuela?.nombre : 'Cargando...' }}
           </div>
-          <div class="text-subtitle2 q-mb-lg">Gestión de Matrículas</div>
+          <div class="text-subtitle2 text-center q-mb-lg">
+            Gestión de Matrículas
+          </div>
           <div class="row justify-evenly q-col-gutter-sm">
             <div class="row justify-evenly col-md-4 col-xs-12">
               <q-card class="my-card">
