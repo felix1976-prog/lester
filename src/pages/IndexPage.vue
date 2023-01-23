@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="row justify-evenly q-col-gutter-sm">
-      <q-card flat>
+      <q-card flat class="w-full">
         <img class="my-banner" src="~/assets/images/University.jpg" />
 
         <q-card-section>

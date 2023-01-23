@@ -10,12 +10,14 @@
           APMO
         </q-toolbar-title>
         <q-btn
+          v-if="!isAuthenticated"
           flat
           round
           dense
           icon="las la-sign-in-alt"
           @click="setToggleLogin"
         />
+        <q-btn v-else flat round dense icon="las la-home" @click="irHome" />
       </q-toolbar>
 
       <q-tabs align="center">
@@ -83,11 +85,20 @@ import { useUtilsComposables } from 'src/composables/utilsComposables';
 import { useEscuelaStore } from 'src/stores/escuela/escuela';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { useAuthStore } from 'src/stores/auth/auth-store';
+import { useRouter } from 'vue-router';
+
 const { getActiveEscuela } = useEscuelaStore();
 const { escuela } = storeToRefs(useEscuelaStore());
+const { isAuthenticated } = storeToRefs(useAuthStore());
+const router = useRouter();
 
 onMounted(() => {
   getActiveEscuela();
 });
 const { setToggleLogin } = useUtilsComposables();
+
+const irHome = () => {
+  router.push('/home');
+};
 </script>

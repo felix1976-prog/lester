@@ -65,8 +65,8 @@
         </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="isSideMenuOpen" show-if-above bordered :breakpoint="400">
+    <DrawerComponent />
+    <!-- <q-drawer v-model="isSideMenuOpen" show-if-above bordered :breakpoint="400">
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px">
         <q-list>
           <q-item-label
@@ -126,7 +126,7 @@
           </div>
         </div>
       </q-img>
-    </q-drawer>
+    </q-drawer> -->
 
     <q-page-container>
       <router-view />
@@ -138,78 +138,79 @@
 import { useUtilsComposables } from '../composables/utilsComposables';
 
 import { useAuthComposables } from 'src/composables/authComposables';
-import EssentialLink, {
-  EssentialLinkProps,
-} from 'components/EssentialLink.vue';
+// import EssentialLink, {
+//   EssentialLinkProps,
+// } from 'components/EssentialLink.vue';
 
 import { useQuasar } from 'quasar';
+import DrawerComponent from 'src/components/DrawerComponent.vue';
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Usuarios',
-    caption: 'Gestión de Usuarios',
-    icon: 'las la-users',
-    link: '/users',
-  },
-  {
-    title: 'Universidad',
-    caption: 'Gestinar datos de la Universidad',
-    icon: 'las la-user-shield',
-    link: '/escuela',
-  },
-  {
-    title: 'Carreas',
-    caption: 'Gestinar datos de la Carrera',
-    icon: 'las la-user-shield',
-    link: '/carrera',
-  },
-  {
-    title: 'Facultad',
-    caption: 'Gestinar datos de la Facultad',
-    icon: 'las la-user-shield',
-    link: '/facultad',
-  },
-  {
-    title: 'Organismo',
-    caption: 'Gestinar datos del organismo',
-    icon: 'las la-user-shield',
-    link: '/organismo',
-  },
-  {
-    title: 'Empresas',
-    caption: 'Gestinar datos de la empresa',
-    icon: 'las la-user-shield',
-    link: '/empresa',
-  },
-  {
-    title: 'Centros',
-    caption: 'Gestinar datos del centro',
-    icon: 'las la-user-shield',
-    link: '/centro',
-  },
-  {
-    title: 'Paises',
-    caption: 'Gestionar datos del país',
-    icon: 'las la-globe',
-    link: '/paises',
-  },
-  {
-    title: 'Provincias',
-    caption: 'Gestionar datos de la provincia',
-    icon: 'las la-globe',
-    link: '/provincia',
-  },
-  {
-    title: 'Municipios',
-    caption: 'Gestionar datos del Municipio',
-    icon: 'las la-globe',
-    link: '/municipio',
-  },
-];
+// const essentialLinks: EssentialLinkProps[] = [
+//   {
+//     title: 'Usuarios',
+//     caption: 'Gestión de Usuarios',
+//     icon: 'las la-users',
+//     link: '/users',
+//   },
+//   {
+//     title: 'Universidad',
+//     caption: 'Gestinar datos de la Universidad',
+//     icon: 'las la-user-shield',
+//     link: '/escuela',
+//   },
+//   {
+//     title: 'Carreas',
+//     caption: 'Gestinar datos de la Carrera',
+//     icon: 'las la-user-shield',
+//     link: '/carrera',
+//   },
+//   {
+//     title: 'Facultad',
+//     caption: 'Gestinar datos de la Facultad',
+//     icon: 'las la-user-shield',
+//     link: '/facultad',
+//   },
+//   {
+//     title: 'Organismo',
+//     caption: 'Gestinar datos del organismo',
+//     icon: 'las la-user-shield',
+//     link: '/organismo',
+//   },
+//   {
+//     title: 'Empresas',
+//     caption: 'Gestinar datos de la empresa',
+//     icon: 'las la-user-shield',
+//     link: '/empresa',
+//   },
+//   {
+//     title: 'Centros',
+//     caption: 'Gestinar datos del centro',
+//     icon: 'las la-user-shield',
+//     link: '/centro',
+//   },
+//   {
+//     title: 'Paises',
+//     caption: 'Gestionar datos del país',
+//     icon: 'las la-globe',
+//     link: '/paises',
+//   },
+//   {
+//     title: 'Provincias',
+//     caption: 'Gestionar datos de la provincia',
+//     icon: 'las la-globe',
+//     link: '/provincia',
+//   },
+//   {
+//     title: 'Municipios',
+//     caption: 'Gestionar datos del Municipio',
+//     icon: 'las la-globe',
+//     link: '/municipio',
+//   },
+// ];
 
 const $q = useQuasar();
 const { me, logout } = useAuthComposables();
-const { toggleSideMenu, isSideMenuOpen } = useUtilsComposables();
+const { toggleSideMenu } = useUtilsComposables();
 
 const modoOscuro = () => {
   $q.dark.toggle();
