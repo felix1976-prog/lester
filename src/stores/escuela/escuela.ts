@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import { addEscuelaInterface } from '../../interfaces/escuela.interface';
+import {
+  addEscuelaInterface,
+  escuelaInterface,
+} from '../../interfaces/escuela.interface';
 import { Notify } from 'quasar';
 
 export const useEscuelaStore = defineStore('escuela', {
   state: () => ({
-    escuela: [],
+    escuela: <escuelaInterface[]>[],
     escuelaEdit: false,
     isActive: true,
     isAddEscuelaOpen: false,
@@ -33,6 +36,14 @@ export const useEscuelaStore = defineStore('escuela', {
     async getActiveEscuela() {
       try {
         const { data } = await api.get('/escuela/activo');
+
+        // this.escuela = {
+        //   mat_inicio: data.mat_inicio,
+        //   mat_fin: data.mat_fin.toISOString(),
+        //   pre_inicio: data.pre_inicio.toISOString(),
+        //   pre_fin: data.pre_fin.toISOString(),
+        //   ...data,
+        // };
         this.escuela = data;
         console.log('datalol', this.escuela);
         return this.escuela;

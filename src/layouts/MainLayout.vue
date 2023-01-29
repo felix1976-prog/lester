@@ -33,10 +33,8 @@
                   icon-color="green"
                   push
                   size="md"
-                  :icon="`${
-                    $q.dark.isActive ? 'las la-toggle-on' : 'las la-toggle-off'
-                  }`"
-                  :label="`${$q.dark.isActive ? 'SI' : 'NO'}`"
+                  :icon="`${$q.dark.isActive ? 'las la-sun' : 'las la-moon'}`"
+                  :label="`${$q.dark.isActive ? 'Claro' : 'Oscuro'}`"
                   @click="modoOscuro"
                 />
               </div>
