@@ -17,7 +17,7 @@ import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthMunicipios, isMunicipiosToggle, editandoForm, llenarMunicipios } =
+const { fecthMunicipios, isMunicipiosToggle, editandoForm } =
   useMunicipiosStore();
 const { municipios } = storeToRefs(useMunicipiosStore());
 const { eliminarToggle } = useUtilsComposables();
@@ -28,10 +28,6 @@ onMounted(() => {
   fecthProvincias();
 });
 
-const llenarAllMunicipios = async () => {
-  await llenarMunicipios();
-  await fecthMunicipios();
-};
 // pagination
 function getItemsPerPage() {
   if ($q.screen.lt.sm) {
@@ -151,16 +147,6 @@ const deleteProvincia = async (item: MunicipioList) => {
           </template>
           <template v-slot:prepend>
             <q-btn
-              v-if="!municipios"
-              class="q-mx-xs"
-              round
-              color="green"
-              icon="las la-cloud-upload-alt"
-              type="button"
-              @click="llenarAllMunicipios"
-            />
-            <q-btn
-              v-else
               class="q-mx-xs"
               round
               color="primary"

@@ -12,8 +12,7 @@ import AddPaisesComponent from './AddPaisesComponent.vue';
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthPaises, isPaisesToggle, editandoForm, llenarPaises } =
-  usePaisesStore();
+const { fecthPaises, isPaisesToggle, editandoForm } = usePaisesStore();
 const { paises } = storeToRefs(usePaisesStore());
 const { eliminarToggle } = useUtilsComposables();
 
@@ -21,10 +20,6 @@ onMounted(() => {
   fecthPaises();
 });
 
-const llenarAllPaises = async () => {
-  await llenarPaises();
-  await fecthPaises();
-};
 // pagination
 function getItemsPerPage() {
   if ($q.screen.lt.sm) {
@@ -132,16 +127,6 @@ const deletePais = async (item: PaisList) => {
           </template>
           <template v-slot:prepend>
             <q-btn
-              v-if="!paises"
-              class="q-mx-xs"
-              round
-              color="green"
-              icon="las la-cloud-upload-alt"
-              type="button"
-              @click="llenarAllPaises"
-            />
-            <q-btn
-              v-else
               class="q-mx-xs"
               round
               color="primary"

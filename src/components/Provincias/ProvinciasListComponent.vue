@@ -17,7 +17,7 @@ import { usePaisesStore } from 'src/stores/paises/paises-store';
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthProvincias, isProvinciasToggle, editandoForm, llenarProvincias } =
+const { fecthProvincias, isProvinciasToggle, editandoForm } =
   useProvinciasStore();
 const { provincias } = storeToRefs(useProvinciasStore());
 const { eliminarToggle } = useUtilsComposables();
@@ -28,10 +28,6 @@ onMounted(() => {
   fecthPaises();
 });
 
-const llenarAllProvincias = async () => {
-  await llenarProvincias();
-  await fecthProvincias();
-};
 // pagination
 function getItemsPerPage() {
   if ($q.screen.lt.sm) {
@@ -143,16 +139,6 @@ const deleteProvincia = async (item: ProvinciaList) => {
           </template>
           <template v-slot:prepend>
             <q-btn
-              v-if="!provincias"
-              class="q-mx-xs"
-              round
-              color="green"
-              icon="las la-cloud-upload-alt"
-              type="button"
-              @click="llenarAllProvincias"
-            />
-            <q-btn
-              v-else
               class="q-mx-xs"
               round
               color="primary"
