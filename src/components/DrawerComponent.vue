@@ -73,6 +73,12 @@ const nomencladores: EssentialLinkProps[] = [
     icon: 'las la-globe',
     link: '/municipio',
   },
+  {
+    title: 'Poblados',
+    caption: 'Gestionar datos del Poblado',
+    icon: 'las la-globe',
+    link: '/poblado',
+  },
 ];
 </script>
 
