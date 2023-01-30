@@ -20,7 +20,7 @@
                 filled
                 type="text"
                 v-model="datos.provincia"
-                label="País"
+                label="Provincia"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba el provincia',
@@ -36,7 +36,7 @@
                 filled
                 type="text"
                 v-model="todo.provincia"
-                label="País"
+                label="Provincia"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba el provincia',
@@ -79,6 +79,57 @@
                 </template>
               </q-input>
             </div>
+            <div>
+              <q-select
+                v-if="!provinciaEdit"
+                filled
+                v-model="datos.pais_id"
+                use-input
+                input-debounce="0"
+                label="Pais"
+                :options="paises"
+                option-value="id"
+                option-label="pais"
+                emit-value
+                map-options
+                @filter="filterFnPais"
+                style="width: 250px"
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      No results
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+
+              <q-select
+                v-else
+                filled
+                v-model="todo.pais_id"
+                use-input
+                input-debounce="0"
+                label="Pais"
+                :options="paises"
+                option-value="id"
+                option-label="pais"
+                emit-value
+                map-options
+                @filter="filterFnPais"
+                style="width: 250px"
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      No results
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
           </q-form>
         </q-card-section>
         <q-card-actions class="row flex-center">
@@ -97,12 +148,14 @@ import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
 import { ProvinciaProps } from '../../interfaces/provincias.interfaces';
+import { usePaisesStore } from 'src/stores/paises/paises-store';
+import { PaisList } from 'src/interfaces/pais.interfaces';
 
 const $q = useQuasar();
 const { addProvincias, isProvinciasToggle, editandoForm, fecthProvincias } =
   useProvinciasStore();
 const { isProvinciasOpen, provinciaEdit } = storeToRefs(useProvinciasStore());
-// const {provincias} = storeToRefs(useProvinciasStore())
+const { paises } = storeToRefs(usePaisesStore());
 //Activar el valor del titulo del form
 const formTitle = computed(() => {
   return !provinciaEdit.value ? 'Insertar' : 'Editar';
@@ -120,6 +173,40 @@ const datos = ref({
   codigo: '',
   pais_id: '',
 });
+
+let optionsRol = ref(paises);
+let filterFnPais = (
+  val: string,
+  update: (arg0: { (): void; (): void }) => void
+) => {
+  if (val === '') {
+    update(() => {
+      optionsRol.value = paises.value
+        ?.map((value: PaisList) => {
+          return {
+            id: value.id,
+            pais: value.pais,
+            codigo: value.codigo,
+          };
+        })
+        .filter((v) => v.pais);
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    optionsRol.value = paises.value
+      ?.map((value: PaisList) => {
+        return {
+          id: value.id,
+          pais: value.pais,
+          codigo: value.codigo,
+        };
+      })
+      .filter((v) => v.pais.toLowerCase().indexOf(needle) > -1);
+  });
+};
 
 const add = async () => {
   let dto = {
@@ -145,6 +232,7 @@ const props = withDefaults(defineProps<Props>(), {
       provincia: '',
       codigo: '',
       pais_id: '',
+      paisName: '',
     };
   },
 });
