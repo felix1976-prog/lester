@@ -1,16 +1,12 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import {
-  MunicipioAdd,
-  MunicipioList,
-} from '../../interfaces/municipios.interfaces';
+import { MunicipioAdd } from '../../interfaces/municipios.interfaces';
 
 export const useMunicipiosStore = defineStore('municipios', {
   state: () => ({
     municipios: [],
     isMunicipiosOpen: false,
     municipioEdit: false,
-    allProvincias: <MunicipioList[]>[],
   }),
 
   getters: {

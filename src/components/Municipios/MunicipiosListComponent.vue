@@ -82,14 +82,15 @@ const columns: QTableProps['columns'] = [
     field: 'codigo',
     sortable: true,
   },
-  {
-    name: 'provincia_id',
-    align: 'center',
-    label: 'Provincia',
-    field: (row: { provincias: { provincia: string } }) =>
-      row.provincias.provincia,
-    sortable: true,
-  },
+  // {
+  //   name: 'provincia_codigo',
+  //   align: 'center',
+  //   label: 'Provincia',
+  //   // field: (row: { provincias: { provincia: string } }) =>
+  //   //   row.provincias.provincia,
+  //   field: 'provincia_codigo',
+  //   sortable: true,
+  // },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
@@ -97,7 +98,7 @@ const municipioProp = ref<MunicipioProps>({
   id: '',
   municipio: '',
   codigo: '',
-  provincia_id: '',
+  provincia_codigo: '',
   proviciaName: '',
 });
 const editTable = (item: mainProps) => {
@@ -105,7 +106,7 @@ const editTable = (item: mainProps) => {
   editandoForm(true);
   municipioProp.value.municipio = item.municipio;
   municipioProp.value.codigo = item.codigo;
-  municipioProp.value.provincia_id = item.provincia_id;
+  municipioProp.value.provincia_codigo = item.provincia_codigo;
   municipioProp.value.proviciaName = item.provincias.provincia;
 };
 const deleteProps = ref<DeleteInterface>({
@@ -178,11 +179,11 @@ const deleteProvincia = async (item: MunicipioList) => {
                 {{ props.row.codigo }}
               </div>
             </q-card-section>
-            <q-card-section style="fontsize: 12px">
+            <!-- <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.provincias.provincia }}
+                {{ props.row.provincia_codigo }}
               </div>
-            </q-card-section>
+            </q-card-section> -->
             <q-separator />
             <q-card-actions align="center">
               <div style="font-size: 1.7em">
@@ -228,11 +229,11 @@ const deleteProvincia = async (item: MunicipioList) => {
           {{ props.row.codigo }}
         </q-td>
       </template>
-      <template #body-cell-provincia_id="props">
+      <!-- <template #body-cell-provincia_codigo="props">
         <q-td :props="props">
-          {{ props.row.provincias.provincia }}
+          {{ props.row.provincia_codigo }}
         </q-td>
-      </template>
+      </template> -->
       <template v-slot:body-cell-Action="props">
         <q-td :props="props">
           <q-btn

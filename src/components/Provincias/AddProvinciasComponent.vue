@@ -232,7 +232,7 @@ const props = withDefaults(defineProps<Props>(), {
       provincia: '',
       codigo: '',
       pais_id: '',
-      paisName: '',
+      // paisName: '',
     };
   },
 });

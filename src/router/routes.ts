@@ -45,6 +45,10 @@ export default function ({ store }: { store: Pinia }) {
           component: () => import('pages/MunicipiosPage.vue'),
         },
         {
+          path: '/poblado',
+          component: () => import('pages/PobladosPage.vue'),
+        },
+        {
           path: '/centro',
           component: () => import('pages/CentroPage.vue'),
         },

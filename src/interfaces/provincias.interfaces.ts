@@ -23,7 +23,7 @@ export interface ProvinciaProps {
   provincia: string;
   codigo: string;
   pais_id: string;
-  paisName: string;
+  // paisName: string;
 }
 export interface mainProps {
   id: string;

@@ -5,27 +5,26 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
+import { usePobladoStore } from '../../stores/poblados/poblados-store';
 import {
-  ProvinciaProps,
-  ProvinciaList,
+  PobladosProps,
+  PobladosList,
   mainProps,
-} from '../../interfaces/provincias.interfaces';
-import AddProvinciasComponent from './AddProvinciasComponent.vue';
-import { usePaisesStore } from 'src/stores/paises/paises-store';
+} from '../../interfaces/poblados.interfaces';
+import AddPobladosComponent from './AddPobladosComponent.vue';
+import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthProvincias, isProvinciasToggle, editandoForm } =
-  useProvinciasStore();
-const { provincias } = storeToRefs(useProvinciasStore());
+const { fecthPoblado, isPobladoToggle, editandoForm } = usePobladoStore();
+const { poblados } = storeToRefs(usePobladoStore());
 const { eliminarToggle } = useUtilsComposables();
-const { fecthPaises } = usePaisesStore();
+const { fecthProvincias } = useProvinciasStore();
 
 onMounted(() => {
+  fecthPoblado();
   fecthProvincias();
-  fecthPaises();
 });
 
 // pagination
@@ -68,11 +67,11 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'provincia',
+    name: 'poblado',
     required: true,
-    label: 'País',
+    label: 'Poblado',
     align: 'center',
-    field: 'provincia',
+    field: 'poblado',
     sortable: true,
   },
   {
@@ -82,31 +81,39 @@ const columns: QTableProps['columns'] = [
     field: 'codigo',
     sortable: true,
   },
+  // {
+  //   name: 'provincia_codigo',
+  //   align: 'center',
+  //   label: 'Provincia',
+  //   // field: (row: { provincias: { provincia: string } }) =>
+  //   //   row.provincias.provincia,
+  //   field: 'provincia_codigo',
+  //   sortable: true,
+  // },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const provinciaProp = ref<ProvinciaProps>({
+const pobladoProp = ref<PobladosProps>({
   id: '',
-  provincia: '',
-  codigo: '',
-  pais_id: '',
-  // paisName: '',
+  poblado: '',
+  codigo: 0,
+  municipio_codigo: 0,
+  provincia_codigo: 0,
 });
 const editTable = (item: mainProps) => {
-  isProvinciasToggle();
+  isPobladoToggle();
   editandoForm(true);
-  provinciaProp.value.provincia = item.provincia;
-  provinciaProp.value.codigo = item.codigo;
-  provinciaProp.value.pais_id = item.pais_id;
-  // provinciaProp.value.paisName = item.paises.pais;
+  pobladoProp.value.poblado = item.poblado;
+  pobladoProp.value.codigo = item.codigo;
+  pobladoProp.value.provincia_codigo = item.provincia_codigo;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
   url: ',',
 });
 
-const deleteProvincia = async (item: ProvinciaList) => {
-  deleteProps.value.url = `/provincias/${item.id}`;
+const deleteProvincia = async (item: PobladosList) => {
+  deleteProps.value.url = `/poblados/${item.id}`;
   deleteProps.value.titulo = 'la provincia';
   eliminarToggle();
 };
@@ -116,12 +123,12 @@ const deleteProvincia = async (item: ProvinciaList) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de Provincias"
-      :rows="provincias"
+      title="Listado de Poblados"
+      :rows="poblados"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay provincias para mostrar"
+      no-data-label="No hay poblados para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -144,7 +151,7 @@ const deleteProvincia = async (item: ProvinciaList) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isProvinciasToggle"
+              @click="isPobladoToggle"
             />
           </template>
         </q-input>
@@ -162,7 +169,7 @@ const deleteProvincia = async (item: ProvinciaList) => {
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.provincia }}
+                {{ props.row.poblado }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
@@ -170,6 +177,11 @@ const deleteProvincia = async (item: ProvinciaList) => {
                 {{ props.row.codigo }}
               </div>
             </q-card-section>
+            <!-- <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.provincia_codigo }}
+              </div>
+            </q-card-section> -->
             <q-separator />
             <q-card-actions align="center">
               <div style="font-size: 1.7em">
@@ -205,9 +217,9 @@ const deleteProvincia = async (item: ProvinciaList) => {
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-provincia="props">
+      <template #body-cell-poblado="props">
         <q-td :props="props">
-          {{ props.row.provincia }}
+          {{ props.row.poblado }}
         </q-td>
       </template>
       <template #body-cell-codigo="props">
@@ -215,6 +227,11 @@ const deleteProvincia = async (item: ProvinciaList) => {
           {{ props.row.codigo }}
         </q-td>
       </template>
+      <!-- <template #body-cell-provincia_codigo="props">
+        <q-td :props="props">
+          {{ props.row.provincia_codigo }}
+        </q-td>
+      </template> -->
       <template v-slot:body-cell-Action="props">
         <q-td :props="props">
           <q-btn
@@ -239,7 +256,7 @@ const deleteProvincia = async (item: ProvinciaList) => {
         </q-td>
       </template>
     </q-table>
-    <AddProvinciasComponent :provinciaUpd="provinciaProp" />
+    <AddPobladosComponent :pobladoUpd="pobladoProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
   </div>
 </template>
