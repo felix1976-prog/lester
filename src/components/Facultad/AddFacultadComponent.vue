@@ -7,7 +7,7 @@
         <q-card-section>
           <div class="flex column items-center">
             <div class="text-weight-bold">{{ formTitle }}</div>
-            <div class="text-grey">{{ formTitle }} sus usuarios</div>
+            <div class="text-grey">{{ formTitle }} sus Facultades</div>
           </div>
         </q-card-section>
 
@@ -53,7 +53,7 @@
                 filled
                 type="text"
                 v-model="datos.codigo"
-                label="Descripción"
+                label="Código"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba su nombre',

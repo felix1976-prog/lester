@@ -86,6 +86,10 @@ export default function ({ store }: { store: Pinia }) {
           path: '/centro',
           component: () => import('pages/CentroPage.vue'),
         },
+        {
+          path: '/matriculas',
+          component: () => import('pages/MatriculasPage.vue'),
+        },
       ],
     },
     // {

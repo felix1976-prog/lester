@@ -105,7 +105,7 @@
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-isActive="props">
+      <template #body-cell-activo="props">
         <q-td
           :props="props"
           :style="props.row.activo ? 'color:green' : 'color:red'"

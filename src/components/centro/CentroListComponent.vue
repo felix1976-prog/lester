@@ -78,7 +78,7 @@ const columns: QTableProps['columns'] = [
   {
     name: 'empresa_id',
     align: 'center',
-    label: 'Facultad',
+    label: 'Empresa',
     field: (row: { empresas: { empresa: string } }) => row.empresas.empresa,
     sortable: true,
   },

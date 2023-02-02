@@ -16,6 +16,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-users',
     link: '/users',
   },
+  {
+    title: 'Matrículas',
+    caption: 'Gestión de Matrículas',
+    icon: 'las la-list',
+    link: '/matriculas',
+  },
 ];
 
 const nomencladores: EssentialLinkProps[] = [
