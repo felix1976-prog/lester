@@ -14,6 +14,7 @@ import AddMatriculasComponent from './AddMatriculasComponent.vue';
 import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
 import { useNomencladoresStore } from 'src/stores/nomencladores/nomencladores-store';
 import { usePaisesStore } from 'src/stores/paises/paises-store';
+import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 const $q = useQuasar();
 const filter = ref('');
 
@@ -22,7 +23,8 @@ const { fecthMatriculas, isMatriculasToggle, editandoForm } =
 const { matriculas } = storeToRefs(useMatriculastore());
 const { eliminarToggle } = useUtilsComposables();
 const { fecthProvincias } = useProvinciasStore();
-const { fecthPaises } = usePaisesStore()
+const { fecthPaises } = usePaisesStore();
+const { fecthMunicipios } = useMunicipiosStore();
 const { getColorPiel, getSexos } = useNomencladoresStore();
 onMounted(() => {
   fecthMatriculas();
@@ -30,6 +32,7 @@ onMounted(() => {
   getColorPiel();
   getSexos();
   fecthPaises();
+  fecthMunicipios();
 });
 
 // pagination

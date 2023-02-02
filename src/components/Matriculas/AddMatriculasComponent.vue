@@ -587,10 +587,10 @@
                 hide-selected
                 fill-input
                 input-debounce="0"
-                :options="optionsProvincias"
-                @filter="filterFnProvincias"
+                :options="optionsMunicipio"
+                @filter="filterFnMunicipio"
                 option-value="id"
-                option-label="provincia"
+                option-label="municipio"
                 label="Ciudad de Nacimiento"
               >
                 <template v-slot:no-option>
@@ -610,10 +610,10 @@
                 hide-selected
                 fill-input
                 input-debounce="0"
-                :options="optionsProvincias"
-                @filter="filterFnProvincias"
+                :options="optionsMunicipio"
+                @filter="filterFnMunicipio"
                 option-value="id"
-                option-label="provincia"
+                option-label="municipio"
                 label="Ciudad de Nacimiento"
               >
                 <template v-slot:no-option>
@@ -630,14 +630,14 @@
                 v-if="!matriculasEdit"
                 filled
                 v-model="datos.nacionalidad"
-                label="País"
+                label="Nacionalidad"
               />
 
               <q-input
                 v-else
                 filled
                 v-model="datos.nacionalidad"
-                label="País"
+                label="Nacionalidad"
               />
             </div>
           </div>
@@ -660,70 +660,132 @@
             class="my-2 flex justify-between col-md-6 col-xs-12 col-sm-6 self-stretch"
           >
             <div class="my-2 w-220px">
-              <q-select
+              <q-input
                 v-if="!matriculasEdit"
                 filled
-                v-model="datos.ciudad_nacimiento"
+                v-model="datos.estado_civil"
                 use-input
-                hide-selected
-                fill-input
-                input-debounce="0"
-                :options="optionsProvincias"
-                @filter="filterFnProvincias"
-                option-value="id"
-                option-label="provincia"
-                label="Ciudad de Nacimiento"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+                label="Estado civil"
+              />
 
-              <q-select
+              <q-input
                 v-else
                 filled
-                v-model="datos.ciudad_nacimiento"
+                v-model="datos.estado_civil"
                 use-input
-                hide-selected
-                fill-input
-                input-debounce="0"
-                :options="optionsProvincias"
-                @filter="filterFnProvincias"
-                option-value="id"
-                option-label="provincia"
-                label="Ciudad de Nacimiento"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
+                label="Estado civil"
+              />
             </div>
             <div class="my-2 w-220px">
               <q-input
                 v-if="!matriculasEdit"
                 filled
-                v-model="datos.nacionalidad"
-                label="País"
+                v-model="datos.registro_civil"
+                label="Registro Civil"
               />
 
               <q-input
                 v-else
                 filled
-                v-model="datos.nacionalidad"
-                label="País"
+                v-model="datos.registro_civil"
+                label="Registro Civil"
               />
             </div>
           </div>
           <!--FIN Estadi civil y registro civil -->
 
+          <!-- Sin Sancion y Sancionado -->
+          <div
+            class="my-2 flex justify-between col-md-6 col-xs-12 col-sm-6 self-stretch"
+          >
+            <div class="my-2 w-220px">
+              <q-toggle
+                v-if="!matriculasEdit"
+                v-model="datos.sin_sancion"
+                checked-icon="check"
+                color="red"
+                :label="`Tiene sanción ${datos.sin_sancion ? 'Si' : 'No'}`"
+                unchecked-icon="clear"
+                class="text-xl text-grey align-middle"
+              />
+
+              <q-toggle
+                v-else
+                v-model="datos.sin_sancion"
+                checked-icon="check"
+                color="red"
+                :label="`Tiene sanción ${datos.sin_sancion ? 'Si' : 'No'}`"
+                unchecked-icon="clear"
+                class="text-xl text-grey align-middle"
+              />
+            </div>
+            <div class="my-2 w-220px">
+              <q-input
+                v-if="!matriculasEdit"
+                filled
+                v-model="datos.sancionado"
+                label="Sanción"
+                :disable="!datos.sin_sancion"
+              />
+
+              <q-input
+                v-else
+                filled
+                v-model="datos.sancionado"
+                label="Sanción"
+                :disable="!datos.sin_sancion"
+              />
+            </div>
+          </div>
+          <!--FIN Sin sancion y sancionado -->
+
+          <!-- discapacida serie letra serie nueros -->
+          <div class="my-2">
+            <q-input
+              v-if="!matriculasEdit"
+              filled
+              v-model="datos.discapacidad"
+              label="Discapacidad"
+            />
+
+            <q-input
+              v-else
+              filled
+              v-model="datos.discapacidad"
+              label="Discapacidad"
+            />
+          </div>
+          <div class="my-2">
+            <q-input
+              v-if="!matriculasEdit"
+              filled
+              v-model="datos.serie_letras"
+              label="Serie Letras"
+            />
+
+            <q-input
+              v-else
+              filled
+              v-model="datos.serie_letras"
+              label="Serie Letras"
+            />
+          </div>
+          <div class="my-2">
+            <q-input
+              v-if="!matriculasEdit"
+              filled
+              v-model="datos.serie_numero"
+              label="Serie Números"
+            />
+
+            <q-input
+              v-else
+              filled
+              v-model="datos.serie_numero"
+              label="Serie Números"
+            />
+          </div>
+          <!--Fin discapacida serie letra serie nueros -->
           <q-stepper-navigation>
             <q-btn @click="step = 5" color="primary" label="continuar" />
             <q-btn
@@ -735,12 +797,91 @@
             />
           </q-stepper-navigation>
         </q-step>
-        <q-step :name="5" title="Create an ad" icon="add_comment">
-          Try out different ad text to see what brings in the most customers,
-          and learn how to enhance your ads using features like ad extensions.
-          If you run into any problems with your ads, find out how to tell if
-          they're running and how to resolve approval issues.
-
+        <q-step
+          :name="5"
+          title="Información Académica y otras"
+          icon="add_comment"
+        >
+          <!-- FEcha y fecha de nacimiento -->
+          <div
+            class="my-2 flex justify-between col-md-6 col-xs-12 col-sm-6 self-stretch"
+          >
+            <div class="flex justify-between">
+              <div class="col-xs-12 col-md-6">
+                <q-input
+                  type="text"
+                  label="Fecha de matricula"
+                  v-model="datos.fecha_matricula"
+                >
+                  <template v-slot:append>
+                    <q-btn icon="event" round color="primary">
+                      <q-popup-proxy
+                        @before-show="updateProxyFN"
+                        cover
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="proxyDateFN">
+                          <div class="row items-center justify-end q-gutter-sm">
+                            <q-btn
+                              label="Cancel"
+                              color="primary"
+                              flat
+                              v-close-popup
+                            />
+                            <q-btn
+                              label="OK"
+                              color="primary"
+                              flat
+                              @click="saveFN"
+                              v-close-popup
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-btn>
+                  </template>
+                </q-input>
+              </div>
+              <div class="col-xs-12 col-md-6 mx-1">
+                <q-input
+                  type="text"
+                  label="Fecha Ingreso Semestre"
+                  v-model="datos.fecha_ingreso_este_ces"
+                >
+                  <template v-slot:append>
+                    <q-btn icon="event" round color="primary">
+                      <q-popup-proxy
+                        @before-show="updateProxyFN"
+                        cover
+                        transition-show="scale"
+                        transition-hide="scale"
+                      >
+                        <q-date v-model="proxyDateFN">
+                          <div class="row items-center justify-end q-gutter-sm">
+                            <q-btn
+                              label="Cancel"
+                              color="primary"
+                              flat
+                              v-close-popup
+                            />
+                            <q-btn
+                              label="OK"
+                              color="primary"
+                              flat
+                              @click="saveFN"
+                              v-close-popup
+                            />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-btn>
+                  </template>
+                </q-input>
+              </div>
+            </div>
+          </div>
+          <!-- Fin fecha matricula fechaingreso este ces -->
           <q-stepper-navigation>
             <q-btn color="primary" label="Finish" />
             <q-btn
@@ -776,7 +917,7 @@ const { isMatriculasOpen, matriculasEdit } = storeToRefs(useMatriculastore());
 const { municipios } = storeToRefs(useMunicipiosStore());
 const { provincias } = storeToRefs(useProvinciasStore());
 const { paises } = storeToRefs(usePaisesStore());
-const { colorPiel, sexos } = storeToRefs(useNomencladoresStore());
+const { ColorPiel, Sexos } = storeToRefs(useNomencladoresStore());
 
 //Activar el valor del titulo del form
 const formTitle = computed(() => {
@@ -852,14 +993,14 @@ const saveFN = () => {
   datos.value.fecha_nacimiento = proxyDateFN.value;
 };
 
-let optionsRol = ref(municipios);
+let optionsMunicipio = ref(municipios);
 let filterFnMunicipio = (
   val: string,
   update: (arg0: { (): void; (): void }) => void
 ) => {
   if (val === '') {
     update(() => {
-      optionsRol.value = municipios.value
+      optionsMunicipio.value = municipios.value
         ?.map((value: MunicipioList) => {
           return {
             id: value.id,
@@ -874,7 +1015,7 @@ let filterFnMunicipio = (
 
   update(() => {
     const needle = val.toLowerCase();
-    optionsRol.value = municipios.value
+    optionsMunicipio.value = municipios.value
       ?.map((value: MunicipioList) => {
         return {
           id: value.id,
@@ -956,7 +1097,7 @@ let filterFnPais = (
   });
 };
 //color de piel
-const optionsCP = ref(colorPiel);
+const optionsCP = ref(ColorPiel);
 const filterFnColorPiel = (
   val: string,
   update: (arg0: () => void) => void,
@@ -964,13 +1105,13 @@ const filterFnColorPiel = (
 ) => {
   update(() => {
     const needle = val.toLowerCase();
-    optionsCP.value = colorPiel.value.filter(
+    optionsCP.value = ColorPiel.value.filter(
       (v) => v.toLowerCase().indexOf(needle) > -1
     );
   });
 };
 //sexos
-const optionsSexo = ref(sexos);
+const optionsSexo = ref(Sexos);
 const filterFnSexos = (
   val: string,
   update: (arg0: () => void) => void,
@@ -978,7 +1119,7 @@ const filterFnSexos = (
 ) => {
   update(() => {
     const needle = val.toLowerCase();
-    optionsCP.value = sexos.value.filter(
+    optionsCP.value = Sexos.value.filter(
       (v) => v.toLowerCase().indexOf(needle) > -1
     );
   });
