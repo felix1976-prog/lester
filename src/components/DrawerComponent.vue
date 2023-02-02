@@ -22,6 +22,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-list',
     link: '/matriculas',
   },
+  {
+    title: 'Boletas',
+    caption: 'Gestión de Boletas',
+    icon: 'las la-users',
+    link: '/boleta',
+  },
 ];
 
 const nomencladores: EssentialLinkProps[] = [
