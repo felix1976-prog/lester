@@ -5,28 +5,33 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { usePobladoStore } from '../../stores/poblados/poblados-store';
+import { useMatriculastore } from '../../stores/matriculas/matriculas-store';
 import {
-  PobladosProps,
-  PobladosList,
-  mainProps,
-} from '../../interfaces/poblados.interfaces';
-import AddPobladosComponent from './AddPobladosComponent.vue';
+  MatriculasProps,
+  MatriculasList,
+} from '../../interfaces/matriculas.interfaces';
+import AddMatriculasComponent from './AddMatriculasComponent.vue';
 import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useNomencladoresStore } from 'src/stores/nomencladores/nomencladores-store';
+import { usePaisesStore } from 'src/stores/paises/paises-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
-
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthPoblado, isPobladoToggle, editandoForm } = usePobladoStore();
-const { poblados } = storeToRefs(usePobladoStore());
+const { fecthMatriculas, isMatriculasToggle, editandoForm } =
+  useMatriculastore();
+const { matriculas } = storeToRefs(useMatriculastore());
 const { eliminarToggle } = useUtilsComposables();
 const { fecthProvincias } = useProvinciasStore();
+const { fecthPaises } = usePaisesStore();
 const { fecthMunicipios } = useMunicipiosStore();
-
+const { getColorPiel, getSexos } = useNomencladoresStore();
 onMounted(() => {
-  fecthPoblado();
+  fecthMatriculas();
   fecthProvincias();
+  getColorPiel();
+  getSexos();
+  fecthPaises();
   fecthMunicipios();
 });
 
@@ -59,7 +64,6 @@ watch(
 // fin pagination
 
 // TABLE
-// const rows: QTableProps['rows'] = facultad.value;
 const columns: QTableProps['columns'] = [
   {
     name: 'avatar',
@@ -96,28 +100,110 @@ const columns: QTableProps['columns'] = [
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const pobladoProp = ref<PobladosProps>({
+const matriculasProp = ref<MatriculasProps>({
   id: '',
-  poblado: '',
-  codigo: 0,
-  municipio_codigo: 0,
-  provincia_codigo: 0,
+  centro_edicacion_superior: '',
+  curso_escolar: '',
+  facultad: '',
+  carrera: '',
+  foto: '',
+  anno_academico: '',
+  tipo_curso: '',
+  fecha_matricula: new Date(),
+  fecha_ingreso_este_ces: new Date(),
+  fecha_ingreso_edu_super: new Date(),
+  ci: '',
+  serie_letras: '',
+  serie_numero: '',
+  tomo: 0,
+  folio: 0,
+  anno_ci: 0,
+  fecha_nacimiento: new Date(),
+  edad: 0,
+  nombre: '',
+  apellido1: '',
+  apellido2: '',
+  sexo: '',
+  color_piel: '',
+  ciudad_nacimiento: '',
+  pais_nacimiento: '',
+  nacionalidad: '',
+  orgacizaciones: '',
+  estado_civil: '',
+  huerfano: false,
+  discapacidad: '',
+  situacion_escolar: '',
+  clase_estudiante: '',
+  procedencia_escolar: '',
+  domicilio: '',
+  registro_civil: '',
+  provincia: '',
+  fecha: new Date(),
+  sin_sancion: true,
+  sancionado: '',
+  nunca_matriculado: true,
+  estuve_matriculado: '',
+  no_estoy_matriculado: true,
+  no_soy_graduado: false,
+  aceptado: false,
 });
-const editTable = (item: mainProps) => {
-  isPobladoToggle();
+const editTable = (item: MatriculasProps) => {
+  isMatriculasToggle();
   editandoForm(true);
-  pobladoProp.value.poblado = item.poblado;
-  pobladoProp.value.codigo = item.codigo;
-  pobladoProp.value.provincia_codigo = item.provincia_codigo;
+  matriculasProp.value.centro_edicacion_superior =
+    item.centro_edicacion_superior;
+  matriculasProp.value.curso_escolar = item.curso_escolar;
+  matriculasProp.value.facultad = item.facultad;
+  matriculasProp.value.carrera = item.carrera;
+  matriculasProp.value.foto = item.foto;
+  matriculasProp.value.anno_academico = item.anno_academico;
+  matriculasProp.value.tipo_curso = item.tipo_curso;
+  matriculasProp.value.fecha_matricula = item.fecha_matricula;
+  matriculasProp.value.fecha_ingreso_este_ces = item.fecha_ingreso_este_ces;
+  matriculasProp.value.fecha_ingreso_edu_super = item.fecha_ingreso_edu_super;
+  matriculasProp.value.ci = item.ci;
+  matriculasProp.value.serie_letras = item.serie_letras;
+  matriculasProp.value.serie_numero = item.serie_numero;
+  matriculasProp.value.tomo = item.tomo;
+  matriculasProp.value.folio = item.folio;
+  matriculasProp.value.anno_ci = item.anno_ci;
+  matriculasProp.value.fecha_nacimiento = item.fecha_nacimiento;
+  matriculasProp.value.edad = item.edad;
+  matriculasProp.value.nombre = item.nombre;
+  matriculasProp.value.apellido1 = item.apellido1;
+  matriculasProp.value.apellido2 = item.apellido2;
+  matriculasProp.value.sexo = item.sexo;
+  matriculasProp.value.color_piel = item.color_piel;
+  matriculasProp.value.ciudad_nacimiento = item.ciudad_nacimiento;
+  matriculasProp.value.pais_nacimiento = item.pais_nacimiento;
+  matriculasProp.value.nacionalidad = item.nacionalidad;
+  matriculasProp.value.orgacizaciones = item.orgacizaciones;
+  matriculasProp.value.estado_civil = item.estado_civil;
+  matriculasProp.value.huerfano = item.huerfano;
+  matriculasProp.value.discapacidad = item.discapacidad;
+  matriculasProp.value.situacion_escolar = item.situacion_escolar;
+  matriculasProp.value.clase_estudiante = item.clase_estudiante;
+  matriculasProp.value.procedencia_escolar = item.procedencia_escolar;
+  matriculasProp.value.domicilio = item.domicilio;
+  matriculasProp.value.registro_civil = item.registro_civil;
+  matriculasProp.value.provincia = item.provincia;
+  matriculasProp.value.fecha = item.fecha;
+  matriculasProp.value.sin_sancion = item.sin_sancion;
+  matriculasProp.value.sancionado = item.sancionado;
+  matriculasProp.value.nunca_matriculado = item.nunca_matriculado;
+  matriculasProp.value.estuve_matriculado = item.estuve_matriculado;
+  matriculasProp.value.no_estoy_matriculado = item.no_estoy_matriculado;
+  matriculasProp.value.no_soy_graduado = item.no_soy_graduado;
+  matriculasProp.value.aceptado = item.aceptado;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
   url: ',',
 });
 
-const deleteProvincia = async (item: PobladosList) => {
-  deleteProps.value.url = `/poblados/${item.id}`;
-  deleteProps.value.titulo = 'la provincia';
+const deleteProvincia = async (item: MatriculasList) => {
+  deleteProps.value.url = `/matriculas/${item.id}`;
+  deleteProps.value.titulo = 'la matricula';
   eliminarToggle();
 };
 </script>
@@ -126,12 +212,12 @@ const deleteProvincia = async (item: PobladosList) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de Poblados"
-      :rows="poblados"
+      title="Listado de Matriculas"
+      :rows="matriculas"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay poblados para mostrar"
+      no-data-label="No hay matriculas para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -154,7 +240,7 @@ const deleteProvincia = async (item: PobladosList) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isPobladoToggle"
+              @click="isMatriculasToggle"
             />
           </template>
         </q-input>
@@ -180,11 +266,6 @@ const deleteProvincia = async (item: PobladosList) => {
                 {{ props.row.codigo }}
               </div>
             </q-card-section>
-            <!-- <q-card-section style="fontsize: 12px">
-              <div class="flex flex-center" :props="props">
-                {{ props.row.provincia_codigo }}
-              </div>
-            </q-card-section> -->
             <q-separator />
             <q-card-actions align="center">
               <div style="font-size: 1.7em">
@@ -230,11 +311,6 @@ const deleteProvincia = async (item: PobladosList) => {
           {{ props.row.codigo }}
         </q-td>
       </template>
-      <!-- <template #body-cell-provincia_codigo="props">
-        <q-td :props="props">
-          {{ props.row.provincia_codigo }}
-        </q-td>
-      </template> -->
       <template v-slot:body-cell-Action="props">
         <q-td :props="props">
           <q-btn
@@ -259,7 +335,7 @@ const deleteProvincia = async (item: PobladosList) => {
         </q-td>
       </template>
     </q-table>
-    <AddPobladosComponent :pobladoUpd="pobladoProp" />
+    <AddMatriculasComponent :matriculasUpd="matriculasProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
   </div>
 </template>

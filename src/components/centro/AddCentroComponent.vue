@@ -7,7 +7,7 @@
         <q-card-section>
           <div class="flex column items-center">
             <div class="text-weight-bold">{{ formTitle }}</div>
-            <div class="text-grey">{{ formTitle }} sus carreras</div>
+            <div class="text-grey">{{ formTitle }} el Centro</div>
           </div>
         </q-card-section>
 

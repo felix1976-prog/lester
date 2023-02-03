@@ -53,6 +53,10 @@ export default function ({ store }: { store: Pinia }) {
           component: () => import('pages/CentroPage.vue'),
         },
         {
+          path: '/matriculas',
+          component: () => import('pages/MatriculasPage.vue'),
+        },
+        {
           path: '/boleta',
           component: () => import('pages/BoletaPage.vue'),
         },
