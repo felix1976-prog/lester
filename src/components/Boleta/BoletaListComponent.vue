@@ -47,15 +47,6 @@ watch(
 // const rows: QTableProps['rows'] = facultad.value;
 const columns: QTableProps['columns'] = [
   {
-    name: 'name',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true,
-  },
-  {
     name: 'avatar',
     required: true,
     label: '',
@@ -87,11 +78,11 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'preunivesitario',
+    name: 'preuniversitario',
     required: true,
-    label: 'Preunivesitario',
+    label: 'preuniversitario',
     align: 'center',
-    field: 'preunivesitario',
+    field: 'preuniversitario',
     sortable: true,
   },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
@@ -102,10 +93,10 @@ const boletaProps = ref<boletaProps>({
   nombre: '',
   apellidos: '',
   sexo: '',
-  preunivesitario: '',
+  preuniversitario: '',
   provincia: '',
   municipio: '',
-  inidice_academico: 0,
+  indice_academico: 0,
   matematica: 0,
   espanol: 0,
   historia: 0,
@@ -114,17 +105,18 @@ const boletaProps = ref<boletaProps>({
   opcion: 0,
   sma: '',
   ci: '',
-  fecha: null,
+  fecha: new Date(Date.now()).toLocaleString(),
 });
+
 const editTable = (item: {
   id: string;
   nombre: string;
   apellidos: string;
   sexo: string;
-  preunivesitario: string;
+  preuniversitario: string;
   provincia: string;
   municipio: string;
-  inidice_academico: number;
+  indice_academico: number;
   matematica: number;
   espanol: number;
   historia: number;
@@ -135,16 +127,14 @@ const editTable = (item: {
   ci: string;
   fecha: Date;
 }) => {
-  isBoletaToggle();
-  editandoForm(true);
   boletaProps.value.id = item.id;
   boletaProps.value.nombre = item.nombre;
   boletaProps.value.apellidos = item.apellidos;
   boletaProps.value.sexo = item.sexo;
-  boletaProps.value.preunivesitario = item.preunivesitario;
+  boletaProps.value.preuniversitario = item.preuniversitario;
   boletaProps.value.provincia = item.provincia;
   boletaProps.value.municipio = item.municipio;
-  boletaProps.value.inidice_academico = item.inidice_academico;
+  boletaProps.value.indice_academico = item.indice_academico;
   boletaProps.value.matematica = item.matematica;
   boletaProps.value.espanol = item.espanol;
   boletaProps.value.historia = item.historia;
@@ -153,8 +143,11 @@ const editTable = (item: {
   boletaProps.value.opcion = item.opcion;
   boletaProps.value.sma = item.sma;
   boletaProps.value.ci = item.ci;
-  boletaProps.value.fecha = item.fecha;
+  boletaProps.value.fecha = item.fecha.substr(0, 10);
+  isBoletaToggle();
+  editandoForm(true);
 };
+
 const deleteBoleta = (item: { id: string }) => {
   return item;
 };

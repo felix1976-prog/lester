@@ -36,10 +36,10 @@ export const useBoletaStore = defineStore('boleta', {
       nombre: string;
       apellidos: string;
       sexo: string;
-      preunivesitario: string;
+      preuniversitario: string;
       provincia: string;
       municipio: string;
-      inidice_academico: number;
+      indice_academico: number;
       matematica: number;
       espanol: number;
       historia: number;
