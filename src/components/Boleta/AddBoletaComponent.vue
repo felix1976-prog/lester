@@ -105,6 +105,7 @@
                 v-if="!boletaEdit"
                 filled
                 type="text"
+                maxlength="11"
                 v-model="datos.ci"
                 label="Carné de Identidad"
                 lazy-rules
@@ -123,6 +124,7 @@
                 v-else
                 filled
                 type="text"
+                maxlength="11"
                 v-model="todo.ci"
                 label="Carné de Identidad"
                 lazy-rules
@@ -268,39 +270,45 @@
             </div>
             <!-- SMA -->
             <div>
-              <q-input
+              <q-select
+                class="q-mb-md"
                 v-if="!boletaEdit"
                 filled
-                type="text"
                 v-model="datos.sma"
-                label="SMA"
-                lazy-rules
-                :rules="[
-                  (val) =>
-                    (val && val.length > 0) || 'Escriba el estado del SMA',
-                ]"
+                use-input
+                input-debounce="0"
+                label="Servicio Militar Activo"
+                :options="SMA"
+                emit-value
+                map-options
+                behavior="menu"
               >
-                <template v-slot:append>
-                  <q-icon name="las la-user-plus" />
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
                 </template>
-              </q-input>
+              </q-select>
 
-              <q-input
+              <q-select
+                class="q-mb-md"
                 v-else
                 filled
-                type="text"
                 v-model="todo.sma"
-                label="SMA"
-                lazy-rules
-                :rules="[
-                  (val) =>
-                    (val && val.length > 0) || 'Escriba el estado del SMA',
-                ]"
+                use-input
+                input-debounce="0"
+                label="Servicio Militar Activo"
+                :options="SMA"
+                emit-value
+                map-options
+                behavior="menu"
               >
-                <template v-slot:append>
-                  <q-icon name="las la-user-plus" />
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
                 </template>
-              </q-input>
+              </q-select>
             </div>
             <!-- Fecha -->
             <div>
@@ -352,7 +360,17 @@
             </div>
 
             <q-stepper-navigation>
-              <q-btn @click="step = 2" color="primary" label="Continuar" />
+              <q-btn
+                @click="
+                  !boletaEdit
+                    ? avanzar()
+                      ? (step = 2)
+                      : (step = 1)
+                    : (step = 2)
+                "
+                color="primary"
+                label="Continuar"
+              />
               <q-btn
                 flat
                 @click="cerrar"
@@ -553,8 +571,9 @@
             <div>
               <q-input
                 v-if="!boletaEdit"
+                :disable="false"
                 filled
-                type="number"
+                readonly
                 v-model="datos.escalafon"
                 label="Escalafón"
                 lazy-rules
@@ -569,8 +588,9 @@
 
               <q-input
                 v-else
+                :disable="false"
                 filled
-                type="number"
+                readonly
                 v-model="todo.escalafon"
                 label="Escalafón"
                 lazy-rules
@@ -582,41 +602,58 @@
                   <q-icon name="las la-user-plus" />
                 </template>
               </q-input>
+
+              <q-btn
+                @click="Escalafon"
+                square
+                color="brown-5"
+                icon="directions"
+              />
             </div>
 
             <div>
-              <q-input
+              <q-select
+                class="q-mb-md"
                 v-if="!boletaEdit"
                 filled
-                type="text"
                 v-model="datos.convocatoria"
+                use-input
+                input-debounce="0"
                 label="Convocatoria"
-                lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba la convocatoria',
-                ]"
+                :options="Convocatorias"
+                emit-value
+                map-options
+                behavior="menu"
               >
-                <template v-slot:append>
-                  <q-icon name="las la-user-plus" />
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
                 </template>
-              </q-input>
+              </q-select>
 
-              <q-input
+              <q-select
+                class="q-mb-md"
                 v-else
                 filled
-                type="text"
                 v-model="todo.convocatoria"
+                use-input
+                input-debounce="0"
                 label="Convocatoria"
-                lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba la convocatoria',
-                ]"
+                :options="Convocatorias"
+                emit-value
+                map-options
+                behavior="menu"
               >
-                <template v-slot:append>
-                  <q-icon name="las la-user-plus" />
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
                 </template>
-              </q-input>
+              </q-select>
             </div>
+
+            <!--  -->
 
             <div>
               <q-input
@@ -655,7 +692,11 @@
             </div>
 
             <q-stepper-navigation>
-              <q-btn @click="add" color="primary" label="Insertar" />
+              <q-btn
+                @click="!boletaEdit ? add() : actualizar()"
+                color="primary"
+                :label="`${!boletaEdit ? 'Insertar' : 'Actualizar'}`"
+              />
               <q-btn
                 flat
                 @click="step = 1"
@@ -681,18 +722,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
-import {
-  QBtn,
-  QCard,
-  QCardActions,
-  QCardSection,
-  QDialog,
-  QForm,
-  QIcon,
-  QInput,
-  QSpace,
-  useQuasar,
-} from 'quasar';
+import { QBtn, QDialog, QForm, QIcon, QInput, useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 import { useBoletaStore } from 'src/stores/boleta/boleta-store';
 import { boletaProps } from 'src/interfaces/boleta.interfaces';
@@ -706,16 +736,22 @@ const { addBoletas, isBoletaToggle, editandoForm, fetchBoletas } =
 const { isBoletaOpen, boletaEdit } = storeToRefs(useBoletaStore());
 
 // OBTENER LOS NOMENCLADORES NECESARIOS
-const { getSexos } = useNomencladoresStore();
+const { getSexos, getSMA, getConvocatorias } = useNomencladoresStore();
 const { fecthProvincias } = useProvinciasStore();
 const { fecthMunicipios } = useMunicipiosStore();
-const { Sexos } = storeToRefs(useNomencladoresStore());
+const { Sexos, SMA, Convocatorias } = storeToRefs(useNomencladoresStore());
 const { provincias } = storeToRefs(useProvinciasStore());
 const { municipios } = storeToRefs(useMunicipiosStore());
 
 onMounted(() => {
   if (Sexos.value.length === 0) {
     getSexos();
+  }
+  if (SMA.value.length === 0) {
+    getSMA();
+  }
+  if (Convocatorias.value.length === 0) {
+    getConvocatorias();
   }
   if (provincias.value.length === 0) {
     fecthProvincias();
@@ -756,6 +792,12 @@ let datos = ref({
 });
 
 const add = async () => {
+  console.log(
+    'Provincia, Municipio : ',
+    datos.value.provincia.provincia,
+    datos.value.municipio.municipio
+  );
+
   let dto = {
     nombre: datos.value.nombre,
     apellidos: datos.value.apellidos,
@@ -866,6 +908,28 @@ const actualizar = async () => {
 };
 // FIN  ACTUALIZAR
 
+const avanzar = () => {
+  if (
+    datos.value.nombre !== '' &&
+    datos.value.apellidos !== '' &&
+    datos.value.ci.length === 11 &&
+    datos.value.sexo !== '' &&
+    datos.value.provincia !== '' &&
+    datos.value.municipio !== '' &&
+    datos.value.sma !== '' &&
+    datos.value.fecha !== ''
+  ) {
+    return true;
+  } else {
+    $q.notify({
+      color: 'red-5',
+      textColor: 'white',
+      icon: 'warning',
+      message: 'Debe llenar todos los campos con valores válidos',
+    });
+  }
+};
+
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
   isBoletaToggle();
@@ -889,5 +953,37 @@ const cerrar = () => {
     fecha: new Date(Date.now()).toLocaleString(),
   });
   step = ref(1);
+};
+
+const Escalafon = () => {
+  console.log('Estado: ', boletaEdit);
+
+  // INSERTAR
+  if (boletaEdit) {
+    const suma =
+      parseFloat(datos.value.matematica) +
+      parseFloat(datos.value.espanol) +
+      parseFloat(datos.value.historia);
+
+    const ave = suma / 3;
+    const asig = ave / 2;
+    const ia_half = parseFloat(datos.value.indice_academico) / 2;
+    datos.value.escalafon = asig + ia_half;
+  } else {
+    const suma =
+      parseFloat(todo.value.matematica) +
+      parseFloat(todo.value.espanol) +
+      parseFloat(todo.value.historia);
+    console.log('suma: ', suma);
+
+    const ave = suma / 3;
+    const asig = ave / 2;
+    console.log('ave: asig: ', ave, asig);
+
+    const ia_half = parseFloat(todo.value.indice_academico) / 2;
+    todo.value.escalafon = asig + ia_half;
+    console.log('iaH: ', ia_half);
+    console.log('Escalafon: ', todo.value.escalafon);
+  }
 };
 </script>

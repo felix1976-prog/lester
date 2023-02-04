@@ -4,6 +4,7 @@ import { api } from 'boot/axios';
 export const useNomencladoresStore = defineStore('nomencladores', {
   state: () => ({
     ActividadLaboral: [],
+    Convocatorias: [],
     ClaseEstudiante: [],
     ColorPiel: [],
     DerechoMatricularContinuante: [],
@@ -15,6 +16,7 @@ export const useNomencladoresStore = defineStore('nomencladores', {
     Sexos: [],
     SituacionCumplimientoSMA: [],
     SituacionEscolarAlMatricular: [],
+    SMA: [],
   }),
 
   getters: {},
@@ -24,6 +26,15 @@ export const useNomencladoresStore = defineStore('nomencladores', {
       try {
         const { data } = await api.get('/nomencladores/actividad_laboral');
         return (this.ActividadLaboral = data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getConvocatorias() {
+      try {
+        const { data } = await api.get('/nomencladores/convocatorias');
+        return (this.Convocatorias = data);
       } catch (error) {
         console.log(error);
       }
@@ -129,6 +140,15 @@ export const useNomencladoresStore = defineStore('nomencladores', {
           '/nomencladores/situacion_escolar_matricular'
         );
         return (this.SituacionEscolarAlMatricular = data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getSMA() {
+      try {
+        const { data } = await api.get('/nomencladores/sma');
+        return (this.SMA = data);
       } catch (error) {
         console.log(error);
       }
