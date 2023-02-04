@@ -971,33 +971,5 @@ const Escalafon = (boletaEdit) => {
         2 +
       parseFloat(todo.value.indice_academico) / 2;
   }
-
-  // INSERTAR
-  // if (boletaEdit) {
-  //   const suma =
-  //     parseFloat(datos.value.matematica) +
-  //     parseFloat(datos.value.espanol) +
-  //     parseFloat(datos.value.historia);
-
-  //   const ave = suma / 3;
-  //   const asig = ave / 2;
-  //   const ia_half = parseFloat(datos.value.indice_academico) / 2;
-  //   datos.value.escalafon = asig + ia_half;
-  // } else {
-  //   const suma =
-  //     parseFloat(todo.value.matematica) +
-  //     parseFloat(todo.value.espanol) +
-  //     parseFloat(todo.value.historia);
-  //   console.log('suma: ', suma);
-
-  //   const ave = suma / 3;
-  //   const asig = ave / 2;
-  //   console.log('ave: asig: ', ave, asig);
-
-  //   const ia_half = parseFloat(todo.value.indice_academico) / 2;
-  //   todo.value.escalafon = asig + ia_half;
-  //   console.log('iaH: ', ia_half);
-  //   console.log('Escalafon: ', todo.value.escalafon);
-  // }
 };
 </script>
