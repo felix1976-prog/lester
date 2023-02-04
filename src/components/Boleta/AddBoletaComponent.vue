@@ -571,7 +571,6 @@
             <div>
               <q-input
                 v-if="!boletaEdit"
-                :disable="false"
                 filled
                 readonly
                 v-model="datos.escalafon"
@@ -588,7 +587,6 @@
 
               <q-input
                 v-else
-                :disable="false"
                 filled
                 readonly
                 v-model="todo.escalafon"
@@ -604,7 +602,7 @@
               </q-input>
 
               <q-btn
-                @click="Escalafon"
+                @click="Escalafon(boletaEdit)"
                 square
                 color="brown-5"
                 icon="directions"
@@ -955,35 +953,51 @@ const cerrar = () => {
   step = ref(1);
 };
 
-const Escalafon = () => {
-  console.log('Estado: ', boletaEdit);
+const Escalafon = (boletaEdit) => {
+  if (!boletaEdit) {
+    datos.value.escalafon =
+      (parseFloat(datos.value.matematica) +
+        parseFloat(datos.value.espanol) +
+        parseFloat(datos.value.historia)) /
+        3 /
+        2 +
+      parseFloat(datos.value.indice_academico) / 2;
+  } else {
+    todo.value.escalafon =
+      (parseFloat(todo.value.matematica) +
+        parseFloat(todo.value.espanol) +
+        parseFloat(todo.value.historia)) /
+        3 /
+        2 +
+      parseFloat(todo.value.indice_academico) / 2;
+  }
 
   // INSERTAR
-  if (boletaEdit) {
-    const suma =
-      parseFloat(datos.value.matematica) +
-      parseFloat(datos.value.espanol) +
-      parseFloat(datos.value.historia);
+  // if (boletaEdit) {
+  //   const suma =
+  //     parseFloat(datos.value.matematica) +
+  //     parseFloat(datos.value.espanol) +
+  //     parseFloat(datos.value.historia);
 
-    const ave = suma / 3;
-    const asig = ave / 2;
-    const ia_half = parseFloat(datos.value.indice_academico) / 2;
-    datos.value.escalafon = asig + ia_half;
-  } else {
-    const suma =
-      parseFloat(todo.value.matematica) +
-      parseFloat(todo.value.espanol) +
-      parseFloat(todo.value.historia);
-    console.log('suma: ', suma);
+  //   const ave = suma / 3;
+  //   const asig = ave / 2;
+  //   const ia_half = parseFloat(datos.value.indice_academico) / 2;
+  //   datos.value.escalafon = asig + ia_half;
+  // } else {
+  //   const suma =
+  //     parseFloat(todo.value.matematica) +
+  //     parseFloat(todo.value.espanol) +
+  //     parseFloat(todo.value.historia);
+  //   console.log('suma: ', suma);
 
-    const ave = suma / 3;
-    const asig = ave / 2;
-    console.log('ave: asig: ', ave, asig);
+  //   const ave = suma / 3;
+  //   const asig = ave / 2;
+  //   console.log('ave: asig: ', ave, asig);
 
-    const ia_half = parseFloat(todo.value.indice_academico) / 2;
-    todo.value.escalafon = asig + ia_half;
-    console.log('iaH: ', ia_half);
-    console.log('Escalafon: ', todo.value.escalafon);
-  }
+  //   const ia_half = parseFloat(todo.value.indice_academico) / 2;
+  //   todo.value.escalafon = asig + ia_half;
+  //   console.log('iaH: ', ia_half);
+  //   console.log('Escalafon: ', todo.value.escalafon);
+  // }
 };
 </script>
