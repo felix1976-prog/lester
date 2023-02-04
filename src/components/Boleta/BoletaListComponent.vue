@@ -88,7 +88,7 @@ const columns: QTableProps['columns'] = [
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const boletaProps = ref<boletaProps>({
+const boletProps = ref<boletaProps>({
   id: '',
   nombre: '',
   apellidos: '',
@@ -127,23 +127,23 @@ const editTable = (item: {
   ci: string;
   fecha: Date;
 }) => {
-  boletaProps.value.id = item.id;
-  boletaProps.value.nombre = item.nombre;
-  boletaProps.value.apellidos = item.apellidos;
-  boletaProps.value.sexo = item.sexo;
-  boletaProps.value.preuniversitario = item.preuniversitario;
-  boletaProps.value.provincia = item.provincia;
-  boletaProps.value.municipio = item.municipio;
-  boletaProps.value.indice_academico = item.indice_academico;
-  boletaProps.value.matematica = item.matematica;
-  boletaProps.value.espanol = item.espanol;
-  boletaProps.value.historia = item.historia;
-  boletaProps.value.escalafon = item.escalafon;
-  boletaProps.value.convocatoria = item.convocatoria;
-  boletaProps.value.opcion = item.opcion;
-  boletaProps.value.sma = item.sma;
-  boletaProps.value.ci = item.ci;
-  boletaProps.value.fecha = item.fecha.substr(0, 10);
+  boletProps.value.id = item.id;
+  boletProps.value.nombre = item.nombre;
+  boletProps.value.apellidos = item.apellidos;
+  boletProps.value.sexo = item.sexo;
+  boletProps.value.preuniversitario = item.preuniversitario;
+  boletProps.value.provincia = item.provincia;
+  boletProps.value.municipio = item.municipio;
+  boletProps.value.indice_academico = item.indice_academico;
+  boletProps.value.matematica = item.matematica;
+  boletProps.value.espanol = item.espanol;
+  boletProps.value.historia = item.historia;
+  boletProps.value.escalafon = item.escalafon;
+  boletProps.value.convocatoria = item.convocatoria;
+  boletProps.value.opcion = item.opcion;
+  boletProps.value.sma = item.sma;
+  boletProps.value.ci = item.ci;
+  boletProps.value.fecha = item.fecha.substr(0, 10);
   isBoletaToggle();
   editandoForm(true);
 };
@@ -300,6 +300,6 @@ const deleteBoleta = (item: { id: string }) => {
         </q-td>
       </template>
     </q-table>
-    <AddBoletaComponent :boleUpd="boletaProps" />
+    <AddBoletaComponent :boleUpd="boletProps" />
   </div>
 </template>

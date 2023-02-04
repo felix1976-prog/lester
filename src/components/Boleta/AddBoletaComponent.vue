@@ -374,7 +374,7 @@
               <q-btn
                 flat
                 @click="cerrar"
-                color="warning"
+                color="negative"
                 label="Cerrar"
                 class="q-ml-sm"
               />
@@ -388,6 +388,7 @@
             icon="create_new_folder"
             :done="step > 2"
           >
+            <!-- PREUNIVERSITARIO -->
             <div>
               <q-input
                 v-if="!boletaEdit"
@@ -421,18 +422,17 @@
                 </template>
               </q-input>
             </div>
-
+            <!-- INDICE ACADEMICO -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
-                type="number"
-                v-model="datos.indice_academico"
+                v-model.number="datos.indice_academico"
                 label="Índice Académico"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) ||
+                    (val && val >= 60 && val <= 100) ||
                     'Escriba el índice académico del estudiante',
                 ]"
               >
@@ -444,13 +444,12 @@
               <q-input
                 v-else
                 filled
-                type="number"
-                v-model="todo.indice_academico"
+                v-model.number="todo.indice_academico"
                 label="Índice Académico"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) ||
+                    (val && val >= 60 && val <= 100) ||
                     'Escriba el índice académico del estudiante',
                 ]"
               >
@@ -459,18 +458,18 @@
                 </template>
               </q-input>
             </div>
-
+            <!-- MATEMATICAS -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
-                type="number"
-                v-model="datos.matematica"
+                v-model.number="datos.matematica"
                 label="Matemática"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Matemática',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Matemática',
                 ]"
               >
                 <template v-slot:append>
@@ -481,13 +480,13 @@
               <q-input
                 v-else
                 filled
-                type="number"
-                v-model="todo.matematica"
+                v-model.number="todo.matematica"
                 label="Matemática"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Matemática',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Matemática',
                 ]"
               >
                 <template v-slot:append>
@@ -495,18 +494,18 @@
                 </template>
               </q-input>
             </div>
-
+            <!-- ESPAÑOL -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
-                type="number"
-                v-model="datos.espanol"
+                v-model.number="datos.espanol"
                 label="Español"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Español',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Español',
                 ]"
               >
                 <template v-slot:append>
@@ -517,13 +516,13 @@
               <q-input
                 v-else
                 filled
-                type="number"
-                v-model="todo.espanol"
+                v-model.number="todo.espanol"
                 label="Español"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Español',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Español',
                 ]"
               >
                 <template v-slot:append>
@@ -531,18 +530,18 @@
                 </template>
               </q-input>
             </div>
-
+            <!-- HISTORIA -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
-                type="number"
-                v-model="datos.historia"
+                v-model.number="datos.historia"
                 label="Historia"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Historia',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Historia',
                 ]"
               >
                 <template v-slot:append>
@@ -553,13 +552,13 @@
               <q-input
                 v-else
                 filled
-                type="number"
-                v-model="todo.historia"
+                v-model.number="todo.historia"
                 label="Historia"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba la nota de Historia',
+                    (val && val >= 60 && val <= 100) ||
+                    'Escriba la nota de Historia',
                 ]"
               >
                 <template v-slot:append>
@@ -567,48 +566,57 @@
                 </template>
               </q-input>
             </div>
-
+            <!-- ESCALAFÓN -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
                 readonly
-                v-model="datos.escalafon"
+                v-model.number="datos.escalafon"
                 label="Escalafón"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el escalafón',
+                  (val) =>
+                    (val && val >= 60 && val <= 100) || 'Escriba el escalafón',
                 ]"
               >
-                <template v-slot:append>
+                <q-btn
+                  @click="Escalafon(boletaEdit)"
+                  flat
+                  icon="send"
+                  label="Calcular"
+                  size="sm"
+                />
+                <!-- <template v-slot:append>
                   <q-icon name="las la-user-plus" />
-                </template>
+                </template> -->
               </q-input>
 
               <q-input
                 v-else
                 filled
                 readonly
-                v-model="todo.escalafon"
+                v-model.number="todo.escalafon"
                 label="Escalafón"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el escalafón',
+                  (val) =>
+                    (val && val >= 60 && val <= 100) || 'Escriba el escalafón',
                 ]"
               >
-                <template v-slot:append>
+                <q-btn
+                  @click="Escalafon(boletaEdit)"
+                  flat
+                  icon="send"
+                  label="Calcular"
+                  size="sm"
+                />
+                <!-- <template v-slot:append>
                   <q-icon name="las la-user-plus" />
-                </template>
+                </template> -->
               </q-input>
-
-              <q-btn
-                @click="Escalafon(boletaEdit)"
-                square
-                color="brown-5"
-                icon="directions"
-              />
             </div>
-
+            <!-- CONVOCATORIA -->
             <div>
               <q-select
                 class="q-mb-md"
@@ -650,20 +658,18 @@
                 </template>
               </q-select>
             </div>
-
-            <!--  -->
-
+            <!-- OPCIÓN -->
             <div>
               <q-input
                 v-if="!boletaEdit"
                 filled
-                type="number"
-                v-model="datos.opcion"
+                v-model.number="datos.opcion"
                 label="Opción"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba el número de la opción',
+                    (val && val > 0 && val <= 6) ||
+                    'Escriba el número de la opción',
                 ]"
               >
                 <template v-slot:append>
@@ -674,13 +680,13 @@
               <q-input
                 v-else
                 filled
-                type="number"
-                v-model="todo.opcion"
+                v-model.number="todo.opcion"
                 label="Opción"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) || 'Escriba el número de la opción',
+                    (val && val > 0 && val <= 6) ||
+                    'Escriba el número de la opción',
                 ]"
               >
                 <template v-slot:append>
@@ -705,7 +711,7 @@
               <q-btn
                 flat
                 @click="cerrar"
-                color="warning"
+                color="negative"
                 label="Cerrar"
                 class="q-ml-sm"
               />
@@ -729,7 +735,7 @@ import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 
 const $q = useQuasar();
-const { addBoletas, isBoletaToggle, editandoForm, fetchBoletas } =
+const { addBoletas, isBoletaToggle, editandoForm, fetchBoletas, editBoleta } =
   useBoletaStore();
 const { isBoletaOpen, boletaEdit } = storeToRefs(useBoletaStore());
 
@@ -763,9 +769,6 @@ onMounted(() => {
 const formTitle = computed(() => {
   return !boletaEdit.value ? 'Insertar' : 'Editar';
 });
-
-// VALIDAR FORM
-const valid = ref(false);
 //STEPS
 let step = ref(1);
 
@@ -790,12 +793,6 @@ let datos = ref({
 });
 
 const add = async () => {
-  console.log(
-    'Provincia, Municipio : ',
-    datos.value.provincia.provincia,
-    datos.value.municipio.municipio
-  );
-
   let dto = {
     nombre: datos.value.nombre,
     apellidos: datos.value.apellidos,
@@ -803,13 +800,13 @@ const add = async () => {
     preuniversitario: datos.value.preuniversitario,
     provincia: datos.value.provincia.provincia,
     municipio: datos.value.municipio.municipio,
-    indice_academico: parseFloat(datos.value.indice_academico),
-    matematica: parseFloat(datos.value.matematica),
-    espanol: parseFloat(datos.value.espanol),
-    historia: parseFloat(datos.value.historia),
-    escalafon: parseFloat(datos.value.escalafon),
+    indice_academico: datos.value.indice_academico,
+    matematica: datos.value.matematica,
+    espanol: datos.value.espanol,
+    historia: datos.value.historia,
+    escalafon: datos.value.escalafon,
     convocatoria: datos.value.convocatoria,
-    opcion: parseInt(datos.value.opcion),
+    opcion: datos.value.opcion,
     sma: datos.value.sma,
     ci: datos.value.ci,
     fecha: datos.value.fecha,
@@ -895,17 +892,67 @@ const props = withDefaults(defineProps<Props>(), {
     };
   },
 });
+
 const todo = computed(() => props.boleUpd);
 
 const actualizar = async () => {
-  console.log('res: ', todo.value);
+  if (
+    todo.value.nombre !== '' &&
+    todo.value.apellidos !== '' &&
+    todo.value.sexo !== '' &&
+    todo.value.preuniversitario !== '' &&
+    todo.value.municipio !== '' &&
+    todo.value.indice_academico > 60 &&
+    todo.value.indice_academico <= 100 &&
+    todo.value.matematica > 60 &&
+    todo.value.matematica <= 100 &&
+    todo.value.espanol > 60 &&
+    todo.value.espanol <= 100 &&
+    todo.value.historia > 60 &&
+    todo.value.historia <= 100 &&
+    todo.value.escalafon > 0 &&
+    todo.value.convocatoria !== '' &&
+    todo.value.opcion > 0 &&
+    todo.value.opcion < 6 &&
+    todo.value.sma !== '' &&
+    todo.value.ci.length === 11 &&
+    todo.value.provincia !== '' &&
+    todo.value.fecha !== ''
+  ) {
+    try {
+      if (todo.value.municipio.codigo) {
+        todo.value.municipio = todo.value.municipio.municipio;
+      }
 
-  // await actualizarUsuario(todo.value);
-  // await allUsers();
-  cerrar();
+      if (todo.value.provincia.codigo) {
+        todo.value.provincia = todo.value.provincia.provincia;
+      }
+
+      await editBoleta(todo.value);
+      await fetchBoletas();
+      cerrar();
+
+      $q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'cloud_done',
+        message: 'Registro actualizado satisfactoriamente',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    $q.notify({
+      color: 'red-5',
+      textColor: 'white',
+      icon: 'warning',
+      message: 'Debe llenar todos los campos con valores válidos',
+    });
+  }
 };
 // FIN  ACTUALIZAR
 
+// FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
 const avanzar = () => {
   if (
     datos.value.nombre !== '' &&
@@ -927,6 +974,7 @@ const avanzar = () => {
     });
   }
 };
+// FIN DE LA FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
 
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
@@ -953,23 +1001,21 @@ const cerrar = () => {
   step = ref(1);
 };
 
-const Escalafon = (boletaEdit) => {
+// CALCULO DEL ESCALAFÓN
+const Escalafon = (boletaEdit: boolean) => {
   if (!boletaEdit) {
     datos.value.escalafon =
-      (parseFloat(datos.value.matematica) +
-        parseFloat(datos.value.espanol) +
-        parseFloat(datos.value.historia)) /
+      (datos.value.matematica + datos.value.espanol + datos.value.historia) /
         3 /
         2 +
-      parseFloat(datos.value.indice_academico) / 2;
+      datos.value.indice_academico / 2;
   } else {
     todo.value.escalafon =
-      (parseFloat(todo.value.matematica) +
-        parseFloat(todo.value.espanol) +
-        parseFloat(todo.value.historia)) /
+      (todo.value.matematica + todo.value.espanol + todo.value.historia) /
         3 /
         2 +
-      parseFloat(todo.value.indice_academico) / 2;
+      todo.value.indice_academico / 2;
   }
 };
+// FIN DEL CALCULO DEL ESCALAFÓN
 </script>

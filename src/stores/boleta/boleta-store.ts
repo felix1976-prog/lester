@@ -57,5 +57,49 @@ export const useBoletaStore = defineStore('boleta', {
         console.log(error);
       }
     },
+
+    async editBoleta(dto: {
+      id: string;
+      nombre: string;
+      apellidos: string;
+      sexo: string;
+      preuniversitario: string;
+      provincia: string;
+      municipio: string;
+      indice_academico: number;
+      matematica: number;
+      espanol: number;
+      historia: number;
+      escalafon: number;
+      convocatoria: string;
+      opcion: number;
+      sma: string;
+      ci: string;
+      fecha: Date | string;
+    }) {
+      try {
+        await api.patch('/boleta/' + dto.id, {
+          nombre: dto.nombre,
+          apellidos: dto.apellidos,
+          sexo: dto.sexo,
+          preuniversitario: dto.preuniversitario,
+          provincia: dto.provincia,
+          municipio: dto.municipio,
+          indice_academico: dto.indice_academico,
+          matematica: dto.matematica,
+          espanol: dto.espanol,
+          historia: dto.historia,
+          escalafon: dto.escalafon,
+          convocatoria: dto.convocatoria,
+          opcion: dto.opcion,
+          sma: dto.sma,
+          ci: dto.ci,
+          fecha: dto.fecha,
+        });
+        // return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });
