@@ -9,7 +9,8 @@ import AddBoletaComponent from './AddBoletaComponent.vue';
 const $q = useQuasar();
 const filter = ref('');
 
-const { fetchBoletas, isBoletaToggle, editandoForm } = useBoletaStore();
+const { fetchBoletas, isBoletaToggle, editandoForm, deleteBoleta } =
+  useBoletaStore();
 const { boletas } = storeToRefs(useBoletaStore());
 
 onMounted(() => {
@@ -148,12 +149,74 @@ const editTable = (item: {
   editandoForm(true);
 };
 
-const deleteBoleta = (item: { id: string }) => {
-  return item;
+const eliminar = (id: string) => {
+  $q.notify({
+    type: 'info',
+    message:
+      '¡Usted va a eliminar un registro!, ¿Está seguro de querer eliminarlo?.',
+    actions: [
+      {
+        label: 'Eliminar',
+        color: 'negative',
+        handler: () => {
+          delBoleta(id);
+        },
+      },
+      {
+        label: 'Cancelar',
+        color: 'primary',
+        handler: () => {
+          /* ... */
+        },
+      },
+    ],
+  });
 };
-// const addfacultadToggle = () => {
-//   return isFacultadOpen;
-// };
+
+const delBoleta = async (id: string) => {
+  console.log('El id eliminado: ', id);
+  try {
+    const eliminado = await deleteBoleta(id);
+    await fetchBoletas();
+
+    $q.notify({
+      type: 'positive',
+      message:
+        'La boleta del estudiante ' +
+        eliminado.nombre +
+        ' ' +
+        eliminado.apellidos +
+        ' se eliminó satisfactoriamente.',
+    });
+
+    // $q.notify({
+    //   color: 'green-4',
+    //   textColor: 'white',
+    //   icon: 'cloud_done',
+    //   message:
+    //     'La boleta del estudiante ' +
+    //     eliminado.nombre +
+    //     ' ' +
+    //     eliminado.apellidos +
+    //     ' se eliminó satisfactoriamente.',
+    // });
+  } catch (error) {
+    console.log(error);
+
+    $q.notify({
+      type: 'negative',
+      message: 'No se pudo eliminar el registro por: ' + error,
+      multiLine: true,
+    });
+
+    // $q.notify({
+    //   color: 'red-5',
+    //   textColor: 'white',
+    //   icon: 'warning',
+    //   message: 'No se pudo eliminar el registro por: ' + error,
+    // });
+  }
+};
 </script>
 
 <template>
@@ -165,7 +228,7 @@ const deleteBoleta = (item: { id: string }) => {
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay Facultades para mostrar"
+      no-data-label="No hay Boletas para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -245,7 +308,7 @@ const deleteBoleta = (item: { id: string }) => {
                   class="q-ml-sm"
                   flat
                   dense
-                  @click="deleteBoleta(props.row)"
+                  @click="eliminar(props.row)"
                 />
               </div>
             </q-card-actions>
@@ -295,7 +358,7 @@ const deleteBoleta = (item: { id: string }) => {
             class="q-ml-sm"
             flat
             dense
-            @click="deleteBoleta(props.row)"
+            @click="eliminar(props.row.id)"
           />
         </q-td>
       </template>

@@ -78,7 +78,7 @@ export const useBoletaStore = defineStore('boleta', {
       fecha: Date | string;
     }) {
       try {
-        await api.patch('/boleta/' + dto.id, {
+        const { data } = await api.patch('/boleta/' + dto.id, {
           nombre: dto.nombre,
           apellidos: dto.apellidos,
           sexo: dto.sexo,
@@ -96,7 +96,16 @@ export const useBoletaStore = defineStore('boleta', {
           ci: dto.ci,
           fecha: dto.fecha,
         });
-        // return data;
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async deleteBoleta(id: string) {
+      try {
+        const { data } = await api.delete('/boleta/' + id);
+        return data;
       } catch (error) {
         console.log(error);
       }

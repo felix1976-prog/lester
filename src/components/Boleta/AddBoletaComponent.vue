@@ -843,22 +843,31 @@ const add = async () => {
       await fetchBoletas();
       // step = ref(3);
       $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
+        type: 'positive',
         message: 'Registro insertado satisfactoriamente',
       });
+      // $q.notify({
+      //   color: 'green-4',
+      //   textColor: 'white',
+      //   icon: 'cloud_done',
+      //   message: 'Registro insertado satisfactoriamente',
+      // });
       step = ref(1);
     } catch (error) {
       console.log(error);
     }
   } else {
     $q.notify({
-      color: 'red-5',
-      textColor: 'white',
-      icon: 'warning',
+      type: 'info',
       message: 'Debe llenar todos los campos con valores válidos',
+      multiLine: true,
     });
+    // $q.notify({
+    //   color: 'red-5',
+    //   textColor: 'white',
+    //   icon: 'warning',
+    //   message: 'Debe llenar todos los campos con valores válidos',
+    // });
   }
 };
 
@@ -933,20 +942,24 @@ const actualizar = async () => {
       cerrar();
 
       $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
+        type: 'positive',
         message: 'Registro actualizado satisfactoriamente',
       });
+
+      // $q.notify({
+      //   color: 'green-4',
+      //   textColor: 'white',
+      //   icon: 'cloud_done',
+      //   message: 'Registro actualizado satisfactoriamente',
+      // });
     } catch (error) {
       console.log(error);
     }
   } else {
     $q.notify({
-      color: 'red-5',
-      textColor: 'white',
-      icon: 'warning',
+      type: 'info',
       message: 'Debe llenar todos los campos con valores válidos',
+      multiLine: true,
     });
   }
 };
@@ -967,10 +980,9 @@ const avanzar = () => {
     return true;
   } else {
     $q.notify({
-      color: 'red-5',
-      textColor: 'white',
-      icon: 'warning',
+      type: 'info',
       message: 'Debe llenar todos los campos con valores válidos',
+      multiLine: true,
     });
   }
 };
