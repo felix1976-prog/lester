@@ -115,7 +115,7 @@ const activar = (item: OrganismoList) => {
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay carreras para mostrar"
+      no-data-label="No hay organismos para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
