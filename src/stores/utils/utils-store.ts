@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia';
 import { Notify } from 'quasar';
 import { api } from 'src/boot/axios';
+import { MatriculasList } from 'src/interfaces/matriculas.interfaces';
 
 export const useUtilsStore = defineStore('utils', {
   state: () => ({
     isOpenLogin: false,
     isSideMenuOpen: false,
     isAddUserOpen: false,
+    isShowMatriculaOpen: false,
+    selectedMatriculaOpen: {},
     isEliminarOpen: false,
   }),
 
@@ -17,6 +20,12 @@ export const useUtilsStore = defineStore('utils', {
   },
 
   actions: {
+    selectMatricula(item: MatriculasList) {
+      return (this.selectedMatriculaOpen = item);
+    },
+    showMatriculas() {
+      return (this.isShowMatriculaOpen = !this.isShowMatriculaOpen);
+    },
     setToggleLogin() {
       return (this.isOpenLogin = !this.isOpenLogin);
     },
