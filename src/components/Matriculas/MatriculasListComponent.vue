@@ -15,9 +15,14 @@ import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
 import { useNomencladoresStore } from 'src/stores/nomencladores/nomencladores-store';
 import { usePaisesStore } from 'src/stores/paises/paises-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
+import { useCarreraStore } from 'src/stores/carrera/carrera-store';
+import { useFacultadStore } from 'src/stores/facultad/facultad-store';
+import MostrarMatricluaComponent from './MostrarMatricluaComponent.vue';
 const $q = useQuasar();
 const filter = ref('');
 
+const { isShowMatriculaOpen, showMatriculas, verSelectedMatricula } =
+  useUtilsComposables();
 const { fecthMatriculas, isMatriculasToggle, editandoForm } =
   useMatriculastore();
 const { matriculas } = storeToRefs(useMatriculastore());
@@ -25,14 +30,27 @@ const { eliminarToggle } = useUtilsComposables();
 const { fecthProvincias } = useProvinciasStore();
 const { fecthPaises } = usePaisesStore();
 const { fecthMunicipios } = useMunicipiosStore();
-const { getColorPiel, getSexos } = useNomencladoresStore();
-onMounted(() => {
-  fecthMatriculas();
-  fecthProvincias();
-  getColorPiel();
-  getSexos();
-  fecthPaises();
-  fecthMunicipios();
+const { fecthCarreras } = useCarreraStore();
+const { fecthFacultades } = useFacultadStore();
+const {
+  getColorPiel,
+  getSexos,
+  getClaseEstudiante,
+  getSituacionEscolarAlMatricular,
+  getProcedenciaEscolar,
+} = useNomencladoresStore();
+onMounted(async () => {
+  await fecthMatriculas();
+  await fecthProvincias();
+  await getColorPiel();
+  await getSexos();
+  await fecthPaises();
+  await fecthMunicipios();
+  await fecthCarreras();
+  await fecthFacultades();
+  await getClaseEstudiante();
+  await getProcedenciaEscolar();
+  await getSituacionEscolarAlMatricular();
 });
 
 // pagination
@@ -74,29 +92,27 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'poblado',
+    name: 'nombre',
     required: true,
-    label: 'Poblado',
+    label: 'Nombre',
     align: 'center',
-    field: 'poblado',
+    field: 'nombre',
     sortable: true,
   },
   {
-    name: 'codigo',
+    name: 'carrera',
     align: 'center',
-    label: 'Código',
-    field: 'codigo',
+    label: 'Carrera',
+    field: 'carrera',
     sortable: true,
   },
-  // {
-  //   name: 'provincia_codigo',
-  //   align: 'center',
-  //   label: 'Provincia',
-  //   // field: (row: { provincias: { provincia: string } }) =>
-  //   //   row.provincias.provincia,
-  //   field: 'provincia_codigo',
-  //   sortable: true,
-  // },
+  {
+    name: 'facultad',
+    align: 'center',
+    label: 'Facultad',
+    field: 'facultad',
+    sortable: true,
+  },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
@@ -109,9 +125,9 @@ const matriculasProp = ref<MatriculasProps>({
   foto: '',
   anno_academico: '',
   tipo_curso: '',
-  fecha_matricula: new Date(),
-  fecha_ingreso_este_ces: new Date(),
-  fecha_ingreso_edu_super: new Date(),
+  fecha_matricula: new Date().toISOString().substring(0, 10),
+  fecha_ingreso_este_ces: new Date().toISOString().substring(0, 10),
+  fecha_ingreso_edu_super: new Date().toISOString().substring(0, 10),
   ci: '',
   serie_letras: '',
   serie_numero: '',
@@ -138,7 +154,7 @@ const matriculasProp = ref<MatriculasProps>({
   domicilio: '',
   registro_civil: '',
   provincia: '',
-  fecha: new Date(),
+  fecha: new Date().toISOString().substring(0, 10),
   sin_sancion: true,
   sancionado: '',
   nunca_matriculado: true,
@@ -206,6 +222,16 @@ const deleteProvincia = async (item: MatriculasList) => {
   deleteProps.value.titulo = 'la matricula';
   eliminarToggle();
 };
+
+// interface verMatr extends MatriculasProps {
+//   show: boolean;
+// }
+
+const ver = (item: MatriculasProps) => {
+  console.log(item);
+  verSelectedMatricula(item);
+  showMatriculas();
+};
 </script>
 
 <template>
@@ -258,12 +284,17 @@ const deleteProvincia = async (item: MatriculasList) => {
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.poblado }}
+                {{ props.row.nombre }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.codigo }}
+                {{ props.row.carrera }}
+              </div>
+            </q-card-section>
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.facultad }}
               </div>
             </q-card-section>
             <q-separator />
@@ -277,6 +308,16 @@ const deleteProvincia = async (item: MatriculasList) => {
                   flat
                   dense
                   @click="editTable(props.row)"
+                />
+                <q-btn
+                  round
+                  color="success"
+                  icon="las la-eye"
+                  size="sm"
+                  class="q-ml-sm"
+                  flat
+                  dense
+                  @click="ver(props.row)"
                 />
                 <q-btn
                   round
@@ -301,14 +342,15 @@ const deleteProvincia = async (item: MatriculasList) => {
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-poblado="props">
+      <template #body-cell-nombre="props">
         <q-td :props="props">
-          {{ props.row.poblado }}
-        </q-td>
-      </template>
-      <template #body-cell-codigo="props">
-        <q-td :props="props">
-          {{ props.row.codigo }}
+          {{
+            props.row.nombre +
+            ' ' +
+            props.row.apellido1 +
+            '' +
+            props.row.apellido2
+          }}
         </q-td>
       </template>
       <template v-slot:body-cell-Action="props">
@@ -321,6 +363,16 @@ const deleteProvincia = async (item: MatriculasList) => {
             flat
             dense
             @click="editTable(props.row)"
+          />
+          <q-btn
+            round
+            color="success"
+            icon="las la-eye"
+            size="sm"
+            class="q-ml-sm"
+            flat
+            dense
+            @click="ver(props.row)"
           />
           <q-btn
             round
@@ -337,5 +389,9 @@ const deleteProvincia = async (item: MatriculasList) => {
     </q-table>
     <AddMatriculasComponent :matriculasUpd="matriculasProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
+    <MostrarMatricluaComponent
+      :matriculasUpd="matriculasProp"
+      @close="isShowMatriculaOpen = false"
+    />
   </div>
 </template>
