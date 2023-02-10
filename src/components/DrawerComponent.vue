@@ -16,6 +16,9 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'las la-users',
     link: '/users',
   },
+];
+
+const cursos: EssentialLinkProps[] = [
   {
     title: 'Matrículas',
     caption: 'Gestión de Matrículas',
@@ -27,6 +30,12 @@ const essentialLinks: EssentialLinkProps[] = [
     caption: 'Gestión de Boletas',
     icon: 'las la-users',
     link: '/boleta',
+  },
+  {
+    title: 'Posgrados',
+    caption: 'Gestión de Matrículas de Posgrado',
+    icon: 'las la-users',
+    link: '/posgrados',
   },
 ];
 
@@ -136,6 +145,22 @@ const nomencladores: EssentialLinkProps[] = [
               v-bind="link"
             />
           </template>
+          <q-expansion-item
+            expand-separator
+            icon="assessment"
+            label="Cursos"
+            caption="Matrículas de Cursos"
+          >
+            <q-card>
+              <template v-if="me.rol.toUpperCase() === 'ADMIN'">
+                <EssentialLink
+                  v-for="link in cursos"
+                  :key="link.title"
+                  v-bind="link"
+                />
+              </template>
+            </q-card>
+          </q-expansion-item>
           <q-expansion-item
             expand-separator
             icon="assessment"

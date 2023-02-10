@@ -12,7 +12,7 @@ import {
   mainProps,
 } from '../../interfaces/poblados.interfaces';
 import AddPobladosComponent from './AddPobladosComponent.vue';
-import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from 'src/stores/provincias/provincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 
 const $q = useQuasar();

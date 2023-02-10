@@ -906,7 +906,7 @@ import { MatriculasProps } from '../../interfaces/matriculas.interfaces';
 import { ProvinciaList } from 'src/interfaces/provincias.interfaces';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 import { MunicipioList } from 'src/interfaces/municipios.interfaces';
-import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from 'src/stores/provincias/provincias-store';
 import { useNomencladoresStore } from 'src/stores/nomencladores/nomencladores-store';
 import { usePaisesStore } from 'src/stores/paises/paises-store';
 import { PaisList } from 'src/interfaces/pais.interfaces';

@@ -5,7 +5,7 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from '../../stores/provincias/provincias-store';
 import {
   ProvinciaProps,
   ProvinciaList,

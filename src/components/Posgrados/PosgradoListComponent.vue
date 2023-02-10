@@ -2,19 +2,19 @@
 import { storeToRefs } from 'pinia';
 import { ref, watch, computed, onMounted } from 'vue';
 import { useQuasar, QTableProps } from 'quasar';
-import { useBoletaStore } from 'src/stores/boleta/boleta-store';
-import { boletaProps } from '../../interfaces/boleta.interfaces';
-import AddBoletaComponent from './AddBoletaComponent.vue';
+import { usePosgradosStore } from 'src/stores/posgrados/posgrados-store';
+import { PosgradoProps } from '../../interfaces/posgrados.interfaces';
+import AddPosgradoComponent from './AddPosgradoComponent.vue';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fetchBoletas, isBoletaToggle, editandoForm, deleteBoleta } =
-  useBoletaStore();
-const { boletas } = storeToRefs(useBoletaStore());
+const { fetchPosgrado, isPosgradoToggle, editandoForm, deletePosgrado } =
+  usePosgradosStore();
+const { posgrados } = storeToRefs(usePosgradosStore());
 
 onMounted(() => {
-  fetchBoletas();
+  fetchPosgrado();
 });
 // pagination
 function getItemsPerPage() {
@@ -56,13 +56,6 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'ci',
-    align: 'center',
-    label: 'Carné',
-    field: 'ci',
-    sortable: true,
-  },
-  {
     name: 'nombre',
     required: true,
     label: 'Nombre',
@@ -71,81 +64,120 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'apellidos',
-    required: true,
-    label: 'Apellidos',
+    name: 'postgrado',
     align: 'center',
-    field: 'apellidos',
+    label: 'Curso',
+    field: (row: { postgrados_disponibles: { postgrado: string } }) =>
+      row.postgrados_disponibles.postgrado,
     sortable: true,
   },
   {
-    name: 'preuniversitario',
-    required: true,
-    label: 'Preuniversitario',
+    name: 'inicio',
     align: 'center',
-    field: 'preuniversitario',
+    label: 'Inicia',
+    field: (row: { postgrados_disponibles: { inicio: string } }) =>
+      row.postgrados_disponibles.inicio.substring(0, 10),
+    sortable: true,
+  },
+  {
+    name: 'fin',
+    align: 'center',
+    label: 'Culmina',
+    field: (row: { postgrados_disponibles: { fin: string } }) =>
+      row.postgrados_disponibles.fin.substring(0, 10),
+    sortable: true,
+  },
+  {
+    name: 'alojamiento',
+    required: true,
+    label: 'Alojamiento',
+    align: 'center',
+    field: 'alojamiento',
+    sortable: true,
+  },
+  {
+    name: 'aceptado',
+    required: true,
+    label: 'Aceptado',
+    align: 'center',
+    field: 'aceptado',
     sortable: true,
   },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const boletProps = ref<boletaProps>({
+const posProps = ref<PosgradoProps>({
   id: '',
   nombre: '',
-  apellidos: '',
+  apellido1: '',
+  apellido2: '',
+  ci: '',
   sexo: '',
-  preuniversitario: '',
+  pais: '',
   provincia: '',
   municipio: '',
-  indice_academico: 0,
-  matematica: 0,
-  espanol: 0,
-  historia: 0,
-  escalafon: 0,
-  convocatoria: '',
-  opcion: 0,
-  sma: '',
-  ci: '',
-  fecha: new Date(Date.now()).toLocaleString(),
+  domicilio: '',
+  graduado: '',
+  fecha_graduado: new Date(Date.now()).toLocaleString(),
+  universidad: '',
+  tomo: 0,
+  folio: 0,
+  numero_universidad: 0,
+  centro_laboral: '',
+  direccion: '',
+  administrador: '',
+  telefono: '',
+  alojamiento: false,
+  aceptado: false,
+  postgrados_disponibleId: '',
 });
 
 const editTable = (item: {
   id: string;
   nombre: string;
-  apellidos: string;
-  sexo: string;
-  preuniversitario: string;
-  provincia: string;
-  municipio: string;
-  indice_academico: number;
-  matematica: number;
-  espanol: number;
-  historia: number;
-  escalafon: number;
-  convocatoria: string;
-  opcion: number;
-  sma: string;
+  apellido1: string;
+  apellido2: string;
   ci: string;
-  fecha: Date;
+  sexo: string;
+  pais: string;
+  domicilio: string;
+  graduado: string;
+  fecha_graduado: string;
+  universidad: string;
+  tomo: number;
+  folio: number;
+  numero_universidad: number;
+  centro_laboral: string;
+  direccion: string;
+  administrador: string;
+  telefono: string;
+  alojamiento: boolean;
+  aceptado: boolean;
+  postgrados_disponibleId: string;
 }) => {
-  boletProps.value.id = item.id;
-  boletProps.value.nombre = item.nombre;
-  boletProps.value.apellidos = item.apellidos;
-  boletProps.value.sexo = item.sexo;
-  boletProps.value.preuniversitario = item.preuniversitario;
-  boletProps.value.provincia = item.provincia;
-  boletProps.value.municipio = item.municipio;
-  boletProps.value.indice_academico = item.indice_academico;
-  boletProps.value.matematica = item.matematica;
-  boletProps.value.espanol = item.espanol;
-  boletProps.value.historia = item.historia;
-  boletProps.value.escalafon = item.escalafon;
-  boletProps.value.convocatoria = item.convocatoria;
-  boletProps.value.opcion = item.opcion;
-  boletProps.value.sma = item.sma;
-  boletProps.value.ci = item.ci;
-  boletProps.value.fecha = item.fecha.substring(0, 10);
-  isBoletaToggle();
+  posProps.value.id = item.id;
+  posProps.value.nombre = item.nombre;
+  posProps.value.apellido1 = item.apellido1;
+  posProps.value.apellido2 = item.apellido2;
+  posProps.value.ci = item.ci;
+  posProps.value.sexo = item.sexo;
+  posProps.value.pais = item.pais;
+  posProps.value.domicilio = item.domicilio;
+  posProps.value.graduado = item.graduado;
+  posProps.value.fecha_graduado = item.fecha_graduado.substr(0, 10);
+  posProps.value.universidad = item.universidad;
+  posProps.value.tomo = item.tomo;
+  posProps.value.folio = item.folio;
+  posProps.value.numero_universidad = item.numero_universidad;
+  posProps.value.centro_laboral = item.centro_laboral;
+  posProps.value.direccion = item.direccion;
+  posProps.value.administrador = item.administrador;
+  posProps.value.telefono = item.telefono;
+  posProps.value.alojamiento = item.alojamiento;
+  posProps.value.aceptado = item.aceptado;
+  posProps.value.postgrados_disponibleId = item.postgrados_disponibleId;
+
+  isPosgradoToggle();
   editandoForm(true);
 };
 
@@ -159,7 +191,7 @@ const eliminar = (id: string) => {
         label: 'Eliminar',
         color: 'negative',
         handler: () => {
-          delBoleta(id);
+          delPosgrado(id);
         },
       },
       {
@@ -173,15 +205,15 @@ const eliminar = (id: string) => {
   });
 };
 
-const delBoleta = async (id: string) => {
+const delPosgrado = async (id: string) => {
   try {
-    const eliminado = await deleteBoleta(id);
-    await fetchBoletas();
+    const eliminado = await deletePosgrado(id);
+    await fetchPosgrado();
 
     $q.notify({
       type: 'positive',
       message:
-        'La boleta del estudiante ' +
+        'La matrícula del cursante ' +
         eliminado.nombre +
         ' ' +
         eliminado.apellidos +
@@ -203,12 +235,12 @@ const delBoleta = async (id: string) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de nuevos ingresos CRD"
-      :rows="boletas"
+      title="Listado de matrículas de posgrado"
+      :rows="posgrados"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay registros que mostrar"
+      no-data-label="No hay registos que mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -231,7 +263,7 @@ const delBoleta = async (id: string) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isBoletaToggle"
+              @click="isPosgradoToggle"
             />
           </template>
         </q-input>
@@ -249,23 +281,38 @@ const delBoleta = async (id: string) => {
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.ci }}
-              </div>
-            </q-card-section>
-            <q-card-section style="fontsize: 12px">
-              <div class="flex flex-center" :props="props">
-                {{ props.row.nombre }}
+                {{ props.row.nombre }} {{ props.row.apellido1 }}
+                {{ props.row.apellido2 }}
               </div>
             </q-card-section>
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.apellidos }}
+                {{ props.row.postgrados_disponibles.postgrado }}
               </div>
             </q-card-section>
+            <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.preuniversitario }}
+                {{ props.row.postgrados_disponibles.inicio.substring(0, 10) }}
+              </div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.postgrados_disponibles.fin.substring(0, 10) }}
+              </div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.alojamiento ? 'Sí' : 'No' }}
+              </div>
+            </q-card-section>
+            <q-separator />
+            <q-card-section style="fontsize: 12px">
+              <div class="flex flex-center" :props="props">
+                {{ props.row.aceptado ? 'Aceptado' : 'Pendiente' }}
               </div>
             </q-card-section>
             <q-separator />
@@ -303,19 +350,35 @@ const delBoleta = async (id: string) => {
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-ci="props">
-        <q-td :props="props">
-          {{ props.row.ci }}
-        </q-td>
-      </template>
       <template #body-cell-nombre="props">
         <q-td :props="props">
-          {{ props.row.nombre }} {{ props.row.apellidos }}
+          {{ props.row.nombre }} {{ props.row.apellido1 }}
+          {{ props.row.apellido2 }}
         </q-td>
       </template>
-      <template #body-cell-pre="props">
+      <template #body-cell-posgrado="props">
         <q-td :props="props">
-          {{ props.row.preuniversitario }}
+          {{ props.row.postgrados_disponibles.postgrado }}
+        </q-td>
+      </template>
+      <template #body-cell-inicio="props">
+        <q-td :props="props">
+          {{ props.row.postgrados_disponibles.inicio.substring(0, 10) }}
+        </q-td>
+      </template>
+      <template #body-cell-fin="props">
+        <q-td :props="props">
+          {{ props.row.postgrados_disponibles.fin.substring(0, 10) }}
+        </q-td>
+      </template>
+      <template #body-cell-alojamiento="props">
+        <q-td :props="props">
+          {{ props.row.alojamiento ? 'Sí' : 'No' }}
+        </q-td>
+      </template>
+      <template #body-cell-aceptado="props">
+        <q-td :props="props">
+          {{ props.row.aceptado ? 'Aceptado' : 'Pendiente' }}
         </q-td>
       </template>
 
@@ -343,6 +406,6 @@ const delBoleta = async (id: string) => {
         </q-td>
       </template>
     </q-table>
-    <AddBoletaComponent :boleUpd="boletProps" />
+    <AddPosgradoComponent :posUpd="posProps" />
   </div>
 </template>

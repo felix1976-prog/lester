@@ -146,7 +146,7 @@
 import { computed, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
-import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from '../../stores/provincias/provincias-store';
 import { ProvinciaProps } from '../../interfaces/provincias.interfaces';
 import { usePaisesStore } from 'src/stores/paises/paises-store';
 import { PaisList } from 'src/interfaces/pais.interfaces';

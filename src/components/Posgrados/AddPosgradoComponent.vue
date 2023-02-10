@@ -2,7 +2,12 @@
   <div class="q-pa-md q-gutter-sm">
     <!--  -->
     <q-form @submit="add">
-      <q-dialog v-model="isBoletaOpen" position="top" persistent class="w-100">
+      <q-dialog
+        v-model="isPosgradoOpen"
+        position="top"
+        persistent
+        class="w-100"
+      >
         <q-stepper
           v-model="step"
           vertical
@@ -17,21 +22,6 @@
             icon="settings"
             :done="step > 1"
           >
-            <!-- <div class="row items-center justify-center mb-2">
-              <q-img
-                src="https://cdn.quasar.dev/img/image-src.png"
-                srcset="https://cdn.quasar.dev/img/image-1x.png 300w,
-                  https://cdn.quasar.dev/img/image-2x.png 2x,
-                  https://cdn.quasar.dev/img/image-3x.png 3x,
-                  https://cdn.quasar.dev/img/image-4x.png 4x"
-                style="height: 200px; max-width: 300px"
-              >
-                <div class="absolute-bottom text-body1 text-center">
-                  Mi Perfil
-                </div>
-              </q-img>
-            </div> -->
-            <!-- Nombre  -->
             <div>
               <q-input
                 v-if="!boletaEdit"
@@ -728,16 +718,22 @@
 import { computed, ref, onMounted } from 'vue';
 import { QBtn, QDialog, QForm, QIcon, QInput, useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
-import { useBoletaStore } from 'src/stores/boleta/boleta-store';
-import { boletaProps } from 'src/interfaces/boleta.interfaces';
+// import { useBoletaStore } from 'src/stores/boleta/boleta-store';
+// import { boletaProps } from 'src/interfaces/boleta.interfaces';
 import { useNomencladoresStore } from '../../stores/nomencladores/nomencladores-store';
 import { useProvinciasStore } from '../../stores/provincias/provincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
+import { usePosgradosStore } from 'src/stores/posgrados/posgrados-store';
 
 const $q = useQuasar();
-const { addBoletas, isBoletaToggle, editandoForm, fetchBoletas, editBoleta } =
-  useBoletaStore();
-const { isBoletaOpen, boletaEdit } = storeToRefs(useBoletaStore());
+const {
+  addPosgrado,
+  isPosgradoToggle,
+  editandoForm,
+  fetchPosgrado,
+  editPosgrado,
+} = usePosgradosStore();
+const { isPosgradoOpen, posgradoEdit } = storeToRefs(usePosgradosStore());
 
 // OBTENER LOS NOMENCLADORES NECESARIOS
 const { getSexos, getSMA, getConvocatorias } = useNomencladoresStore();
@@ -775,21 +771,27 @@ let step = ref(1);
 //Insertar usuario
 let datos = ref({
   nombre: '',
-  apellidos: '',
+  apellido1: '',
+  apellido2: '',
+  ci: '',
   sexo: '',
-  preuniversitario: '',
+  pais: '',
   provincia: '',
   municipio: '',
-  indice_academico: 0,
-  matematica: 0,
-  espanol: 0,
-  historia: 0,
-  escalafon: 0,
-  convocatoria: '',
-  opcion: 0,
-  sma: '',
-  ci: '',
-  fecha: new Date(Date.now()).toLocaleString(),
+  domicilio: '',
+  graduado: '',
+  fecha_graduado: new Date(Date.now()).toLocaleString(),
+  universidad: '',
+  tomo: 0,
+  folio: 0,
+  numero_universidad: 0,
+  centro_laboral: '',
+  direccion: '',
+  administrador: '',
+  telefono: '',
+  alojamiento: false,
+  aceptado: false,
+  postgrados_disponibleId: '',
 });
 
 const add = async () => {
@@ -810,7 +812,6 @@ const add = async () => {
     sma: datos.value.sma,
     ci: datos.value.ci,
     fecha: datos.value.fecha,
-    // fecha: Date.parse(datos.value.fecha),
   };
 
   if (
@@ -841,17 +842,10 @@ const add = async () => {
     try {
       await addBoletas(dto);
       await fetchBoletas();
-      // step = ref(3);
       $q.notify({
         type: 'positive',
         message: 'Registro insertado satisfactoriamente',
       });
-      // $q.notify({
-      //   color: 'green-4',
-      //   textColor: 'white',
-      //   icon: 'cloud_done',
-      //   message: 'Registro insertado satisfactoriamente',
-      // });
       step = ref(1);
     } catch (error) {
       console.log(error);
@@ -862,12 +856,6 @@ const add = async () => {
       message: 'Debe llenar todos los campos con valores válidos',
       multiLine: true,
     });
-    // $q.notify({
-    //   color: 'red-5',
-    //   textColor: 'white',
-    //   icon: 'warning',
-    //   message: 'Debe llenar todos los campos con valores válidos',
-    // });
   }
 };
 
@@ -883,21 +871,27 @@ const props = withDefaults(defineProps<Props>(), {
     return {
       id: '',
       nombre: '',
-      apellidos: '',
+      apellido1: '',
+      apellido2: '',
+      ci: '',
       sexo: '',
-      preuniversitario: '',
+      pais: '',
       provincia: '',
       municipio: '',
-      indice_academico: 0,
-      matematica: 0,
-      espanol: 0,
-      historia: 0,
-      escalafon: 0,
-      convocatoria: '',
-      opcion: 0,
-      sma: '',
-      ci: '',
-      fecha: new Date(Date.now()).toLocaleString(),
+      domicilio: '',
+      graduado: '',
+      fecha_graduado: new Date(Date.now()).toLocaleString(),
+      universidad: '',
+      tomo: 0,
+      folio: 0,
+      numero_universidad: 0,
+      centro_laboral: '',
+      direccion: '',
+      administrador: '',
+      telefono: '',
+      alojamiento: false,
+      aceptado: false,
+      postgrados_disponibleId: '',
     };
   },
 });
@@ -945,13 +939,6 @@ const actualizar = async () => {
         type: 'positive',
         message: 'Registro actualizado satisfactoriamente',
       });
-
-      // $q.notify({
-      //   color: 'green-4',
-      //   textColor: 'white',
-      //   icon: 'cloud_done',
-      //   message: 'Registro actualizado satisfactoriamente',
-      // });
     } catch (error) {
       console.log(error);
     }
@@ -994,40 +981,46 @@ const cerrar = () => {
   editandoForm(false);
   datos = ref({
     nombre: '',
-    apellidos: '',
+    apellido1: '',
+    apellido2: '',
+    ci: '',
     sexo: '',
-    preuniversitario: '',
+    pais: '',
     provincia: '',
     municipio: '',
-    indice_academico: 0,
-    matematica: 0,
-    espanol: 0,
-    historia: 0,
-    escalafon: 0,
-    convocatoria: '',
-    opcion: 0,
-    sma: '',
-    ci: '',
-    fecha: new Date(Date.now()).toLocaleString(),
+    domicilio: '',
+    graduado: '',
+    fecha_graduado: new Date(Date.now()).toLocaleString(),
+    universidad: '',
+    tomo: 0,
+    folio: 0,
+    numero_universidad: 0,
+    centro_laboral: '',
+    direccion: '',
+    administrador: '',
+    telefono: '',
+    alojamiento: false,
+    aceptado: false,
+    postgrados_disponibleId: '',
   });
   step = ref(1);
 };
 
 // CALCULO DEL ESCALAFÓN
-const Escalafon = (boletaEdit: boolean) => {
-  if (!boletaEdit) {
-    datos.value.escalafon =
-      (datos.value.matematica + datos.value.espanol + datos.value.historia) /
-        3 /
-        2 +
-      datos.value.indice_academico / 2;
-  } else {
-    todo.value.escalafon =
-      (todo.value.matematica + todo.value.espanol + todo.value.historia) /
-        3 /
-        2 +
-      todo.value.indice_academico / 2;
-  }
-};
+// const Escalafon = (boletaEdit: boolean) => {
+//   if (!boletaEdit) {
+//     datos.value.escalafon =
+//       (datos.value.matematica + datos.value.espanol + datos.value.historia) /
+//         3 /
+//         2 +
+//       datos.value.indice_academico / 2;
+//   } else {
+//     todo.value.escalafon =
+//       (todo.value.matematica + todo.value.espanol + todo.value.historia) /
+//         3 /
+//         2 +
+//       todo.value.indice_academico / 2;
+//   }
+// };
 // FIN DEL CALCULO DEL ESCALAFÓN
 </script>
