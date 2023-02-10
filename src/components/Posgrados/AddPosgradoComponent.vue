@@ -24,7 +24,7 @@
           >
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 type="text"
                 v-model="datos.nombre"
@@ -58,7 +58,7 @@
             <!-- Apellidos -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 type="text"
                 v-model="datos.apellidos"
@@ -92,7 +92,7 @@
             <!-- CI -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 type="text"
                 maxlength="11"
@@ -133,7 +133,7 @@
             <div>
               <q-select
                 class="q-mb-md"
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model="datos.sexo"
                 use-input
@@ -175,7 +175,7 @@
             <div>
               <q-select
                 class="q-mb-md"
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model="datos.provincia"
                 use-input
@@ -218,7 +218,7 @@
             <div>
               <q-select
                 class="q-mb-md"
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model="datos.municipio"
                 use-input
@@ -262,7 +262,7 @@
             <div>
               <q-select
                 class="q-mb-md"
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model="datos.sma"
                 use-input
@@ -302,7 +302,7 @@
             </div>
             <!-- Fecha -->
             <div>
-              <q-input v-if="!boletaEdit" dense filled v-model="datos.fecha">
+              <q-input v-if="!posgradoEdit" dense filled v-model="datos.fecha">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy
@@ -352,7 +352,7 @@
             <q-stepper-navigation>
               <q-btn
                 @click="
-                  !boletaEdit
+                  !posgradoEdit
                     ? avanzar()
                       ? (step = 2)
                       : (step = 1)
@@ -381,7 +381,7 @@
             <!-- PREUNIVERSITARIO -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 type="text"
                 v-model="datos.preuniversitario"
@@ -415,7 +415,7 @@
             <!-- INDICE ACADEMICO -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model.number="datos.indice_academico"
                 label="Índice Académico"
@@ -451,7 +451,7 @@
             <!-- MATEMATICAS -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model.number="datos.matematica"
                 label="Matemática"
@@ -487,7 +487,7 @@
             <!-- ESPAÑOL -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model.number="datos.espanol"
                 label="Español"
@@ -523,7 +523,7 @@
             <!-- HISTORIA -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model.number="datos.historia"
                 label="Historia"
@@ -559,7 +559,7 @@
             <!-- ESCALAFÓN -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 readonly
                 v-model.number="datos.escalafon"
@@ -571,7 +571,7 @@
                 ]"
               >
                 <q-btn
-                  @click="Escalafon(boletaEdit)"
+                  @click="Escalafon(posgradoEdit)"
                   flat
                   icon="send"
                   label="Calcular"
@@ -595,7 +595,7 @@
                 ]"
               >
                 <q-btn
-                  @click="Escalafon(boletaEdit)"
+                  @click="Escalafon(posgradoEdit)"
                   flat
                   icon="send"
                   label="Calcular"
@@ -610,7 +610,7 @@
             <div>
               <q-select
                 class="q-mb-md"
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model="datos.convocatoria"
                 use-input
@@ -651,7 +651,7 @@
             <!-- OPCIÓN -->
             <div>
               <q-input
-                v-if="!boletaEdit"
+                v-if="!posgradoEdit"
                 filled
                 v-model.number="datos.opcion"
                 label="Opción"
@@ -687,9 +687,9 @@
 
             <q-stepper-navigation>
               <q-btn
-                @click="!boletaEdit ? add() : actualizar()"
+                @click="!posgradoEdit ? add() : actualizar()"
                 color="primary"
-                :label="`${!boletaEdit ? 'Insertar' : 'Actualizar'}`"
+                :label="`${!posgradoEdit ? 'Insertar' : 'Actualizar'}`"
               />
               <q-btn
                 flat
@@ -724,6 +724,8 @@ import { useNomencladoresStore } from '../../stores/nomencladores/nomencladores-
 import { useProvinciasStore } from '../../stores/provincias/provincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 import { usePosgradosStore } from 'src/stores/posgrados/posgrados-store';
+import { usePaisesStore } from 'src/stores/paises/paises-store';
+import { PosgradoProps } from 'src/interfaces/posgrados.interfaces';
 
 const $q = useQuasar();
 const {
@@ -737,9 +739,11 @@ const { isPosgradoOpen, posgradoEdit } = storeToRefs(usePosgradosStore());
 
 // OBTENER LOS NOMENCLADORES NECESARIOS
 const { getSexos, getSMA, getConvocatorias } = useNomencladoresStore();
+const { fecthPaises } = usePaisesStore();
 const { fecthProvincias } = useProvinciasStore();
 const { fecthMunicipios } = useMunicipiosStore();
 const { Sexos, SMA, Convocatorias } = storeToRefs(useNomencladoresStore());
+const { paises } = storeToRefs(usePaisesStore());
 const { provincias } = storeToRefs(useProvinciasStore());
 const { municipios } = storeToRefs(useMunicipiosStore());
 
@@ -753,6 +757,9 @@ onMounted(() => {
   if (Convocatorias.value.length === 0) {
     getConvocatorias();
   }
+  if (paises.value.length === 0) {
+    fecthPaises();
+  }
   if (provincias.value.length === 0) {
     fecthProvincias();
   }
@@ -763,7 +770,7 @@ onMounted(() => {
 
 //Activar el valor del titulo del form
 const formTitle = computed(() => {
-  return !boletaEdit.value ? 'Insertar' : 'Editar';
+  return !posgradoEdit.value ? 'Insertar' : 'Editar';
 });
 //STEPS
 let step = ref(1);
@@ -797,51 +804,58 @@ let datos = ref({
 const add = async () => {
   let dto = {
     nombre: datos.value.nombre,
-    apellidos: datos.value.apellidos,
-    sexo: datos.value.sexo,
-    preuniversitario: datos.value.preuniversitario,
-    provincia: datos.value.provincia.provincia,
-    municipio: datos.value.municipio.municipio,
-    indice_academico: datos.value.indice_academico,
-    matematica: datos.value.matematica,
-    espanol: datos.value.espanol,
-    historia: datos.value.historia,
-    escalafon: datos.value.escalafon,
-    convocatoria: datos.value.convocatoria,
-    opcion: datos.value.opcion,
-    sma: datos.value.sma,
+    apellido1: datos.value.apellido1,
+    apellido2: datos.value.apellido2,
     ci: datos.value.ci,
-    fecha: datos.value.fecha,
+    sexo: datos.value.sexo,
+    pais: datos.value.pais,
+    provincia: datos.value.provincia,
+    municipio: datos.value.municipio,
+    domicilio: datos.value.domicilio,
+    graduado: datos.value.graduado,
+    fecha_graduado: datos.value.fecha_graduado,
+    universidad: datos.value.universidad,
+    tomo: datos.value.tomo,
+    folio: datos.value.folio,
+    numero_universidad: datos.value.numero_universidad,
+    centro_laboral: datos.value.centro_laboral,
+    direccion: datos.value.direccion,
+    administrador: datos.value.administrador,
+    telefono: datos.value.telefono,
+    alojamiento: datos.value.alojamiento,
+    aceptado: datos.value.aceptado,
+    postgrados_disponibleId: datos.value.postgrados_disponibleId,
   };
 
   if (
     dto.nombre !== '' &&
-    dto.apellidos !== '' &&
+    dto.apellido1 !== '' &&
+    dto.apellido2 !== '' &&
+    dto.ci !== '' &&
     dto.sexo !== '' &&
-    dto.preuniversitario !== '' &&
-    dto.municipio !== '' &&
-    dto.indice_academico > 60 &&
-    dto.indice_academico <= 100 &&
-    dto.matematica > 60 &&
-    dto.matematica <= 100 &&
-    dto.espanol > 60 &&
-    dto.espanol <= 100 &&
-    dto.historia > 60 &&
-    dto.historia <= 100 &&
-    dto.escalafon > 0 &&
-    dto.convocatoria !== '' &&
-    dto.opcion > 0 &&
-    dto.opcion < 6 &&
-    dto.sma !== '' &&
-    dto.ci.length === 11 &&
+    dto.pais !== '' &&
     dto.provincia !== '' &&
-    dto.fecha !== ''
+    dto.municipio !== '' &&
+    dto.domicilio !== '' &&
+    dto.graduado !== '' &&
+    dto.fecha_graduado !== '' &&
+    dto.universidad !== '' &&
+    dto.tomo > 0 &&
+    dto.folio > 0 &&
+    dto.numero_universidad > 0 &&
+    dto.centro_laboral !== '' &&
+    dto.direccion !== '' &&
+    dto.administrador !== '' &&
+    dto.telefono.length > 8 &&
+    dto.alojamiento !== null &&
+    dto.aceptado !== null &&
+    dto.postgrados_disponibleId !== ''
   ) {
     cerrar();
 
     try {
-      await addBoletas(dto);
-      await fetchBoletas();
+      await addPosgrado(dto);
+      await fetchPosgrado();
       $q.notify({
         type: 'positive',
         message: 'Registro insertado satisfactoriamente',
@@ -864,10 +878,10 @@ const add = async () => {
 //  ACTUALIZAR
 
 interface Props {
-  boleUpd?: boletaProps;
+  posUpd?: PosgradoProps;
 }
 const props = withDefaults(defineProps<Props>(), {
-  boleUpd: () => {
+  posUpd: () => {
     return {
       id: '',
       nombre: '',
@@ -896,88 +910,89 @@ const props = withDefaults(defineProps<Props>(), {
   },
 });
 
-const todo = computed(() => props.boleUpd);
+const todo = computed(() => props.posUpd);
 
-const actualizar = async () => {
-  if (
-    todo.value.nombre !== '' &&
-    todo.value.apellidos !== '' &&
-    todo.value.sexo !== '' &&
-    todo.value.preuniversitario !== '' &&
-    todo.value.municipio !== '' &&
-    todo.value.indice_academico > 60 &&
-    todo.value.indice_academico <= 100 &&
-    todo.value.matematica > 60 &&
-    todo.value.matematica <= 100 &&
-    todo.value.espanol > 60 &&
-    todo.value.espanol <= 100 &&
-    todo.value.historia > 60 &&
-    todo.value.historia <= 100 &&
-    todo.value.escalafon > 0 &&
-    todo.value.convocatoria !== '' &&
-    todo.value.opcion > 0 &&
-    todo.value.opcion < 6 &&
-    todo.value.sma !== '' &&
-    todo.value.ci.length === 11 &&
-    todo.value.provincia !== '' &&
-    todo.value.fecha !== ''
-  ) {
-    try {
-      if (todo.value.municipio.codigo) {
-        todo.value.municipio = todo.value.municipio.municipio;
-      }
+// const actualizar = async () => {
+//   if (
+//     todo.value.nombre !== '' &&
+//     todo.value.apellido1 !== '' &&
+//     todo.value.apellido2 !== '' &&
+//     todo.value.ci !== '' &&
+//     todo.value.sexo !== '' &&
+//     todo.value.pais > 60 &&
+//     todo.value.provincia <= 100 &&
+//     todo.value.municipio > 60 &&
+//     todo.value.domicilio <= 100 &&
+//     todo.value.graduado > 60 &&
+//     todo.value.fecha_graduado <= 100 &&
+//     todo.value.universidad > 60 &&
+//     todo.value.tomo <= 100 &&
+//     todo.value.folio > 0 &&
+//     todo.value.numero_universidad !== '' &&
+//     todo.value.centro_laboral > 0 &&
+//     todo.value.direccion < 6 &&
+//     todo.value.administrador !== '' &&
+//     todo.value.telefono.length === 11 &&
+//     todo.value.alojamiento !== '' &&
+//     todo.value.aceptado !== '' &&
+//     todo.value.postgrados_disponibleId !== ''
+//   ) {
+//     try {
+//       if (todo.value.municipio.codigo) {
+//         todo.value.municipio = todo.value.municipio.municipio;
+//       }
 
-      if (todo.value.provincia.codigo) {
-        todo.value.provincia = todo.value.provincia.provincia;
-      }
+//       if (todo.value.provincia.codigo) {
+//         todo.value.provincia = todo.value.provincia.provincia;
+//       }
 
-      await editBoleta(todo.value);
-      await fetchBoletas();
-      cerrar();
+//       await editBoleta(todo.value);
+//       await fetchBoletas();
+//       cerrar();
 
-      $q.notify({
-        type: 'positive',
-        message: 'Registro actualizado satisfactoriamente',
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  } else {
-    $q.notify({
-      type: 'info',
-      message: 'Debe llenar todos los campos con valores válidos',
-      multiLine: true,
-    });
-  }
-};
+//       $q.notify({
+//         type: 'positive',
+//         message: 'Registro actualizado satisfactoriamente',
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   } else {
+//     $q.notify({
+//       type: 'info',
+//       message: 'Debe llenar todos los campos con valores válidos',
+//       multiLine: true,
+//     });
+//   }
+// };
 // FIN  ACTUALIZAR
 
 // FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
 const avanzar = () => {
-  if (
-    datos.value.nombre !== '' &&
-    datos.value.apellidos !== '' &&
-    datos.value.ci.length === 11 &&
-    datos.value.sexo !== '' &&
-    datos.value.provincia !== '' &&
-    datos.value.municipio !== '' &&
-    datos.value.sma !== '' &&
-    datos.value.fecha !== ''
-  ) {
-    return true;
-  } else {
-    $q.notify({
-      type: 'info',
-      message: 'Debe llenar todos los campos con valores válidos',
-      multiLine: true,
-    });
-  }
+  // if (
+  //   datos.value.nombre !== '' &&
+  //   datos.value.apellidos !== '' &&
+  //   datos.value.ci.length === 11 &&
+  //   datos.value.sexo !== '' &&
+  //   datos.value.provincia !== '' &&
+  //   datos.value.municipio !== '' &&
+  //   datos.value.sma !== '' &&
+  //   datos.value.fecha !== ''
+  // ) {
+  //   return true;
+  // } else {
+  $q.notify({
+    type: 'info',
+    message: 'Debe llenar todos los campos con valores válidos',
+    multiLine: true,
+  });
+  // }
 };
 // FIN DE LA FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
 
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
-  isBoletaToggle();
+  isPosgradoToggle();
   editandoForm(false);
   datos = ref({
     nombre: '',
@@ -1007,8 +1022,8 @@ const cerrar = () => {
 };
 
 // CALCULO DEL ESCALAFÓN
-// const Escalafon = (boletaEdit: boolean) => {
-//   if (!boletaEdit) {
+// const Escalafon = (posgradoEdit: boolean) => {
+//   if (!posgradoEdit) {
 //     datos.value.escalafon =
 //       (datos.value.matematica + datos.value.espanol + datos.value.historia) /
 //         3 /
