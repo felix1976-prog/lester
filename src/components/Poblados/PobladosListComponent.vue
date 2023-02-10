@@ -5,22 +5,31 @@ import { useQuasar, QTableProps } from 'quasar';
 import DeleteComponent from '../DeleteComponent.vue';
 import { DeleteInterface } from '../../interfaces/delete.interfaces';
 import { useUtilsComposables } from '../../composables/utilsComposables';
-import { useCentroStore } from '../../stores/centro/centro-store';
-import { useEmpresaStore } from 'src/stores/empresa/empresa-store';
-import { centroProps, CentroList } from '../../interfaces/centro.interfaces';
-import AddCentroComponent from './AddCentroComponent.vue';
+import { usePobladoStore } from '../../stores/poblados/poblados-store';
+import {
+  PobladosProps,
+  PobladosList,
+  mainProps,
+} from '../../interfaces/poblados.interfaces';
+import AddPobladosComponent from './AddPobladosComponent.vue';
+import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 
 const $q = useQuasar();
 const filter = ref('');
 
-const { fecthCentros, isCentroToggle, editandoForm } = useCentroStore();
-const { centro } = storeToRefs(useCentroStore());
-const { fecthEmpresas } = useEmpresaStore();
+const { fecthPoblado, isPobladoToggle, editandoForm } = usePobladoStore();
+const { poblados } = storeToRefs(usePobladoStore());
 const { eliminarToggle } = useUtilsComposables();
+const { fecthProvincias } = useProvinciasStore();
+const { fecthMunicipios } = useMunicipiosStore();
+
 onMounted(() => {
-  fecthCentros();
-  fecthEmpresas();
+  fecthPoblado();
+  fecthProvincias();
+  fecthMunicipios();
 });
+
 // pagination
 function getItemsPerPage() {
   if ($q.screen.lt.sm) {
@@ -61,11 +70,11 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'centro',
+    name: 'poblado',
     required: true,
-    label: 'Centro',
+    label: 'Poblado',
     align: 'center',
-    field: (row: { centro: string }) => row.centro,
+    field: 'poblado',
     sortable: true,
   },
   {
@@ -75,38 +84,40 @@ const columns: QTableProps['columns'] = [
     field: 'codigo',
     sortable: true,
   },
-  {
-    name: 'empresa_id',
-    align: 'center',
-    label: 'Empresa',
-    field: (row: { empresas: { empresa: string } }) => row.empresas.empresa,
-    sortable: true,
-  },
+  // {
+  //   name: 'provincia_codigo',
+  //   align: 'center',
+  //   label: 'Provincia',
+  //   // field: (row: { provincias: { provincia: string } }) =>
+  //   //   row.provincias.provincia,
+  //   field: 'provincia_codigo',
+  //   sortable: true,
+  // },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const centroProp = ref<centroProps>({
+const pobladoProp = ref<PobladosProps>({
   id: '',
-  centro: '',
-  codigo: '',
-  empresa_id: '',
+  poblado: '',
+  codigo: 0,
+  municipio_codigo: 0,
+  provincia_codigo: 0,
 });
-const editTable = (item: centroProps) => {
-  isCentroToggle();
+const editTable = (item: mainProps) => {
+  isPobladoToggle();
   editandoForm(true);
-  centroProp.value.centro = item.centro;
-  centroProp.value.codigo = item.codigo;
-  centroProp.value.empresa_id = item.empresa_id;
-  centroProp.value.id = item.id;
+  pobladoProp.value.poblado = item.poblado;
+  pobladoProp.value.codigo = item.codigo;
+  pobladoProp.value.provincia_codigo = item.provincia_codigo;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
   url: ',',
 });
 
-const deleteCentro = async (item: CentroList) => {
-  deleteProps.value.url = `/carrera/${item.id}`;
-  deleteProps.value.titulo = 'la carrera';
+const deleteProvincia = async (item: PobladosList) => {
+  deleteProps.value.url = `/poblados/${item.id}`;
+  deleteProps.value.titulo = 'la provincia';
   eliminarToggle();
 };
 </script>
@@ -115,12 +126,12 @@ const deleteCentro = async (item: CentroList) => {
   <div>
     <q-table
       :grid="$q.screen.lt.md"
-      title="Listado de Centros"
-      :rows="centro"
+      title="Listado de Poblados"
+      :rows="poblados"
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay Centros para mostrar"
+      no-data-label="No hay poblados para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -143,7 +154,7 @@ const deleteCentro = async (item: CentroList) => {
               color="primary"
               icon="las la-plus-circle"
               type="button"
-              @click="isCentroToggle"
+              @click="isPobladoToggle"
             />
           </template>
         </q-input>
@@ -154,14 +165,14 @@ const deleteCentro = async (item: CentroList) => {
           <q-card>
             <q-card-section class="text-center">
               <q-avatar size="50px" class="shadow-10">
-                <q-icon color="secondary" name="las la-user-tie" />
+                <q-icon color="secondary" name="las la-globe-europe" />
               </q-avatar>
               <br />
             </q-card-section>
             <q-separator />
             <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.centro }}
+                {{ props.row.poblado }}
               </div>
             </q-card-section>
             <q-card-section style="fontsize: 12px">
@@ -169,12 +180,11 @@ const deleteCentro = async (item: CentroList) => {
                 {{ props.row.codigo }}
               </div>
             </q-card-section>
-            <q-separator />
-            <q-card-section style="fontsize: 12px">
+            <!-- <q-card-section style="fontsize: 12px">
               <div class="flex flex-center" :props="props">
-                {{ props.row.empresas.empresa }}
+                {{ props.row.provincia_codigo }}
               </div>
-            </q-card-section>
+            </q-card-section> -->
             <q-separator />
             <q-card-actions align="center">
               <div style="font-size: 1.7em">
@@ -195,7 +205,7 @@ const deleteCentro = async (item: CentroList) => {
                   class="q-ml-sm"
                   flat
                   dense
-                  @click="deleteCentro(props.row)"
+                  @click="deleteProvincia(props.row)"
                 />
               </div>
             </q-card-actions>
@@ -206,13 +216,13 @@ const deleteCentro = async (item: CentroList) => {
       <template #body-cell-avatar="props">
         <q-td :props="props">
           <q-avatar size="50px" class="shadow-10">
-            <q-icon color="secondary" name="las la-user-tie" />
+            <q-icon color="secondary" name="las la-globe-europe" />
           </q-avatar>
         </q-td>
       </template>
-      <template #body-cell-carrera="props">
+      <template #body-cell-poblado="props">
         <q-td :props="props">
-          {{ props.row.centro }}
+          {{ props.row.poblado }}
         </q-td>
       </template>
       <template #body-cell-codigo="props">
@@ -220,11 +230,11 @@ const deleteCentro = async (item: CentroList) => {
           {{ props.row.codigo }}
         </q-td>
       </template>
-      <template #body-cell-facultad_id="props">
+      <!-- <template #body-cell-provincia_codigo="props">
         <q-td :props="props">
-          {{ props.row.empresas.empresa }}
+          {{ props.row.provincia_codigo }}
         </q-td>
-      </template>
+      </template> -->
       <template v-slot:body-cell-Action="props">
         <q-td :props="props">
           <q-btn
@@ -244,12 +254,12 @@ const deleteCentro = async (item: CentroList) => {
             class="q-ml-sm"
             flat
             dense
-            @click="deleteCentro(props.row)"
+            @click="deleteProvincia(props.row)"
           />
         </q-td>
       </template>
     </q-table>
-    <AddCentroComponent :centroUpd="centroProp" />
+    <AddPobladosComponent :pobladoUpd="pobladoProp" />
     <DeleteComponent :deleteUpd="deleteProps" />
   </div>
 </template>

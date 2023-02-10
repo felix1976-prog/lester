@@ -9,7 +9,7 @@ import AddBoletaComponent from './AddBoletaComponent.vue';
 const $q = useQuasar();
 const filter = ref('');
 
-const { fetchBoletas, isBoletaToggle, editandoForm } =
+const { fetchBoletas, isBoletaToggle, editandoForm, deleteBoleta } =
   useBoletaStore();
 const { boletas } = storeToRefs(useBoletaStore());
 
@@ -79,25 +79,25 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
-    name: 'preunivesitario',
+    name: 'preuniversitario',
     required: true,
-    label: 'Preunivesitario',
+    label: 'preuniversitario',
     align: 'center',
-    field: 'preunivesitario',
+    field: 'preuniversitario',
     sortable: true,
   },
   { name: 'Action', align: 'center', label: 'Action', field: 'Action' },
 ];
 // FIN TABLE
-const boletaProps = ref<boletaProps>({
+const boletProps = ref<boletaProps>({
   id: '',
   nombre: '',
   apellidos: '',
   sexo: '',
-  preunivesitario: '',
+  preuniversitario: '',
   provincia: '',
   municipio: '',
-  inidice_academico: 0,
+  indice_academico: 0,
   matematica: 0,
   espanol: 0,
   historia: 0,
@@ -105,51 +105,118 @@ const boletaProps = ref<boletaProps>({
   convocatoria: '',
   opcion: 0,
   sma: '',
-  ci: ''
+  ci: '',
+  fecha: new Date(Date.now()).toLocaleString(),
 });
+
 const editTable = (item: {
-      id: string,
-      nombre: string,
-      apellidos: string,
-      sexo: string,
-      preunivesitario: string,
-      provincia: string,
-      municipio: string,
-      inidice_academico: number,
-      matematica: number,
-      espanol: number,
-      historia: number,
-      escalafon: number,
-      convocatoria: string,
-      opcion: number,
-      sma: string,
-      ci: string
-    }) => {
+  id: string;
+  nombre: string;
+  apellidos: string;
+  sexo: string;
+  preuniversitario: string;
+  provincia: string;
+  municipio: string;
+  indice_academico: number;
+  matematica: number;
+  espanol: number;
+  historia: number;
+  escalafon: number;
+  convocatoria: string;
+  opcion: number;
+  sma: string;
+  ci: string;
+  fecha: Date;
+}) => {
+  boletProps.value.id = item.id;
+  boletProps.value.nombre = item.nombre;
+  boletProps.value.apellidos = item.apellidos;
+  boletProps.value.sexo = item.sexo;
+  boletProps.value.preuniversitario = item.preuniversitario;
+  boletProps.value.provincia = item.provincia;
+  boletProps.value.municipio = item.municipio;
+  boletProps.value.indice_academico = item.indice_academico;
+  boletProps.value.matematica = item.matematica;
+  boletProps.value.espanol = item.espanol;
+  boletProps.value.historia = item.historia;
+  boletProps.value.escalafon = item.escalafon;
+  boletProps.value.convocatoria = item.convocatoria;
+  boletProps.value.opcion = item.opcion;
+  boletProps.value.sma = item.sma;
+  boletProps.value.ci = item.ci;
+  boletProps.value.fecha = item.fecha.substr(0, 10);
   isBoletaToggle();
   editandoForm(true);
-  boletaProps.value.id = item.id;
-  boletaProps.value.nombre = item.nombre;
-  boletaProps.value.apellidos = item.apellidos;
-  boletaProps.value.sexo = item.sexo;
-  boletaProps.value.preunivesitario = item.preunivesitario;
-  boletaProps.value.provincia = item.provincia;
-  boletaProps.value.municipio = item.municipio;
-  boletaProps.value.inidice_academico = item.inidice_academico;
-  boletaProps.value.matematica = item.matematica;
-  boletaProps.value.espanol = item.espanol;
-  boletaProps.value.historia = item.historia;
-  boletaProps.value.escalafon = item.escalafon;
-  boletaProps.value.convocatoria = item.convocatoria;
-  boletaProps.value.opcion = item.opcion;
-  boletaProps.value.sma = item.sma;
-  boletaProps.value.ci = item.ci;
 };
-const deleteBoleta = (item: { id: string }) => {
-  return item;
+
+const eliminar = (id: string) => {
+  $q.notify({
+    type: 'info',
+    message:
+      '¡Usted va a eliminar un registro!, ¿Está seguro de querer eliminarlo?.',
+    actions: [
+      {
+        label: 'Eliminar',
+        color: 'negative',
+        handler: () => {
+          delBoleta(id);
+        },
+      },
+      {
+        label: 'Cancelar',
+        color: 'primary',
+        handler: () => {
+          /* ... */
+        },
+      },
+    ],
+  });
 };
-// const addfacultadToggle = () => {
-//   return isFacultadOpen;
-// };
+
+const delBoleta = async (id: string) => {
+  console.log('El id eliminado: ', id);
+  try {
+    const eliminado = await deleteBoleta(id);
+    await fetchBoletas();
+
+    $q.notify({
+      type: 'positive',
+      message:
+        'La boleta del estudiante ' +
+        eliminado.nombre +
+        ' ' +
+        eliminado.apellidos +
+        ' se eliminó satisfactoriamente.',
+    });
+
+    // $q.notify({
+    //   color: 'green-4',
+    //   textColor: 'white',
+    //   icon: 'cloud_done',
+    //   message:
+    //     'La boleta del estudiante ' +
+    //     eliminado.nombre +
+    //     ' ' +
+    //     eliminado.apellidos +
+    //     ' se eliminó satisfactoriamente.',
+    // });
+  } catch (error) {
+    console.log(error);
+
+    $q.notify({
+      type: 'negative',
+      message: 'No se pudo eliminar el registro por: ' + error,
+      multiLine: true,
+    });
+
+    // $q.notify({
+    //   color: 'red-5',
+    //   textColor: 'white',
+    //   icon: 'warning',
+    //   message: 'No se pudo eliminar el registro por: ' + error,
+    // });
+  }
+};
 </script>
 
 <template>
@@ -161,7 +228,7 @@ const deleteBoleta = (item: { id: string }) => {
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay Facultades para mostrar"
+      no-data-label="No hay Boletas para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
@@ -241,7 +308,7 @@ const deleteBoleta = (item: { id: string }) => {
                   class="q-ml-sm"
                   flat
                   dense
-                  @click="deleteBoleta(props.row)"
+                  @click="eliminar(props.row)"
                 />
               </div>
             </q-card-actions>
@@ -291,11 +358,11 @@ const deleteBoleta = (item: { id: string }) => {
             class="q-ml-sm"
             flat
             dense
-            @click="deleteBoleta(props.row)"
+            @click="eliminar(props.row.id)"
           />
         </q-td>
       </template>
     </q-table>
-    <AddBoletaComponent :boleUpd="boletaProps" />
+    <AddBoletaComponent :boleUpd="boletProps" />
   </div>
 </template>

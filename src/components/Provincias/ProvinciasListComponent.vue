@@ -90,7 +90,7 @@ const provinciaProp = ref<ProvinciaProps>({
   provincia: '',
   codigo: '',
   pais_id: '',
-  paisName: '',
+  // paisName: '',
 });
 const editTable = (item: mainProps) => {
   isProvinciasToggle();
@@ -98,7 +98,7 @@ const editTable = (item: mainProps) => {
   provinciaProp.value.provincia = item.provincia;
   provinciaProp.value.codigo = item.codigo;
   provinciaProp.value.pais_id = item.pais_id;
-  provinciaProp.value.paisName = item.paises.pais;
+  // provinciaProp.value.paisName = item.paises.pais;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',

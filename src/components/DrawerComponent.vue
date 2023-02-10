@@ -17,6 +17,12 @@ const essentialLinks: EssentialLinkProps[] = [
     link: '/users',
   },
   {
+    title: 'Matrículas',
+    caption: 'Gestión de Matrículas',
+    icon: 'las la-list',
+    link: '/matriculas',
+  },
+  {
     title: 'Boletas',
     caption: 'Gestión de Boletas',
     icon: 'las la-users',
@@ -78,6 +84,12 @@ const nomencladores: EssentialLinkProps[] = [
     caption: 'Gestionar datos del Municipio',
     icon: 'las la-globe',
     link: '/municipio',
+  },
+  {
+    title: 'Poblados',
+    caption: 'Gestionar datos del Poblado',
+    icon: 'las la-globe',
+    link: '/poblado',
   },
 ];
 </script>

@@ -7,7 +7,7 @@
         <q-card-section>
           <div class="flex column items-center">
             <div class="text-weight-bold">{{ formTitle }}</div>
-            <div class="text-grey">{{ formTitle }} sus carreras</div>
+            <div class="text-grey">{{ formTitle }} sus Organismo</div>
           </div>
         </q-card-section>
 
@@ -20,7 +20,7 @@
                 filled
                 type="text"
                 v-model="datos.organismo"
-                label="Carrera"
+                label="Organismo"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba el organismo',
@@ -36,7 +36,7 @@
                 filled
                 type="text"
                 v-model="todo.organismo"
-                label="Carrera"
+                label="Organismo"
                 lazy-rules
                 :rules="[
                   (val) => (val && val.length > 0) || 'Escriba el organismo',
