@@ -7,12 +7,6 @@ export const useBoletaStore = defineStore('boleta', {
     isBoletaOpen: false,
     boletaEdit: false,
   }),
-},
-
-async fetchBoletas() {
-  try {
-    const { data } = await api.get('/boleta');
-    return (this.boletas = data);
 
   getters: {
     allBoletas(state) {
@@ -118,10 +112,3 @@ async fetchBoletas() {
     },
   },
 });
-},
-
-async fetchBoletas() {
-  try {
-    const { data } = await api.get('/boleta');
-    return (this.boletas = data);
- 
