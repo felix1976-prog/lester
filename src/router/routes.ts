@@ -60,6 +60,10 @@ export default function ({ store }: { store: Pinia }) {
           path: '/boleta',
           component: () => import('pages/BoletaPage.vue'),
         },
+        {
+          path: '/posgrados',
+          component: () => import('pages/PosgradosPage.vue'),
+        },
       ],
     },
     // {

@@ -12,7 +12,7 @@ import {
   mainProps,
 } from '../../interfaces/municipios.interfaces';
 import AddMunicipiosComponent from './AddMunicipiosComponent.vue';
-import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from 'src/stores/provincias/provincias-store';
 
 const $q = useQuasar();
 const filter = ref('');

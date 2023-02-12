@@ -202,7 +202,7 @@ import { PobladosProps } from '../../interfaces/poblados.interfaces';
 import { ProvinciaList } from 'src/interfaces/provincias.interfaces';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 import { MunicipioList } from 'src/interfaces/municipios.interfaces';
-import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from 'src/stores/provincias/provincias-store';
 
 const $q = useQuasar();
 const { addPoblado, isPobladoToggle, editandoForm, fecthPoblado } =

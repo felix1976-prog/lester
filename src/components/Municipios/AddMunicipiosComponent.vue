@@ -148,7 +148,7 @@ import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 import { useMunicipiosStore } from '../../stores/municipios/municipios-store';
 import { MunicipioProps } from '../../interfaces/municipios.interfaces';
-import { useProvinciasStore } from 'src/stores/provincias/pr0vincias-store';
+import { useProvinciasStore } from 'src/stores/provincias/provincias-store';
 import { ProvinciaList } from 'src/interfaces/provincias.interfaces';
 
 const $q = useQuasar();
