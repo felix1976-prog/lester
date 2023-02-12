@@ -731,7 +731,7 @@ import { storeToRefs } from 'pinia';
 import { useBoletaStore } from 'src/stores/boleta/boleta-store';
 import { boletaProps } from 'src/interfaces/boleta.interfaces';
 import { useNomencladoresStore } from '../../stores/nomencladores/nomencladores-store';
-import { useProvinciasStore } from '../../stores/provincias/provincias-store';
+import { useProvinciasStore } from '../../stores/provincias/pr0vincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 
 const $q = useQuasar();
@@ -817,7 +817,7 @@ const add = async () => {
     dto.nombre !== '' &&
     dto.apellidos !== '' &&
     dto.sexo !== '' &&
-    dto.preuniversitario !== '' &&Cargando
+    dto.preuniversitario !== '' &&
     dto.municipio !== '' &&
     dto.indice_academico > 60 &&
     dto.indice_academico <= 100 &&

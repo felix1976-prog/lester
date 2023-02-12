@@ -81,7 +81,7 @@ const columns: QTableProps['columns'] = [
   {
     name: 'preuniversitario',
     required: true,
-    label: 'Preuniversitario',
+    label: 'preuniversitario',
     align: 'center',
     field: 'preuniversitario',
     sortable: true,
@@ -144,7 +144,7 @@ const editTable = (item: {
   boletProps.value.opcion = item.opcion;
   boletProps.value.sma = item.sma;
   boletProps.value.ci = item.ci;
-  boletProps.value.fecha = item.fecha.substring(0, 10);
+  boletProps.value.fecha = item.fecha.substr(0, 10);
   isBoletaToggle();
   editandoForm(true);
 };
@@ -174,6 +174,7 @@ const eliminar = (id: string) => {
 };
 
 const delBoleta = async (id: string) => {
+  console.log('El id eliminado: ', id);
   try {
     const eliminado = await deleteBoleta(id);
     await fetchBoletas();
@@ -187,6 +188,18 @@ const delBoleta = async (id: string) => {
         eliminado.apellidos +
         ' se eliminó satisfactoriamente.',
     });
+
+    // $q.notify({
+    //   color: 'green-4',
+    //   textColor: 'white',
+    //   icon: 'cloud_done',
+    //   message:
+    //     'La boleta del estudiante ' +
+    //     eliminado.nombre +
+    //     ' ' +
+    //     eliminado.apellidos +
+    //     ' se eliminó satisfactoriamente.',
+    // });
   } catch (error) {
     console.log(error);
 
@@ -195,6 +208,13 @@ const delBoleta = async (id: string) => {
       message: 'No se pudo eliminar el registro por: ' + error,
       multiLine: true,
     });
+
+    // $q.notify({
+    //   color: 'red-5',
+    //   textColor: 'white',
+    //   icon: 'warning',
+    //   message: 'No se pudo eliminar el registro por: ' + error,
+    // });
   }
 };
 </script>
@@ -208,7 +228,7 @@ const delBoleta = async (id: string) => {
       :columns="columns"
       row-key="name"
       :filter="filter"
-      no-data-label="No hay registros que mostrar"
+      no-data-label="No hay Boletas para mostrar"
       v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
       class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition wrapp"
