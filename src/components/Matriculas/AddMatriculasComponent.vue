@@ -19,8 +19,93 @@
           icon="settings"
           :done="step > 1"
         >
-          <div class="row items-center justify-center mb-2">
-            <q-uploader :factory="uploadImg" multiple style="max-width: 300px">
+          <div
+            v-if="!matriculasEdit"
+            class="row items-center justify-center mb-2"
+          >
+            <q-uploader
+              :factory="uploadImg"
+              multiple
+              style="max-width: 300px"
+              field-name="file"
+            >
+              <template v-slot:header="scope">
+                <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
+                  <q-btn
+                    v-if="scope.queuedFiles.length > 0"
+                    icon="clear_all"
+                    @click="scope.removeQueuedFiles"
+                    round
+                    dense
+                    flat
+                  >
+                    <q-tooltip>Borrar Todo</q-tooltip>
+                  </q-btn>
+                  <q-btn
+                    v-if="scope.uploadedFiles.length > 0"
+                    icon="done_all"
+                    @click="scope.removeUploadedFiles"
+                    round
+                    dense
+                    flat
+                  >
+                    <q-tooltip>Eliminar Imagen</q-tooltip>
+                  </q-btn>
+                  <q-spinner
+                    v-if="scope.isUploading"
+                    class="q-uploader__spinner"
+                  />
+                  <div class="col">
+                    <div class="q-uploader__title">Cargar Imagen</div>
+                    <div class="q-uploader__subtitle">
+                      {{ scope.uploadSizeLabel }} /
+                      {{ scope.uploadProgressLabel }}
+                    </div>
+                  </div>
+                  <q-btn
+                    v-if="scope.canAddFiles"
+                    type="a"
+                    icon="add_box"
+                    @click="scope.pickFiles"
+                    round
+                    dense
+                    flat
+                  >
+                    <q-uploader-add-trigger />
+                    <q-tooltip>Escoja la imagen</q-tooltip>
+                  </q-btn>
+                  <q-btn
+                    v-if="scope.canUpload"
+                    icon="cloud_upload"
+                    @click="scope.upload"
+                    round
+                    dense
+                    flat
+                  >
+                    <q-tooltip>Subir la Imagen</q-tooltip>
+                  </q-btn>
+
+                  <q-btn
+                    v-if="scope.isUploading"
+                    icon="clear"
+                    @click="scope.abort"
+                    round
+                    dense
+                    flat
+                  >
+                    <q-tooltip>No subir la Imagen</q-tooltip>
+                  </q-btn>
+                </div>
+              </template>
+            </q-uploader>
+          </div>
+          <div v-else class="row items-center justify-center mb-2">
+            <q-uploader
+              :factory="uploadImg"
+              multiple
+              style="max-width: 300px"
+              field-name="file"
+            >
               <template v-slot:header="scope">
                 <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
                   <q-btn
@@ -443,12 +528,7 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step
-          :name="3"
-          title="Ad template"
-          icon="assignment"
-          :done="step > 3"
-        >
+        <q-step :name="3" title="Fechas" icon="assignment" :done="step > 3">
           <!-- FEcha y fecha de nacimiento -->
           <div class="fit row wrap justify-between my-2">
             <div class="w-57">
@@ -843,7 +923,7 @@
                 v-model="todo.sin_sancion"
                 checked-icon="check"
                 color="red"
-                :label="`Tiene sanción ${datos.sin_sancion ? 'Si' : 'No'}`"
+                :label="`Tiene sanción ${todo.sin_sancion ? 'Si' : 'No'}`"
                 unchecked-icon="clear"
                 class="text-xl text-grey align-middle"
               />
@@ -862,7 +942,7 @@
                 filled
                 v-model="todo.sancionado"
                 label="Sanción"
-                :disable="!datos.sin_sancion"
+                :disable="!todo.sin_sancion"
               />
             </div>
           </div>
@@ -1584,10 +1664,18 @@
               class="rows items-center justify-between col-xs-12 col-md-4 q-col-gutter-xs"
             >
               <q-btn
+                v-if="formTitle === 'Insertar'"
                 color="primary"
                 class="q-ml-sm"
-                :label="`${formTitle}`"
+                label="Insertar"
                 @click="add"
+              />
+              <q-btn
+                v-else
+                color="primary"
+                class="q-ml-sm"
+                label="Editar"
+                @click="actualizar"
               />
               <q-btn
                 flat
@@ -1628,8 +1716,13 @@ import { useFacultadStore } from 'src/stores/facultad/facultad-store';
 import { CarreraList } from 'src/interfaces/carrera.interfaces';
 import { FaculList } from 'src/interfaces/facultad.interfaces';
 
-const { addMatriculas, isMatriculasToggle, editandoForm, fecthMatriculas } =
-  useMatriculastore();
+const {
+  addMatriculas,
+  isMatriculasToggle,
+  editandoForm,
+  fecthMatriculas,
+  updateMatriculas,
+} = useMatriculastore();
 const { isMatriculasOpen, matriculasEdit } = storeToRefs(useMatriculastore());
 const { municipios } = storeToRefs(useMunicipiosStore());
 const { provincias } = storeToRefs(useProvinciasStore());
@@ -1918,7 +2011,7 @@ const uploadImg = (file: any) => {
     url: `${process.env.API_URL}/files/upload`,
     method: 'POST',
     body: {
-      file: datos.value.foto,
+      file: file,
     },
   };
 };
@@ -1969,8 +2062,9 @@ const add = async () => {
     no_soy_graduado: datos.value.no_soy_graduado,
     aceptado: datos.value.aceptado,
   };
+  const lol = uploadImg(file.value);
   await addMatriculas(dto);
-  console.log(dto);
+  console.log(lol);
   await fecthMatriculas();
 };
 
@@ -2038,8 +2132,8 @@ const todo = computed(() => props.matriculasUpd);
 const actualizar = async () => {
   console.log('res: ', todo.value);
 
-  // await actualizarUsuario(todo.value);
-  // await allUsers();
+  await updateMatriculas(todo.value);
+  await fecthMatriculas();
   cerrar();
 };
 // FIN  ACTUALIZAR

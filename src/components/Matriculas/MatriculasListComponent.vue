@@ -211,6 +211,7 @@ const editTable = (item: MatriculasProps) => {
   matriculasProp.value.no_estoy_matriculado = item.no_estoy_matriculado;
   matriculasProp.value.no_soy_graduado = item.no_soy_graduado;
   matriculasProp.value.aceptado = item.aceptado;
+  matriculasProp.value.id = item.id;
 };
 const deleteProps = ref<DeleteInterface>({
   titulo: '',
@@ -366,7 +367,7 @@ const ver = (item: MatriculasProps) => {
           />
           <q-btn
             round
-            color="success"
+            color="positive"
             icon="las la-eye"
             size="sm"
             class="q-ml-sm"
@@ -376,7 +377,7 @@ const ver = (item: MatriculasProps) => {
           />
           <q-btn
             round
-            color="warning"
+            color="negative"
             icon="las la-trash-alt"
             size="sm"
             class="q-ml-sm"

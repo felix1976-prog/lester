@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import { MatriculasAdd } from '../../interfaces/matriculas.interfaces';
+import {
+  MatriculasAdd,
+  MatriculasList,
+} from '../../interfaces/matriculas.interfaces';
 
 export const useMatriculastore = defineStore('matriculas', {
   state: () => ({
@@ -33,6 +36,19 @@ export const useMatriculastore = defineStore('matriculas', {
     async addMatriculas(dto: MatriculasAdd) {
       try {
         const { data } = await api.post('/matriculas', dto);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateMatriculas(dto: MatriculasList) {
+      try {
+        const { id, ...myUpd } = dto;
+        console.log('Kill=> ', myUpd);
+
+        const { data } = await api.patch('/matriculas/' + dto.id, {
+          ...myUpd,
+        });
         return data;
       } catch (error) {
         console.log(error);
