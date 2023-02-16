@@ -48,7 +48,7 @@ export const useBoletaStore = defineStore('boleta', {
       opcion: number;
       sma: string;
       ci: string;
-      fecha: Date | null;
+      fecha: Date | null | string;
     }) {
       try {
         const { data } = await api.post('/boleta', dto);
@@ -75,7 +75,7 @@ export const useBoletaStore = defineStore('boleta', {
       opcion: number;
       sma: string;
       ci: string;
-      fecha: Date | string;
+      fecha: Date | null | string;
     }) {
       try {
         const { data } = await api.patch('/boleta/' + dto.id, {

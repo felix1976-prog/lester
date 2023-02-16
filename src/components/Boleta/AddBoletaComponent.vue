@@ -789,7 +789,7 @@ let datos = ref({
   opcion: 0,
   sma: '',
   ci: '',
-  fecha: new Date(Date.now()).toLocaleString(),
+  fecha: new Date().toISOString().substring(0, 10),
 });
 
 const add = async () => {
