@@ -14,7 +14,7 @@ export interface Boleta {
   opcion: number;
   sma: string;
   ci: string;
-  fecha: Date | string;
+  fecha: Date | null | string;
 }
 
 export interface BoletaAdd {
@@ -33,7 +33,7 @@ export interface BoletaAdd {
   opcion: number;
   sma: string;
   ci: string;
-  fecha: Date | string;
+  fecha: Date | null | string;
 }
 
 export interface BoletaList {
@@ -53,7 +53,7 @@ export interface BoletaList {
   opcion: number;
   sma: string;
   ci: string;
-  fecha: Date | string;
+  fecha: Date | null | string;
   createdAt: Date;
   updateAt: Date;
 }
@@ -75,5 +75,5 @@ export interface boletaProps {
   opcion: number;
   sma: string;
   ci: string;
-  fecha: Date | string;
+  fecha: Date | null | string;
 }
