@@ -7,6 +7,7 @@ export interface Posgrado {
   pais: string;
   provincia: string;
   municipio: string;
+  poblado: string;
   domicilio: string;
   graduado: string;
   fecha_graduado: Date | string | null;
@@ -32,6 +33,7 @@ export interface PosgradoAdd {
   pais: string;
   provincia: string;
   municipio: string;
+  poblado: string;
   domicilio: string;
   graduado: string;
   fecha_graduado: Date | string | null;
@@ -58,6 +60,7 @@ export interface PosgradoList {
   pais: string;
   provincia: string;
   municipio: string;
+  poblado: string;
   domicilio: string;
   graduado: string;
   fecha_graduado: Date | string | null;
@@ -84,6 +87,7 @@ export interface PosgradoProps {
   pais: string;
   provincia: string;
   municipio: string;
+  poblado: string;
   domicilio: string;
   graduado: string;
   fecha_graduado: Date | string | null;
