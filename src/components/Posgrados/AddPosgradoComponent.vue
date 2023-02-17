@@ -999,6 +999,62 @@ const formTitle = computed(() => {
 //STEPS
 let step = ref(1);
 
+//Insertar usuario
+let datos = ref({
+  nombre: '',
+  apellido1: '',
+  apellido2: '',
+  ci: '',
+  sexo: '',
+  pais: '',
+  provincia: '',
+  municipio: '',
+  poblado: '',
+  domicilio: '',
+  graduado: '',
+  fecha_graduado: new Date().toISOString().substring(0, 10),
+  universidad: '',
+  tomo: 0,
+  folio: 0,
+  numero_universidad: 0,
+  centro_laboral: '',
+  direccion: '',
+  administrador: '',
+  telefono: '',
+  alojamiento: false,
+  aceptado: false,
+  postgrados_disponibleId: '',
+});
+
+// LIMPIAR
+const Limpiar = () => {
+  datos = ref({
+    nombre: '',
+    apellido1: '',
+    apellido2: '',
+    ci: '',
+    sexo: '',
+    pais: '',
+    provincia: '',
+    municipio: '',
+    poblado: '',
+    domicilio: '',
+    graduado: '',
+    fecha_graduado: new Date().toISOString().substring(0, 10),
+    universidad: '',
+    tomo: 0,
+    folio: 0,
+    numero_universidad: 0,
+    centro_laboral: '',
+    direccion: '',
+    administrador: '',
+    telefono: '',
+    alojamiento: false,
+    aceptado: false,
+    postgrados_disponibleId: '',
+  });
+};
+
 //Funcion para cerrar y activar y desactivar las variables editando
 const cerrar = () => {
   isPosgradoToggle();
@@ -1029,34 +1085,8 @@ const cerrar = () => {
     postgrados_disponibleId: '',
   });
   step = ref(1);
+  Limpiar();
 };
-
-//Insertar usuario
-let datos = ref({
-  nombre: '',
-  apellido1: '',
-  apellido2: '',
-  ci: '',
-  sexo: '',
-  pais: '',
-  provincia: '',
-  municipio: '',
-  poblado: '',
-  domicilio: '',
-  graduado: '',
-  fecha_graduado: new Date().toISOString().substring(0, 10),
-  universidad: '',
-  tomo: 0,
-  folio: 0,
-  numero_universidad: 0,
-  centro_laboral: '',
-  direccion: '',
-  administrador: '',
-  telefono: '',
-  alojamiento: false,
-  aceptado: false,
-  postgrados_disponibleId: '',
-});
 
 const add = async () => {
   let dto = {
