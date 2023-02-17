@@ -312,6 +312,9 @@
             </div>
             <!-- Fecha -->
             <div>
+              <q-chip outline color="primary" text-color="white" icon="event">
+                Fecha
+              </q-chip>
               <q-input v-if="!boletaEdit" dense filled v-model="datos.fecha">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -897,7 +900,7 @@ const props = withDefaults(defineProps<Props>(), {
       opcion: 0,
       sma: '',
       ci: '',
-      fecha: new Date(Date.now()).toLocaleString(),
+      fecha: new Date().toISOString().substring(0, 10),
     };
   },
 });
@@ -1008,7 +1011,7 @@ const cerrar = () => {
     opcion: 0,
     sma: '',
     ci: '',
-    fecha: new Date(Date.now()).toLocaleString(),
+    fecha: new Date().toISOString().substring(0, 10),
   });
   step = ref(1);
 };

@@ -22,6 +22,76 @@
             icon="settings"
             :done="step > 1"
           >
+            <!-- Posgrado HAY QUE CAMBIERLE EL OPTIONS QUE ESTA CON EL DE MUNICIPIOS-->
+            <div>
+              <q-select
+                class="q-mb-sm"
+                v-if="!posgradoEdit"
+                filled
+                v-model="datos.postgrados_disponibleId"
+                use-input
+                input-debounce="0"
+                label="Curso de Posgrado"
+                :options="posgrados_disponibles"
+                option-label="postgrado"
+                emit-value
+                map-options
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+
+              <q-select
+                class="q-mb-sm"
+                v-else
+                filled
+                v-model="todo.postgrados_disponibleId"
+                use-input
+                input-debounce="0"
+                label="Curso de Posgrado"
+                :options="posgrados_disponibles"
+                option-label="postgrado"
+                emit-value
+                map-options
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <!-- ALOJAMIENTO -->
+            <div class="flex justify-center q-pb-sm">
+              <q-checkbox
+                v-if="!posgradoEdit"
+                v-model="datos.alojamiento"
+                :label="
+                  datos.alojamiento ? 'Con Alojamiento' : 'Sin Alojamiento'
+                "
+                checked-icon="swipe_left"
+                unchecked-icon="swipe_right"
+                :color="datos.alojamiento ? 'green' : 'red'"
+                keep-color
+              />
+              <q-checkbox
+                v-else
+                v-model="todo.alojamiento"
+                :label="
+                  todo.alojamiento ? 'Con Alojamiento' : 'Sin Alojamiento'
+                "
+                checked-icon="swipe_left"
+                unchecked-icon="swipe_right"
+                :color="todo.alojamiento ? 'green' : 'red'"
+                keep-color
+              />
+            </div>
+            <!-- Nombre -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
@@ -55,17 +125,18 @@
                 </template>
               </q-input>
             </div>
-            <!-- Apellidos -->
+            <!-- Apellidos1 -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
                 type="text"
-                v-model="datos.apellidos"
-                label="Apellidos"
+                v-model="datos.apellido1"
+                label="Primer apellido"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba sus Apellidos',
+                  (val) =>
+                    (val && val.length > 0) || 'Escriba su primer Apellido',
                 ]"
               >
                 <template v-slot:append>
@@ -77,11 +148,48 @@
                 v-else
                 filled
                 type="text"
-                v-model="todo.apellidos"
-                label="Apellidos"
+                v-model="todo.apellido1"
+                label="Primer apellido"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba sus Apellidos',
+                  (val) =>
+                    (val && val.length > 0) || 'Escriba su primer Apellido',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+            </div>
+            <!-- Apellidos2 -->
+            <div>
+              <q-input
+                v-if="!posgradoEdit"
+                filled
+                type="text"
+                v-model="datos.apellido2"
+                label="Segundo Apellido"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Escriba su segundo Apellido',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.apellido2"
+                label="Segundo Apellido"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Escriba su segundo Apellido',
                 ]"
               >
                 <template v-slot:append>
@@ -160,6 +268,49 @@
                 input-debounce="0"
                 label="Sexo"
                 :options="Sexos"
+                emit-value
+                map-options
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </div>
+            <!-- Pais -->
+            <div>
+              <q-select
+                class="q-mb-md"
+                v-if="!posgradoEdit"
+                filled
+                v-model="datos.pais"
+                use-input
+                input-debounce="0"
+                label="País"
+                :options="paises"
+                option-label="pais"
+                map-options
+                behavior="menu"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section> Sin Resultados </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+
+              <q-select
+                class="q-mb-md"
+                v-else
+                filled
+                v-model="todo.pais"
+                use-input
+                input-debounce="0"
+                label="País"
+                :options="paises"
+                option-label="pais"
                 emit-value
                 map-options
                 behavior="menu"
@@ -258,17 +409,18 @@
                 </template>
               </q-select>
             </div>
-            <!-- SMA -->
+            <!-- POBLADOS -->
             <div>
               <q-select
                 class="q-mb-md"
                 v-if="!posgradoEdit"
                 filled
-                v-model="datos.sma"
+                v-model="datos.poblado"
                 use-input
                 input-debounce="0"
-                label="Servicio Militar Activo"
-                :options="SMA"
+                label="Poblado"
+                :options="poblados"
+                option-label="poblado"
                 emit-value
                 map-options
                 behavior="menu"
@@ -284,11 +436,12 @@
                 class="q-mb-md"
                 v-else
                 filled
-                v-model="todo.sma"
+                v-model="todo.poblado"
                 use-input
                 input-debounce="0"
-                label="Servicio Militar Activo"
-                :options="SMA"
+                label="Poblado"
+                :options="poblados"
+                option-label="poblado"
                 emit-value
                 map-options
                 behavior="menu"
@@ -300,51 +453,41 @@
                 </template>
               </q-select>
             </div>
-            <!-- Fecha -->
+            <!-- Domicilio -->
             <div>
-              <q-input v-if="!posgradoEdit" dense filled v-model="datos.fecha">
+              <q-input
+                v-if="!posgradoEdit"
+                filled
+                type="text"
+                v-model="datos.domicilio"
+                label="Domicilio"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba su dirección particular)',
+                ]"
+              >
                 <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date v-model="datos.fecha">
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
+                  <q-icon name="las la-wallet" />
                 </template>
               </q-input>
 
-              <q-input v-else dense filled v-model="todo.fecha">
+              <q-input
+                v-else
+                filled
+                type="text"
+                v-model="todo.domicilio"
+                label="Domicilio"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba su dirección particular)',
+                ]"
+              >
                 <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-date v-model="todo.fecha">
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
+                  <q-icon name="las la-wallet" />
                 </template>
               </q-input>
             </div>
@@ -378,17 +521,19 @@
             icon="create_new_folder"
             :done="step > 2"
           >
-            <!-- PREUNIVERSITARIO -->
+            <!-- GRADUADO -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
                 type="text"
-                v-model="datos.preuniversitario"
-                label="Preuniversitario"
+                v-model="datos.graduado"
+                label="Graduado de"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el carné',
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba de que especialidad se graduó',
                 ]"
               >
                 <template v-slot:append>
@@ -400,11 +545,13 @@
                 v-else
                 filled
                 type="text"
-                v-model="todo.preuniversitario"
-                label="Preuniversitario"
+                v-model="todo.graduado"
+                label="Graduado de"
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Escriba el carné',
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba de que especialidad se graduó',
                 ]"
               >
                 <template v-slot:append>
@@ -412,18 +559,74 @@
                 </template>
               </q-input>
             </div>
-            <!-- INDICE ACADEMICO -->
+            <!-- Fecha -->
+            <div class="q-pb-lg">
+              <q-chip outline color="primary" text-color="white" icon="event">
+                Fecha de graduado
+              </q-chip>
+              <q-input
+                v-if="!posgradoEdit"
+                dense
+                filled
+                v-model="datos.fecha_graduado"
+              >
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      cover
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="datos.fecha_graduado">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+
+              <q-input v-else dense filled v-model="todo.fecha_graduado">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      cover
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="todo.fecha_graduado">
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
+            <!-- UNIVERSIDAD -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
-                v-model.number="datos.indice_academico"
-                label="Índice Académico"
+                v-model="datos.universidad"
+                label="Universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba el índice académico del estudiante',
+                    (val && val.length > 0) ||
+                    'Escriba en universidad se graduó',
                 ]"
               >
                 <template v-slot:append>
@@ -434,13 +637,13 @@
               <q-input
                 v-else
                 filled
-                v-model.number="todo.indice_academico"
-                label="Índice Académico"
+                v-model="todo.universidad"
+                label="Universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba el índice académico del estudiante',
+                    (val && val.length > 0) ||
+                    'Escriba en universidad se graduó',
                 ]"
               >
                 <template v-slot:append>
@@ -448,18 +651,17 @@
                 </template>
               </q-input>
             </div>
-            <!-- MATEMATICAS -->
+            <!-- TOMO -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
-                v-model.number="datos.matematica"
-                label="Matemática"
+                v-model.number="datos.tomo"
+                label="Tomo de la universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Matemática',
+                    (val && val >= 1) || 'Escriba el Tomo de la Universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -470,13 +672,12 @@
               <q-input
                 v-else
                 filled
-                v-model.number="todo.matematica"
-                label="Matemática"
+                v-model.number="todo.tomo"
+                label="Tomo de la universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Matemática',
+                    (val && val >= 1) || 'Escriba el Tomo de la Universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -484,18 +685,17 @@
                 </template>
               </q-input>
             </div>
-            <!-- ESPAÑOL -->
+            <!-- FOLIO -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
-                v-model.number="datos.espanol"
-                label="Español"
+                v-model.number="datos.folio"
+                label="Folio de la universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Español',
+                    (val && val >= 1) || 'Escriba el folio de la universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -506,13 +706,12 @@
               <q-input
                 v-else
                 filled
-                v-model.number="todo.espanol"
-                label="Español"
+                v-model.number="todo.folio"
+                label="Folio de la universidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Español',
+                    (val && val >= 1) || 'Escriba el folio de la universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -520,18 +719,17 @@
                 </template>
               </q-input>
             </div>
-            <!-- HISTORIA -->
+            <!-- NÚMERO DE LA UNIVERSIDAD -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
-                v-model.number="datos.historia"
-                label="Historia"
+                v-model.number="datos.numero_universidad"
+                label="Número de la Univesidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Historia',
+                    (val && val >= 1) || 'Escriba el número de la Universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -542,13 +740,12 @@
               <q-input
                 v-else
                 filled
-                v-model.number="todo.historia"
-                label="Historia"
+                v-model.number="todo.numero_universidad"
+                label="Número de la Univesidad"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) ||
-                    'Escriba la nota de Historia',
+                    (val && val >= 1) || 'Escriba el número de la Universidad',
                 ]"
               >
                 <template v-slot:append>
@@ -556,110 +753,55 @@
                 </template>
               </q-input>
             </div>
-            <!-- ESCALAFÓN -->
+            <!-- CENTRO LABORAL -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
+                filled
+                v-model="datos.centro_laboral"
+                label="Centro Laboral"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba el nombre de su centro laboral',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+
+              <q-input
+                v-else
                 filled
                 readonly
-                v-model.number="datos.escalafon"
-                label="Escalafón"
+                v-model="todo.centro_laboral"
+                label="Centro Laboral"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val >= 60 && val <= 100) || 'Escriba el escalafón',
+                    (val && val.length > 0) ||
+                    'Escriba el nombre de su centro laboral',
                 ]"
               >
-                <q-btn
-                  @click="Escalafon(posgradoEdit)"
-                  flat
-                  icon="send"
-                  label="Calcular"
-                  size="sm"
-                />
-                <!-- <template v-slot:append>
+                <template v-slot:append>
                   <q-icon name="las la-user-plus" />
-                </template> -->
-              </q-input>
-
-              <q-input
-                v-else
-                filled
-                readonly
-                v-model.number="todo.escalafon"
-                label="Escalafón"
-                lazy-rules
-                :rules="[
-                  (val) =>
-                    (val && val >= 60 && val <= 100) || 'Escriba el escalafón',
-                ]"
-              >
-                <q-btn
-                  @click="Escalafon(posgradoEdit)"
-                  flat
-                  icon="send"
-                  label="Calcular"
-                  size="sm"
-                />
-                <!-- <template v-slot:append>
-                  <q-icon name="las la-user-plus" />
-                </template> -->
+                </template>
               </q-input>
             </div>
-            <!-- CONVOCATORIA -->
-            <div>
-              <q-select
-                class="q-mb-md"
-                v-if="!posgradoEdit"
-                filled
-                v-model="datos.convocatoria"
-                use-input
-                input-debounce="0"
-                label="Convocatoria"
-                :options="Convocatorias"
-                emit-value
-                map-options
-                behavior="menu"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section> Sin Resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-
-              <q-select
-                class="q-mb-md"
-                v-else
-                filled
-                v-model="todo.convocatoria"
-                use-input
-                input-debounce="0"
-                label="Convocatoria"
-                :options="Convocatorias"
-                emit-value
-                map-options
-                behavior="menu"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section> Sin Resultados </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </div>
-            <!-- OPCIÓN -->
+            <!-- DIRECCION -->
             <div>
               <q-input
                 v-if="!posgradoEdit"
                 filled
-                v-model.number="datos.opcion"
-                label="Opción"
+                v-model="datos.direccion"
+                label="Dirección de su Centro Laboral"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val > 0 && val <= 6) ||
-                    'Escriba el número de la opción',
+                    (val && val.length > 0) ||
+                    'Escriba la dirección de su centro laboral',
                 ]"
               >
                 <template v-slot:append>
@@ -670,13 +812,85 @@
               <q-input
                 v-else
                 filled
-                v-model.number="todo.opcion"
-                label="Opción"
+                v-model="todo.direccion"
+                label="Dirección de su Centro Laboral"
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val > 0 && val <= 6) ||
-                    'Escriba el número de la opción',
+                    (val && val.length > 0) ||
+                    'Escriba la dirección de su centro laboral',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+            </div>
+            <!-- ADMINISTRADOR -->
+            <div>
+              <q-input
+                v-if="!posgradoEdit"
+                filled
+                v-model="datos.administrador"
+                label="Nombre de su Administrador"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba el nombre de su jefe administrativo',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+
+              <q-input
+                v-else
+                filled
+                v-model="todo.administrador"
+                label="Nombre de su Administrador"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) ||
+                    'Escriba el nombre de su jefe administrativo',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+            </div>
+            <!-- TELEFONO -->
+            <div>
+              <q-input
+                v-if="!posgradoEdit"
+                filled
+                v-model="datos.telefono"
+                label="Teléfono"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length >= 6 && val.length <= 16) ||
+                    'Escriba el número telefónico del centro laboral',
+                ]"
+              >
+                <template v-slot:append>
+                  <q-icon name="las la-user-plus" />
+                </template>
+              </q-input>
+
+              <q-input
+                v-else
+                filled
+                v-model="todo.telefono"
+                label="Teléfono"
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length >= 6 && val.length <= 16) ||
+                    'Escriba el número telefónico del centro laboral',
                 ]"
               >
                 <template v-slot:append>
@@ -718,14 +932,14 @@
 import { computed, ref, onMounted } from 'vue';
 import { QBtn, QDialog, QForm, QIcon, QInput, useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
-// import { useBoletaStore } from 'src/stores/boleta/boleta-store';
-// import { boletaProps } from 'src/interfaces/boleta.interfaces';
 import { useNomencladoresStore } from '../../stores/nomencladores/nomencladores-store';
 import { useProvinciasStore } from '../../stores/provincias/provincias-store';
 import { useMunicipiosStore } from 'src/stores/municipios/municipios-store';
 import { usePosgradosStore } from 'src/stores/posgrados/posgrados-store';
 import { usePaisesStore } from 'src/stores/paises/paises-store';
 import { PosgradoProps } from 'src/interfaces/posgrados.interfaces';
+import { usePobladoStore } from 'src/stores/poblados/poblados-store';
+import { usePosDisponibleStore } from 'src/stores/posgrados_disponibles/posgrados_disponibles-store';
 
 const $q = useQuasar();
 const {
@@ -742,10 +956,14 @@ const { getSexos, getSMA, getConvocatorias } = useNomencladoresStore();
 const { fecthPaises } = usePaisesStore();
 const { fecthProvincias } = useProvinciasStore();
 const { fecthMunicipios } = useMunicipiosStore();
+const { fecthPoblado } = usePobladoStore();
+const { fecthPosDisp } = usePosDisponibleStore();
 const { Sexos, SMA, Convocatorias } = storeToRefs(useNomencladoresStore());
 const { paises } = storeToRefs(usePaisesStore());
 const { provincias } = storeToRefs(useProvinciasStore());
 const { municipios } = storeToRefs(useMunicipiosStore());
+const { poblados } = storeToRefs(usePobladoStore());
+const { posgrados_disponibles } = storeToRefs(usePosDisponibleStore());
 
 onMounted(() => {
   if (Sexos.value.length === 0) {
@@ -766,6 +984,12 @@ onMounted(() => {
   if (municipios.value.length === 0) {
     fecthMunicipios();
   }
+  if (poblados.value.length === 0) {
+    fecthPoblado();
+  }
+  if (posgrados_disponibles.value.length === 0) {
+    fecthPosDisp();
+  }
 });
 
 //Activar el valor del titulo del form
@@ -774,6 +998,38 @@ const formTitle = computed(() => {
 });
 //STEPS
 let step = ref(1);
+
+//Funcion para cerrar y activar y desactivar las variables editando
+const cerrar = () => {
+  isPosgradoToggle();
+  editandoForm(false);
+  datos.value = ref({
+    nombre: '',
+    apellido1: '',
+    apellido2: '',
+    ci: '',
+    sexo: '',
+    pais: '',
+    provincia: '',
+    municipio: '',
+    poblado: '',
+    domicilio: '',
+    graduado: '',
+    fecha_graduado: new Date().toISOString().substring(0, 10),
+    universidad: '',
+    tomo: 0,
+    folio: 0,
+    numero_universidad: 0,
+    centro_laboral: '',
+    direccion: '',
+    administrador: '',
+    telefono: '',
+    alojamiento: false,
+    aceptado: false,
+    postgrados_disponibleId: '',
+  });
+  step = ref(1);
+};
 
 //Insertar usuario
 let datos = ref({
@@ -785,9 +1041,10 @@ let datos = ref({
   pais: '',
   provincia: '',
   municipio: '',
+  poblado: '',
   domicilio: '',
   graduado: '',
-  fecha_graduado: new Date(Date.now()).toLocaleString(),
+  fecha_graduado: new Date().toISOString().substring(0, 10),
   universidad: '',
   tomo: 0,
   folio: 0,
@@ -808,9 +1065,10 @@ const add = async () => {
     apellido2: datos.value.apellido2,
     ci: datos.value.ci,
     sexo: datos.value.sexo,
-    pais: datos.value.pais,
-    provincia: datos.value.provincia,
-    municipio: datos.value.municipio,
+    pais: datos.value.pais.pais,
+    provincia: datos.value.provincia.provincia,
+    municipio: datos.value.municipio.municipio,
+    poblado: datos.value.poblado.poblado,
     domicilio: datos.value.domicilio,
     graduado: datos.value.graduado,
     fecha_graduado: datos.value.fecha_graduado,
@@ -824,10 +1082,12 @@ const add = async () => {
     telefono: datos.value.telefono,
     alojamiento: datos.value.alojamiento,
     aceptado: datos.value.aceptado,
-    postgrados_disponibleId: datos.value.postgrados_disponibleId,
+    postgrados_disponibleId: datos.value.postgrados_disponibleId.id,
   };
 
   if (
+    dto.postgrados_disponibleId !== '' &&
+    dto.alojamiento !== null &&
     dto.nombre !== '' &&
     dto.apellido1 !== '' &&
     dto.apellido2 !== '' &&
@@ -836,6 +1096,7 @@ const add = async () => {
     dto.pais !== '' &&
     dto.provincia !== '' &&
     dto.municipio !== '' &&
+    dto.poblado !== '' &&
     dto.domicilio !== '' &&
     dto.graduado !== '' &&
     dto.fecha_graduado !== '' &&
@@ -846,10 +1107,8 @@ const add = async () => {
     dto.centro_laboral !== '' &&
     dto.direccion !== '' &&
     dto.administrador !== '' &&
-    dto.telefono.length > 8 &&
-    dto.alojamiento !== null &&
-    dto.aceptado !== null &&
-    dto.postgrados_disponibleId !== ''
+    dto.telefono.length > 6 &&
+    dto.aceptado !== null
   ) {
     cerrar();
 
@@ -892,9 +1151,10 @@ const props = withDefaults(defineProps<Props>(), {
       pais: '',
       provincia: '',
       municipio: '',
+      poblado: '',
       domicilio: '',
       graduado: '',
-      fecha_graduado: new Date(Date.now()).toLocaleString(),
+      fecha_graduado: new Date().toISOString().substring(0, 10),
       universidad: '',
       tomo: 0,
       folio: 0,
@@ -912,130 +1172,105 @@ const props = withDefaults(defineProps<Props>(), {
 
 const todo = computed(() => props.posUpd);
 
-// const actualizar = async () => {
-//   if (
-//     todo.value.nombre !== '' &&
-//     todo.value.apellido1 !== '' &&
-//     todo.value.apellido2 !== '' &&
-//     todo.value.ci !== '' &&
-//     todo.value.sexo !== '' &&
-//     todo.value.pais > 60 &&
-//     todo.value.provincia <= 100 &&
-//     todo.value.municipio > 60 &&
-//     todo.value.domicilio <= 100 &&
-//     todo.value.graduado > 60 &&
-//     todo.value.fecha_graduado <= 100 &&
-//     todo.value.universidad > 60 &&
-//     todo.value.tomo <= 100 &&
-//     todo.value.folio > 0 &&
-//     todo.value.numero_universidad !== '' &&
-//     todo.value.centro_laboral > 0 &&
-//     todo.value.direccion < 6 &&
-//     todo.value.administrador !== '' &&
-//     todo.value.telefono.length === 11 &&
-//     todo.value.alojamiento !== '' &&
-//     todo.value.aceptado !== '' &&
-//     todo.value.postgrados_disponibleId !== ''
-//   ) {
-//     try {
-//       if (todo.value.municipio.codigo) {
-//         todo.value.municipio = todo.value.municipio.municipio;
-//       }
+const actualizar = async () => {
+  if (
+    todo.value.postgrados_disponibleId !== '' &&
+    todo.value.alojamiento !== null &&
+    todo.value.nombre !== '' &&
+    todo.value.apellido1 !== '' &&
+    todo.value.apellido2 !== '' &&
+    todo.value.ci !== '' &&
+    todo.value.sexo !== '' &&
+    todo.value.pais !== '' &&
+    todo.value.provincia !== '' &&
+    todo.value.municipio !== '' &&
+    todo.value.poblado !== '' &&
+    todo.value.domicilio !== '' &&
+    todo.value.graduado !== '' &&
+    todo.value.fecha_graduado !== '' &&
+    todo.value.universidad !== '' &&
+    todo.value.tomo > 0 &&
+    todo.value.folio > 0 &&
+    todo.value.numero_universidad > 0 &&
+    todo.value.centro_laboral !== '' &&
+    todo.value.direccion !== '' &&
+    todo.value.administrador !== '' &&
+    todo.value.telefono.length > 6 &&
+    todo.value.aceptado !== null
+  ) {
+    try {
+      if (todo.value.municipio.codigo) {
+        todo.value.municipio = todo.value.municipio.municipio;
+      }
 
-//       if (todo.value.provincia.codigo) {
-//         todo.value.provincia = todo.value.provincia.provincia;
-//       }
+      if (todo.value.provincia.codigo) {
+        todo.value.provincia = todo.value.provincia.provincia;
+      }
+      if (todo.value.poblado.codigo) {
+        todo.value.poblado = todo.value.poblado.poblado;
+      }
 
-//       await editBoleta(todo.value);
-//       await fetchBoletas();
-//       cerrar();
+      if (todo.value.pais.codigo) {
+        todo.value.pais = todo.value.pais.pais;
+      }
 
-//       $q.notify({
-//         type: 'positive',
-//         message: 'Registro actualizado satisfactoriamente',
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   } else {
-//     $q.notify({
-//       type: 'info',
-//       message: 'Debe llenar todos los campos con valores válidos',
-//       multiLine: true,
-//     });
-//   }
-// };
+      await editPosgrado(todo.value);
+      await fetchPosgrado();
+      cerrar();
+
+      $q.notify({
+        type: 'positive',
+        message: 'Registro actualizado satisfactoriamente',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    $q.notify({
+      type: 'info',
+      message: 'Debe llenar todos los campos con valores válidos',
+      multiLine: true,
+    });
+  }
+};
 // FIN  ACTUALIZAR
 
 // FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
 const avanzar = () => {
-  // if (
-  //   datos.value.nombre !== '' &&
-  //   datos.value.apellidos !== '' &&
-  //   datos.value.ci.length === 11 &&
-  //   datos.value.sexo !== '' &&
-  //   datos.value.provincia !== '' &&
-  //   datos.value.municipio !== '' &&
-  //   datos.value.sma !== '' &&
-  //   datos.value.fecha !== ''
-  // ) {
-  //   return true;
-  // } else {
-  $q.notify({
-    type: 'info',
-    message: 'Debe llenar todos los campos con valores válidos',
-    multiLine: true,
-  });
-  // }
+  if (
+    (datos.value.postgrados_disponibleId !== '' &&
+      datos.value.alojamiento !== null &&
+      datos.value.nombre !== '' &&
+      datos.value.apellido1 !== '' &&
+      datos.value.apellido2 !== '' &&
+      datos.value.ci !== '' &&
+      datos.value.sexo !== '' &&
+      datos.value.pais !== '' &&
+      datos.value.provincia !== '' &&
+      datos.value.municipio !== '' &&
+      datos.value.poblado !== '' &&
+      datos.value.domicilio !== '') ||
+    (todo.value.postgrados_disponibleId !== '' &&
+      todo.value.alojamiento !== null &&
+      todo.value.nombre !== '' &&
+      todo.value.apellido1 !== '' &&
+      todo.value.apellido2 !== '' &&
+      todo.value.ci !== '' &&
+      todo.value.sexo !== '' &&
+      todo.value.pais !== '' &&
+      todo.value.provincia !== '' &&
+      todo.value.municipio !== '' &&
+      todo.value.poblado !== '' &&
+      todo.value.domicilio !== '')
+  ) {
+    return true;
+  } else {
+    $q.notify({
+      type: 'info',
+      message: 'Debe llenar todos los campos con valores válidos',
+      multiLine: true,
+    });
+  }
 };
 // FIN DE LA FUNCION PARA AVANZAR AL PROXIMO PASO DEL FORMULARIO VALIDANDOLO
-
-//Funcion para cerrar y activar y desactivar las variables editando
-const cerrar = () => {
-  isPosgradoToggle();
-  editandoForm(false);
-  datos = ref({
-    nombre: '',
-    apellido1: '',
-    apellido2: '',
-    ci: '',
-    sexo: '',
-    pais: '',
-    provincia: '',
-    municipio: '',
-    domicilio: '',
-    graduado: '',
-    fecha_graduado: new Date(Date.now()).toLocaleString(),
-    universidad: '',
-    tomo: 0,
-    folio: 0,
-    numero_universidad: 0,
-    centro_laboral: '',
-    direccion: '',
-    administrador: '',
-    telefono: '',
-    alojamiento: false,
-    aceptado: false,
-    postgrados_disponibleId: '',
-  });
-  step = ref(1);
-};
-
-// CALCULO DEL ESCALAFÓN
-// const Escalafon = (posgradoEdit: boolean) => {
-//   if (!posgradoEdit) {
-//     datos.value.escalafon =
-//       (datos.value.matematica + datos.value.espanol + datos.value.historia) /
-//         3 /
-//         2 +
-//       datos.value.indice_academico / 2;
-//   } else {
-//     todo.value.escalafon =
-//       (todo.value.matematica + todo.value.espanol + todo.value.historia) /
-//         3 /
-//         2 +
-//       todo.value.indice_academico / 2;
-//   }
-// };
-// FIN DEL CALCULO DEL ESCALAFÓN
 </script>

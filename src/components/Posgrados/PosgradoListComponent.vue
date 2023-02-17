@@ -116,9 +116,10 @@ const posProps = ref<PosgradoProps>({
   pais: '',
   provincia: '',
   municipio: '',
+  poblado: '',
   domicilio: '',
   graduado: '',
-  fecha_graduado: new Date(Date.now()).toLocaleString(),
+  fecha_graduado: new Date().toISOString().substring(0, 10),
   universidad: '',
   tomo: 0,
   folio: 0,
@@ -140,6 +141,9 @@ const editTable = (item: {
   ci: string;
   sexo: string;
   pais: string;
+  provincia: string;
+  municipio: string;
+  poblado: string;
   domicilio: string;
   graduado: string;
   fecha_graduado: string;
@@ -162,9 +166,12 @@ const editTable = (item: {
   posProps.value.ci = item.ci;
   posProps.value.sexo = item.sexo;
   posProps.value.pais = item.pais;
+  posProps.value.provincia = item.provincia;
+  posProps.value.municipio = item.municipio;
+  posProps.value.poblado = item.poblado;
   posProps.value.domicilio = item.domicilio;
   posProps.value.graduado = item.graduado;
-  posProps.value.fecha_graduado = item.fecha_graduado.substr(0, 10);
+  posProps.value.fecha_graduado = item.fecha_graduado.substring(0, 10);
   posProps.value.universidad = item.universidad;
   posProps.value.tomo = item.tomo;
   posProps.value.folio = item.folio;
@@ -216,7 +223,9 @@ const delPosgrado = async (id: string) => {
         'La matrícula del cursante ' +
         eliminado.nombre +
         ' ' +
-        eliminado.apellidos +
+        eliminado.apellido1 +
+        ' ' +
+        eliminado.apellido2 +
         ' se eliminó satisfactoriamente.',
     });
   } catch (error) {
