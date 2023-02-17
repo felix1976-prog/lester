@@ -1081,7 +1081,7 @@ const add = async () => {
     administrador: datos.value.administrador,
     telefono: datos.value.telefono,
     alojamiento: datos.value.alojamiento,
-    aceptado: datos.value.aceptado,
+    aceptado: false,
     postgrados_disponibleId: datos.value.postgrados_disponibleId.id,
   };
 
@@ -1110,6 +1110,8 @@ const add = async () => {
     dto.telefono.length > 6 &&
     dto.aceptado !== null
   ) {
+    console.log('Entrada: ', dto);
+
     cerrar();
 
     try {
